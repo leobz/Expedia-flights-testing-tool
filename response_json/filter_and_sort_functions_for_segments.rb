@@ -45,7 +45,9 @@ def get_segments(data, picked_segments_ids = [])
       to: segment_arrival_airport(data, segment)['address']['city_name'],
       duration: segment['duration'],
       departure_time: segment['legs'][0]['flight_time_range']['from'],
-      airlines: segment_airlines(data, segment)
+      airlines: segment_airlines(data, segment),
+      stops: segment['legs'].size - 1,
+      flight_numbers: segment['legs'].map {|leg| leg['flight_number']}
     }
   end
   segments
@@ -64,11 +66,11 @@ def compare_segments_by_departure_date(segment_a, segment_b)
 end
 
 def filter_segments_no_stop(data, segments)
-  segments.select { |segment| data['shop_response_segments'][segment[:zid]]['legs'].size() <= 1 }
+  filter_segmets_for_amount_of_stop(data, segments, 0)
 end
 
 def filter_segmets_for_amount_of_stop(data, segments, amount)
-  segments.select { |segment| data['shop_response_segments'][segment[:zid]]['legs'].size() == amount }
+  segments.select { |segment| data['shop_response_segments'][segment[:stops]] == amount  }
 end
 
 def filter_segmets_by_airlines(data, segments, airline_name)
