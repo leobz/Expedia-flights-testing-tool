@@ -39,6 +39,8 @@ def get_segments(data, picked_segments_ids = [])
   segments = []
   filtered_itineraries = filter_itineraries_starting_with(data['itineraries'], picked_segments_ids)
   all_segments_in_position(data, filtered_itineraries, picked_segments_ids.length).each do |segment|
+    sum_of_current_ids = [picked_segments_ids, segment['zid'] ].flatten
+    possible_itineraries_of_this_segment = filter_itineraries_starting_with(data['itineraries'], sum_of_current_ids)
     segments << {
       zid: segment['zid'],
       from: segment_departure_airport(data, segment)['address']['city_name'],
@@ -47,10 +49,25 @@ def get_segments(data, picked_segments_ids = [])
       departure_time: segment['legs'][0]['flight_time_range']['from'],
       airlines: segment_airlines(data, segment),
       stops: segment['legs'].size - 1,
-      flight_numbers: segment['legs'].map {|leg| leg['flight_number']}
+      flight_numbers: segment['legs'].map {|leg| leg['flight_number']},
+      price: minimum_itinerary_price(possible_itineraries_of_this_segment)
     }
   end
   segments
+end
+
+def minimum_itinerary_price(itineraries)
+  itinerary_prices = itineraries.map {|itinerary| define_price(itinerary) }
+  itinerary_prices.min
+end
+
+def define_price(itinerary)
+  itinerary['pricing_information'].each do |pi|
+    if pi['fare_type' == "PUB"]
+      return pi['total_price']['cents']
+    end
+  end
+  return itinerary['pricing_information'].first['total_price']['cents']
 end
 
 def compare_segments_by_duration(segment_a, segment_b)
