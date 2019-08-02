@@ -42,7 +42,7 @@ Primero veremos los segmentos sin aplicar el la funcion de ordenamiento
 ### Aplicamos el ordenamiento por menor duracion
 
 ```ruby
->> segments = sort_for_shorter_duration(segments)
+>> segments = sort_by_shorter_duration(segments)
 >> segments.each do |segment|
 ..   p segment
 .. end

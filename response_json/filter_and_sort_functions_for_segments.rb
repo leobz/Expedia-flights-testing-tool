@@ -87,8 +87,12 @@ def airline_codes(data, segment)
   airline_codes
 end
 
-def sort_for_shorter_duration(segments)
+def sort_by_shorter_duration(segments)
   segments.sort!(&method(:compare_segments_by_duration))
+end
+
+def sort_by_first_departure_date(segments)
+  segments.sort!(&method(:compare_segments_by_departure_date))
 end
 
 def segment_airlines(data, segment)
