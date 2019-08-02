@@ -27,15 +27,15 @@ escala. Resultado: 0 segmentos encontrados
 
 ```ruby
 >> p filter_segmets_for_amount_of_stop(data, segments, 0).size
-0
+7
 ```
 Busquemos la cantidad de vuelos con 1 stop . Resultado: 7 segmentos encontrados
 ```ruby
 >> p filter_segmets_for_amount_of_stop(data, segments, 1).size
-7
+47
 ```
 Por ultimo  la cantidad de vuelos con 2 stops. Resultado 43: segmentos encontrados
 ```ruby
 >> p filter_segmets_for_amount_of_stop(data, segments, 2).size
-47
+0
 ```

@@ -70,7 +70,7 @@ def filter_segments_no_stop(data, segments)
 end
 
 def filter_segmets_for_amount_of_stop(data, segments, amount)
-  segments.select { |segment| data['shop_response_segments'][segment[:stops]] == amount  }
+  segments.select { |segment| data['shop_response_segments'][segment[:zid]]['legs'].size() -1  == amount  }
 end
 
 def filter_segmets_by_airlines(data, segments, airline_name)

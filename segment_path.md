@@ -18,13 +18,9 @@ Primero obtenemos los itnierarios de un Json normalizado, el cual contiene itine
 Por razones practicas del test, visualizamos el primer segmento para que la lista no sea
 demasiado larga. 
 ```ruby
->> pp first_segments.first
-{:airlines=>["Delta"],
- :departure_time=>"2019-07-26T08:30:00",
- :duration=>"PT9H10M",
- :from=>"Buenos Aires",
- :to=>"Miami",
- :zid=>"ZFS-PUBLISHED-DL7612-EZE-MIA-1564140600-Y9-Y"}
+>> p first_segments.first
+{:zid=>"ZFS-PUBLISHED-DL7612-EZE-MIA-1564140600-Y9-Y"<...>:from=>"Buenos Aires",<...>:to=>"Miami",<...>}
+
 ```
 Supongamos que elegimos este segmento, por lo tanto lo que nos interesa es su id
 ```ruby
@@ -52,67 +48,16 @@ Vemos que las opciones son nuevamente 9.
 Veamos cuales son estos 9 nuevos segmentos disponibles. 
 
 ```ruby
->> second_segments.each {|segments| pp segments}
-{:airlines=>["Delta"],
- :departure_time=>"2019-08-08T15:21:00",
- :duration=>"PT3H18M",
- :from=>"Miami",
- :to=>"New York",
- :zid=>"ZFS-PUBLISHED-DL2175-MIA-JFK-1565292060-UAVQA0ML-U"}
-{:airlines=>["Delta"],
- :departure_time=>"2019-08-08T19:59:00",
- :duration=>"PT3H20M",
- :from=>"Miami",
- :to=>"New York",
- :zid=>"ZFS-PUBLISHED-DL2385-MIA-JFK-1565308740-TAVNA0ML-T"}
-{:airlines=>["Delta"],
- :departure_time=>"2019-08-08T11:59:00",
- :duration=>"PT3H3M",
- :from=>"Miami",
- :to=>"New York",
- :zid=>"ZFS-PUBLISHED-DL2190-MIA-JFK-1565279940-KA3NA0MQ-K"}
-{:airlines=>["Delta", "Delta"],
- :departure_time=>"2019-08-08T12:15:00",
- :duration=>"PT5H15M",
- :from=>"Miami",
- :to=>"New York",
- :zid=>
-  "ZFS-PUBLISHED-DL2405-MIA-ATL-1565280900-KA3NA0MQ-K-DL1869-ATL-JFK-1565290680-KA3NA0MQ-K"}
-{:airlines=>["Delta", "Delta"],
- :departure_time=>"2019-08-08T12:04:00",
- :duration=>"PT5H38M",
- :from=>"Miami",
- :to=>"New York",
- :zid=>
-  "ZFS-PUBLISHED-DL1829-MIA-DTW-1565280240-KA3NA0MQ-K-DL1247-DTW-JFK-1565293200-KA3NA0MQ-K"}
-{:airlines=>["Delta", "Delta"],
- :departure_time=>"2019-08-08T10:00:00",
- :duration=>"PT6H11M",
- :from=>"Miami",
- :to=>"New York",
- :zid=>
-  "ZFS-PUBLISHED-DL1746-MIA-ATL-1565272800-KA3NA0MQ-K-DL1900-ATL-JFK-1565286060-KA3NA0MQ-K"}
-{:airlines=>["Delta", "Delta"],
- :departure_time=>"2019-08-08T08:15:00",
- :duration=>"PT6H14M",
- :from=>"Miami",
- :to=>"New York",
- :zid=>
-  "ZFS-PUBLISHED-DL1667-MIA-ATL-1565266500-KA3NA0MQ-K-DL2684-ATL-JFK-1565280420-KA3NA0MQ-K"}
-{:airlines=>["Delta", "Delta"],
- :departure_time=>"2019-08-08T10:00:00",
- :duration=>"PT7H30M",
- :from=>"Miami",
- :to=>"New York",
- :zid=>
-  "ZFS-PUBLISHED-DL1746-MIA-ATL-1565272800-KA3NA0MQ-K-DL1869-ATL-JFK-1565290680-KA3NA0MQ-K"}
-{:airlines=>["Delta", "Delta"],
- :departure_time=>"2019-08-08T12:04:00",
- :duration=>"PT7H55M",
- :from=>"Miami",
- :to=>"New York",
- :zid=>
-  "ZFS-PUBLISHED-DL1829-MIA-DTW-1565280240-KA3NA0MQ-K-DL3350-DTW-JFK-1565301540-KA3NA0MQ-K"}
+>> second_segments.each {|segments| p segments}
+{<...>:from=>"Miami",<...>:to=>"New York",<...>}
+{<...>:from=>"Miami",<...>:to=>"New York",<...>}
+{<...>:from=>"Miami",<...>:to=>"New York",<...>}
+{<...>:from=>"Miami",<...>:to=>"New York",<...>}
+{<...>:from=>"Miami",<...>:to=>"New York",<...>}
+{<...>:from=>"Miami",<...>:to=>"New York",<...>}
+{<...>:from=>"Miami",<...>:to=>"New York",<...>}
+{<...>:from=>"Miami",<...>:to=>"New York",<...>}
+{<...>:from=>"Miami",<...>:to=>"New York",<...>}
 
 ```
 
@@ -141,13 +86,9 @@ esto facimente
 Veamos cuales es este tercer segmento
 
 ```ruby
->> third_segments.each {|segments| pp segments}
-{:airlines=>["Delta"],
- :departure_time=>"2019-08-14T11:30:00",
- :duration=>"PT6H4M",
- :from=>"New York",
- :to=>"Seattle",
- :zid=>"ZFS-PUBLISHED-DL1191-JFK-SEA-1565796600-KAUOA0MP-K"}
+>> third_segments.each {|segments| p segments}
+{<...>:from=>"New York",<...>:to=>"Seattle",<...>}
+
 ```
 
 Como es nuestra unica opcion la elegimos
@@ -163,34 +104,19 @@ Como estos segmentos estan ordenados de forma logica, es de esperar que la llega
 salida del segmento 2, y que esta logica se aplique al segmento 3, etc.
 
 ```ruby
->> pp first_choice
-{:airlines=>["Delta"],
- :departure_time=>"2019-07-26T08:30:00",
- :duration=>"PT9H10M",
- :from=>"Buenos Aires",
- :to=>"Miami",
- :zid=>"ZFS-PUBLISHED-DL7612-EZE-MIA-1564140600-Y9-Y"}
+>> p first_choice
+{:zid=>"ZFS-PUBLISHED-DL7612-EZE-MIA-1564140600-Y9-Y"<...>:from=>"Buenos Aires",<...>:to=>"Miami",<...>}
 
 ```
 
 ```ruby
->> pp second_choice
-{:airlines=>["Delta"],
- :departure_time=>"2019-08-08T15:21:00",
- :duration=>"PT3H18M",
- :from=>"Miami",
- :to=>"New York",
- :zid=>"ZFS-PUBLISHED-DL2175-MIA-JFK-1565292060-UAVQA0ML-U"}
+>> p second_choice
+{:zid=>"ZFS-PUBLISHED-DL2175-MIA-JFK-1565292060-UAVQA0ML-U"<...>:from=>"Miami",<...>:to=>"New York",<...>}
 
 ```
 
 ```ruby
->> pp third_choice
-{:airlines=>["Delta"],
- :departure_time=>"2019-08-14T11:30:00",
- :duration=>"PT6H4M",
- :from=>"New York",
- :to=>"Seattle",
- :zid=>"ZFS-PUBLISHED-DL1191-JFK-SEA-1565796600-KAUOA0MP-K"}
+>> p third_choice
+{:zid=>"ZFS-PUBLISHED-DL1191-JFK-SEA-1565796600-KAUOA0MP-K"<...>:from=>"New York",<...>:to=>"Seattle",<...>}
 
 ```

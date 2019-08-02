@@ -28,38 +28,14 @@ Por razones practicas del test, seleccionaremos los 5 primeros segmentos para no
 Primero veremos los segmentos sin aplicar el la funcion de ordenamiento
 ```ruby
 >> segments.each do |segment|
-..   pp segment
+..   p segment
 .. end
-{:airlines=>["American Airlines"],
- :departure_time=>"2019-04-16T21:00:00",
- :duration=>"PT1H28M",
- :from=>"Dallas",
- :to=>"New Orleans",
- :zid=>"ZFS-WEB-AA1455-DFW-MSY-1555466400-SUAIZNM1-S"}
-{:airlines=>["American Airlines"],
- :departure_time=>"2019-04-16T07:04:00",
- :duration=>"PT1H27M",
- :from=>"Dallas",
- :to=>"New Orleans",
- :zid=>"ZFS-WEB-AA138-DFW-MSY-1555416240-SUAIZNM1-S"}
-{:airlines=>["American Airlines"],
- :departure_time=>"2019-04-16T18:25:00",
- :duration=>"PT1H25M",
- :from=>"Dallas",
- :to=>"New Orleans",
- :zid=>"ZFS-WEB-AA346-DFW-MSY-1555457100-SUAIZNM1-S"}
-{:airlines=>["American Airlines"],
- :departure_time=>"2019-04-16T16:54:00",
- :duration=>"PT1H23M",
- :from=>"Dallas",
- :to=>"New Orleans",
- :zid=>"ZFS-WEB-AA2257-DFW-MSY-1555451640-SUAIZNM1-S"}
-{:airlines=>["American Airlines"],
- :departure_time=>"2019-04-16T15:45:00",
- :duration=>"PT1H21M",
- :from=>"Dallas",
- :to=>"New Orleans",
- :zid=>"ZFS-WEB-AA2536-DFW-MSY-1555447500-SUAIZNM1-S"}
+{<...>:duration=>"PT1H28M"<...>}
+{<...>:duration=>"PT1H27M"<...>}
+{<...>:duration=>"PT1H25M"<...>}
+{<...>:duration=>"PT1H23M"<...>}
+{<...>:duration=>"PT1H21M"<...>}
+
 
 ```
 
@@ -68,36 +44,12 @@ Primero veremos los segmentos sin aplicar el la funcion de ordenamiento
 ```ruby
 >> segments = sort_for_shorter_duration(segments)
 >> segments.each do |segment|
-..   pp segment
+..   p segment
 .. end
-{:airlines=>["American Airlines"],
- :departure_time=>"2019-04-16T15:45:00",
- :duration=>"PT1H21M",
- :from=>"Dallas",
- :to=>"New Orleans",
- :zid=>"ZFS-WEB-AA2536-DFW-MSY-1555447500-SUAIZNM1-S"}
-{:airlines=>["American Airlines"],
- :departure_time=>"2019-04-16T16:54:00",
- :duration=>"PT1H23M",
- :from=>"Dallas",
- :to=>"New Orleans",
- :zid=>"ZFS-WEB-AA2257-DFW-MSY-1555451640-SUAIZNM1-S"}
-{:airlines=>["American Airlines"],
- :departure_time=>"2019-04-16T18:25:00",
- :duration=>"PT1H25M",
- :from=>"Dallas",
- :to=>"New Orleans",
- :zid=>"ZFS-WEB-AA346-DFW-MSY-1555457100-SUAIZNM1-S"}
-{:airlines=>["American Airlines"],
- :departure_time=>"2019-04-16T07:04:00",
- :duration=>"PT1H27M",
- :from=>"Dallas",
- :to=>"New Orleans",
- :zid=>"ZFS-WEB-AA138-DFW-MSY-1555416240-SUAIZNM1-S"}
-{:airlines=>["American Airlines"],
- :departure_time=>"2019-04-16T21:00:00",
- :duration=>"PT1H28M",
- :from=>"Dallas",
- :to=>"New Orleans",
- :zid=>"ZFS-WEB-AA1455-DFW-MSY-1555466400-SUAIZNM1-S"}
+{<...>:duration=>"PT1H21M"<...>}
+{<...>:duration=>"PT1H23M"<...>}
+{<...>:duration=>"PT1H25M"<...>}
+{<...>:duration=>"PT1H27M"<...>}
+{<...>:duration=>"PT1H28M"<...>}
+
 ```
