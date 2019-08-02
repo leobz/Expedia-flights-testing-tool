@@ -66,7 +66,7 @@ Primero veremos los segmentos sin aplicar el la funcion de ordenamiento
 ### Aplicamos el ordenamiento por menor duracion
 
 ```ruby
->> segments.sort!(&method(:compare_segments_by_duration))
+>> segments = sort_for_shorter_duration(segments)
 >> segments.each do |segment|
 ..   pp segment
 .. end

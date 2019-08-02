@@ -85,6 +85,10 @@ def airline_codes(data, segment)
   airline_codes
 end
 
+def sort_for_shorter_duration(segments)
+  segments.sort!(&method(:compare_segments_by_duration))
+end
+
 def segment_airlines(data, segment)
   airline_names = airline_codes(data, segment).map {|airline_code| data['shop_response_airlines'][airline_code]['name']}
 end
