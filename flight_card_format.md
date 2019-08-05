@@ -24,6 +24,7 @@ Por razones practicas del test, seleccionaremos el primero, ya que todos tienen 
  :duration=>"PT1H28M",
  :flight_numbers=>["1455"],
  :from=>"Dallas",
+ :price=>28150,
  :stops=>0,
  :to=>"New Orleans",
  :zid=>"ZFS-WEB-AA1455-DFW-MSY-1555466400-SUAIZNM1-S"}
