@@ -117,6 +117,12 @@ def filter_segmets_by_price_range(segments, min, max)
   end
 end
 
+def filter_segmets_by_flight_number(segments, flight_number )
+  segments.select do |segment|
+    segment[:flight_numbers].include?(flight_number)
+  end
+end
+
 def airline_codes(data, segment)
   airline_codes = []
   segment['legs'].each do |leg|
