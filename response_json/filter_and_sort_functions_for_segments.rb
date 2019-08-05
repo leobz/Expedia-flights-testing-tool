@@ -4,7 +4,6 @@ require 'iso8601'
 require 'json'
 require 'time'
 
-
 def all_segments_in_position(data, itineraries, position)
   ret = []
   itineraries.each do |itinerarie|
@@ -50,10 +49,20 @@ def get_segments(data, picked_segments_ids = [])
       airlines: segment_airlines(data, segment),
       stops: segment['legs'].size - 1,
       flight_numbers: segment['legs'].map {|leg| leg['flight_number']},
-      price: minimum_itinerary_price(possible_itineraries_of_this_segment)
+      price: segment_price(possible_itineraries_of_this_segment,filtered_itineraries, picked_segments_ids)
     }
   end
   segments
+end
+
+def segment_price(possible_itineraries_of_this_segment,filtered_itineraries, picked_segments_ids)
+  price = 0
+  if picked_segments_ids.size == 0
+    price = minimum_itinerary_price(possible_itineraries_of_this_segment)
+  else
+    price = minimum_itinerary_price(possible_itineraries_of_this_segment) - minimum_itinerary_price(filtered_itineraries)
+  end
+  price
 end
 
 def minimum_itinerary_price(itineraries)
