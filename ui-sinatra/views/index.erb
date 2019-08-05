@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title> WebSocket Server </title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet"  href="estilo.css">
+
+
+
+<body>
+
+<div class="container" >
+
+</div>
+    
+<script src="jquery.js"></script>
+<script>
+   function Main(){
+     var clientValue= document.getElementById('client').value;
+     var porttValue= document.getElementById('port').value;
+     var server_hostValue= document.getElementById('server_host').value;
+     var server_portValue= document.getElementById('server_port').value;
+     var end_pointValue= document.getElementById('end_point').value;
+     var proxy_ipValue= document.getElementById('proxy_ip').value;
+     var proxy_portValue= document.getElementById('proxy_port').value;
+
+     function isNumber(n) {
+     return !isNaN(parseFloat(n)) && isFinite(n);
+     }
+
+     function validateIP(ipaddress) {
+       if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress))
+       {
+         return (true)
+       }
+       alert("You have entered an invalid IP address!")
+       return (false)
+     }
+
+     function validatePort(portNumber){
+           if(!isNumber(portNumber)){
+             alert('Invalid Port number');
+             return false;
+           }
+           if (portNumber.length > 5 ){
+            alert('Invalid Port number(max 5 digits)')
+             return false
+           }
+           return true;
+     }
+
+    this.validatePORTS= function() {
+       (validatePort(porttValue) && validatePort(server_portValue) && validatePort(proxy_portValue))
+    }
+
+    this.validateIPS= function() {
+       (validateIP(server_hostValue) && validateIP(proxy_ipValue))
+    }
+
+
+      this.sendData= function(){
+        var propertiesJSON = {
+          client: clientValue,
+          server_host:server_hostValue,
+          server_port:server_portValue,
+          end_point:end_pointValue,
+          proxy_host:proxy_ipValue,
+          proxy_port:proxy_portValue
+        }
+        var propertiesSring = JSON.stringify(propertiesJSON);
+        alert(propertiesSring);
+
+
+        $.ajax({
+            url: 'http://127.0.0.1:8080/properties',
+            type: "post",
+            data:{content: propertiesSring},
+            success: function(response){
+              alert(response);
+            }
+        });
+
+        return false
+      }
+
+  }
+    </script>
+
+  </body>
+  </html>
