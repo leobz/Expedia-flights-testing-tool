@@ -91,6 +91,12 @@ def compare_segments_by_departure_date(segment_a, segment_b)
   departure_a <=> departure_b
 end
 
+def compare_segments_by_price(segment_a, segment_b)
+  price_a = segment_a[:price]
+  price_b = segment_b[:price]
+  price_a <=> price_b
+end
+
 def filter_segments_no_stop(data, segments)
   filter_segmets_for_amount_of_stop(data, segments, 0)
 end
@@ -111,6 +117,14 @@ def airline_codes(data, segment)
     airline_codes << leg['marketing_airline_code']
   end
   airline_codes
+end
+
+def sort_by_lower_price(segments)
+  segments.sort!(&method(:compare_segments_by_price))
+end
+
+def sort_by_highest_price(segments)
+  segments.sort!(&method(:compare_segments_by_price)).reverse!
 end
 
 def sort_by_shorter_duration(segments)
