@@ -2,94 +2,106 @@
 <html lang="en">
 
 <head>
-  <title> WebSocket Server </title>
+  <title> Flight Master  </title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- Bootstrap CSS -->
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link rel="stylesheet"  href="estilo.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="flights_master.js">  </script>
 
 
-
+</head>
 <body>
 
 <div class="container" >
+    <form action="/" method="post"
+    onsubmit="var object =  new Main; return object.sendData();"  autocomplete="off">
 
+    Ordenar Por:
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="mayor_precio">
+        <label class="form-check-label" for="defaultCheck1">
+          Mayor Precio
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="menor_precio">
+        <label class="form-check-label" for="defaultCheck1">
+          Menor Precio
+        </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="menor_duracion">
+          <label class="form-check-label" for="defaultCheck1">
+            Menor Duracion
+          </label>
+        </div>
+       <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="mayor_duracion">
+        <label class="form-check-label" for="defaultCheck1">
+          Mayor Duracion
+        </label>
+      </div>
+      <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="fecha_mas_temprana">
+            <label class="form-check-label" for="defaultCheck1">
+              Fecha mas temprana
+            </label>
+        </div>
+        <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="fecha_mas_tardia">
+                <label class="form-check-label" for="defaultCheck1">
+                  Fecha mas tardia
+                </label>
+
+                <div class="form-group row">
+                  <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Cantidad de Stops</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control form-control-sm" id="cantidad_de_stops"  >
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Aerolinea</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control form-control-sm" id="aerolinea"  >
+                        </div>
+                </div>
+                <div class="form-group row">
+                  <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Numero de vuelo</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control form-control-sm" id="numero_de_vuelo"  >
+                  </div>
+                </div>
+
+                    <div class="form-row">
+                      <div class="col-3">
+                        Rango de Precios
+                      </div>
+                      <div class="col-3">
+                        <input type="text" class="form-control" placeholder="Minimo" id="precio_minimo">
+                      </div>
+                      <div class="col-3">
+                        <input type="text" class="form-control" placeholder="Maximo" id="precio_maximo">
+                      </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+            </form>
 </div>
-    
+
+<form name="response_form">
+        <label id="response_label" >  </label>
+</form >
+
+
+
 <script src="jquery.js"></script>
 <script>
-   function Main(){
-     var clientValue= document.getElementById('client').value;
-     var porttValue= document.getElementById('port').value;
-     var server_hostValue= document.getElementById('server_host').value;
-     var server_portValue= document.getElementById('server_port').value;
-     var end_pointValue= document.getElementById('end_point').value;
-     var proxy_ipValue= document.getElementById('proxy_ip').value;
-     var proxy_portValue= document.getElementById('proxy_port').value;
 
-     function isNumber(n) {
-     return !isNaN(parseFloat(n)) && isFinite(n);
-     }
-
-     function validateIP(ipaddress) {
-       if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress))
-       {
-         return (true)
-       }
-       alert("You have entered an invalid IP address!")
-       return (false)
-     }
-
-     function validatePort(portNumber){
-           if(!isNumber(portNumber)){
-             alert('Invalid Port number');
-             return false;
-           }
-           if (portNumber.length > 5 ){
-            alert('Invalid Port number(max 5 digits)')
-             return false
-           }
-           return true;
-     }
-
-    this.validatePORTS= function() {
-       (validatePort(porttValue) && validatePort(server_portValue) && validatePort(proxy_portValue))
-    }
-
-    this.validateIPS= function() {
-       (validateIP(server_hostValue) && validateIP(proxy_ipValue))
-    }
-
-
-      this.sendData= function(){
-        var propertiesJSON = {
-          client: clientValue,
-          server_host:server_hostValue,
-          server_port:server_portValue,
-          end_point:end_pointValue,
-          proxy_host:proxy_ipValue,
-          proxy_port:proxy_portValue
-        }
-        var propertiesSring = JSON.stringify(propertiesJSON);
-        alert(propertiesSring);
-
-
-        $.ajax({
-            url: 'http://127.0.0.1:8080/properties',
-            type: "post",
-            data:{content: propertiesSring},
-            success: function(response){
-              alert(response);
-            }
-        });
-
-        return false
-      }
-
-  }
-    </script>
+</script>
 
   </body>
   </html>
