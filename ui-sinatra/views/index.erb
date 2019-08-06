@@ -15,6 +15,7 @@
 </head>
 <body>
 
+
 <div class="container" >
     <form action="/" method="post"
     onsubmit="var object =  new Main; return object.sendData();"  autocomplete="off">
@@ -89,6 +90,8 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+
+                   
             </form>
 </div>
 
@@ -97,6 +100,14 @@
 </form >
 
 
+<div class="container" >
+  <% @data = JSON.parse(File.read('../response_json/flights.json')) %> 
+  <% @segments = get_segments(@data) %>
+  <% @segments = @segments.take(10) %>
+  <% for @item in @segments %>
+    <%= "<p> #{@item} </p>" %>
+  <% end %>
+</div>
 
 <script src="jquery.js"></script>
 <script>
