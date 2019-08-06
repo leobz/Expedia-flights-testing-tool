@@ -123,6 +123,10 @@ def filter_segmets_by_flight_number(segments, flight_number )
   end
 end
 
+def get_flight_numbers(segments)
+  segments.map { |segment| segment[:flight_numbers] }.flatten.uniq
+end
+
 def airline_codes(data, segment)
   airline_codes = []
   segment['legs'].each do |leg|
