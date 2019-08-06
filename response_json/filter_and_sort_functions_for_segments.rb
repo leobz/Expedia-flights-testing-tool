@@ -143,6 +143,10 @@ def sort_by_highest_price(segments)
   segments.sort!(&method(:compare_segments_by_price)).reverse!
 end
 
+def get_prices(segments)
+  segments.map { |segment| segment[:price] }.flatten.uniq
+end
+
 def sort_by_shorter_duration(segments)
   segments.sort!(&method(:compare_segments_by_duration))
 end
