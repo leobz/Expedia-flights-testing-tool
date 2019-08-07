@@ -1,0 +1,13 @@
+{
+ "filters" : {"amount_of_stop" : {"selected" : true, "amount" : "0"} , 
+            "airlines" : {"selected" : false, "airline_name" : "value"},
+            "price_range" : {"selected" : false, "prices" : ["min", "max"]},
+            "fligth_number" : {"selected" : false, "flight_number" : "value"}
+        },
+  "sorts" : {
+      "lower_price" : "true or false",
+      "highest_price" : "true or false",
+      "shorter_duration" : "true or false",
+      "first_departure_date" : "true or false"
+  }
+}
