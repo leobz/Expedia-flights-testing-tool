@@ -181,5 +181,18 @@ def apply_filter(data, segments, filter_name, filter_params)
   when "fligth_number"
     segments = filter_segmets_by_flight_number(segments, filter_params["flight_number"])
   end
-
 end
+
+def apply_sort(segments, sort_type)
+  case sort_type
+  when "lower_price"
+    return sort_by_lower_price(segments)
+  when "highest_price"
+    return sort_by_highest_price(segments)
+  when "shorter_duration"
+    return sort_by_shorter_duration(segments)
+  when "departure_date"
+    return sort_by_first_departure_date(segments)
+  end
+end
+
