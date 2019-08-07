@@ -158,3 +158,28 @@ end
 def segment_airlines(data, segment)
   airline_names = airline_codes(data, segment).map {|airline_code| data['shop_response_airlines'][airline_code]['name']}
 end
+
+def apply_filters(data, segments, filters)
+  filters.each_key do |filter_name|
+    if filters[filter_name]["selected"] == true
+      p "true"
+      filter_params = filters[filter_name]
+      segments = apply_filter(data, segments, filter_name, filter_params)
+    end
+  end
+  return segments
+end
+
+def apply_filter(data, segments, filter_name, filter_params)
+  case filter_name
+  when "amount_of_stop"
+    segments = filter_segmets_for_amount_of_stop(data, segments, filter_params["amount"].to_i)
+  when "airlines"
+    segments =  filter_segmets_by_airlines(data, segments, filter_params["airline_name"])
+  when "price_range"
+    segments = filter_segmets_by_price_range(segments, filter_params["prices"][0].to_i, filter_params["prices"][1].to_i)
+  when "fligth_number"
+    segments = filter_segmets_by_flight_number(segments, filter_params["flight_number"])
+  end
+
+end
