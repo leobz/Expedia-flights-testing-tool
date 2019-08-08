@@ -123,6 +123,10 @@ def filter_segmets_by_flight_number(segments, flight_number )
   end
 end
 
+def get_airline_names(segments)
+  segments.map { |segment| segment[:airlines] }.flatten.uniq
+end
+
 def get_flight_numbers(segments)
   segments.map { |segment| segment[:flight_numbers] }.flatten.uniq
 end
@@ -162,7 +166,6 @@ end
 def apply_filters(data, segments, filters)
   filters.each_key do |filter_name|
     if filters[filter_name]["selected"] == true
-      p "true"
       filter_params = filters[filter_name]
       segments = apply_filter(data, segments, filter_name, filter_params)
     end
