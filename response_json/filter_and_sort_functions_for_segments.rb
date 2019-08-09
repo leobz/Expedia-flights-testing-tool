@@ -101,8 +101,21 @@ def filter_segments_no_stop(data, segments)
   filter_segmets_for_amount_of_stop(data, segments, 0)
 end
 
+def filter_segmets_for_amounts_of_stop(data, segments, amounts_list)
+  filtered_segments = []
+  amounts_list.each do |amount|
+    filtered_segments << filter_segmets_for_amount_of_stop(data, segments, amount)
+  end
+  filtered_segments.flatten.uniq
+end
+
+
 def filter_segmets_for_amount_of_stop(data, segments, amount)
-  segments.select { |segment| data['shop_response_segments'][segment[:zid]]['legs'].size() -1  == amount  }
+  if amount >= 2
+    segments.select { |segment| data['shop_response_segments'][segment[:zid]]['legs'].size() -1  >= 2 }
+  else
+    segments.select { |segment| data['shop_response_segments'][segment[:zid]]['legs'].size() -1  == amount }
+  end
 end
 
 def filter_segmets_by_airlines(data, segments, airline_name)
@@ -129,6 +142,15 @@ end
 
 def get_flight_numbers(segments)
   segments.map { |segment| segment[:flight_numbers] }.flatten.uniq
+end
+
+def get_stops_amounts(data,segments)
+  zero_stops = filter_segmets_for_amount_of_stop(data, segments, 0)
+  one_stop = filter_segmets_for_amount_of_stop(data, segments, 1)
+  two_or_more_stops = filter_segmets_for_amount_of_stop(data, segments, 2)
+  return {"0 stop" =>  zero_stops.size ,
+         "1 stop" => one_stop.size,
+         "2 or more stops" => two_or_more_stops.size}
 end
 
 def airline_codes(data, segment)
