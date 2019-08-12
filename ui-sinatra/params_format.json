@@ -1,4 +1,4 @@
-{
+{"segments_id" : [],
  "filters" : {"amount_of_stop" : {"selected" : false, "amount" : "0"} , 
             "airlines" : {"selected" : false, "airline_name" : "American Airlines"},
             "price_range" : {"selected" : false, "prices" : ["28000", "29000"]},
