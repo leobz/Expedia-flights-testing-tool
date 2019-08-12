@@ -1,0 +1,33 @@
+{
+    "segments": [
+        {
+            "zid": "ZFS-PUBLISHED-DL521-SEA-ORD-1566412500-LAVVA0ME-L",
+            "from": "Seattle",
+            "to": "Chicago",
+            "duration": "PT4H11M",
+            "departure_time": "2019-08-21T11:35:00",
+            "airlines": [
+                "Delta"
+            ],
+            "stops": 0,
+            "flight_numbers": [
+                "521"
+            ],
+            "price": 0
+        }
+    ],
+    "available_flight_numbers": [
+        "521"
+    ],
+    "available_prices": [
+        0
+    ],
+    "available_airlines": [
+        "Delta"
+    ],
+    "available_stops": {
+        "0 stop": 1,
+        "1 stop": 0,
+        "2 or more stops": 0
+    }
+}
