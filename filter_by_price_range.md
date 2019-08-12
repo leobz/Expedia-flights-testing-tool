@@ -32,7 +32,7 @@ PRECIOS DISPONIBLES
 
 RANGO( 37000, 38000)
 ```ruby
->> pp filter_segmets_by_price_range(segments, 37000, 38000)
+>> pp filter_segments_by_price_range(data, segments, [37000, 38000])
 [{<...>
   :price=>37150,
   <...>

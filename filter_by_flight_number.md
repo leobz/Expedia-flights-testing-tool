@@ -66,14 +66,14 @@ En este caso obtenemos DOS segmentos que cumplen con este filtro.
 Vemos la cantidad de vuelos con el siguiente codigo "1455"
 
 ```ruby
->> p filter_segments_by_list_of_airlines(data, segments, "1455").size
+>> p filter_segments_by_list_of_flights_number(data, segments, "1455").size
 1
 
 ```
 Y tambien la cantidad de vuelos con el codigo "1423".
 
 ```ruby
->> p filter_segments_by_list_of_airlines(data, segments, "1423").size
+>> p filter_segments_by_list_of_flights_number(data, segments, "1423").size
 2
 
 ```
@@ -82,7 +82,7 @@ Ahora al pasarle una lista con los codigos "1455" y "1423".
 Por lo tanto la suma deberia dar 1 + 2 = 3
 
 ```ruby
->> p filter_segments_by_list_of_airlines(data, segments, ["1455", "1423"]).size
+>> p filter_segments_by_list_of_flights_number(data, segments, ["1455", "1423"]).size
 3
 
 ```
