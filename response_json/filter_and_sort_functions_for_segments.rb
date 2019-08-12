@@ -118,6 +118,7 @@ def filter_segments_by_list_of_amounts_of_stops(data, segments, amounts_list)
 end
 
 def filter_segments_by_amount_of_stop(data, segments, amount)
+  amount = amount.to_i
   if amount >= 2
     segments.select { |segment| data['shop_response_segments'][segment[:zid]]['legs'].size() -1  >= 2 }
   else
@@ -217,13 +218,13 @@ end
 def apply_filter(data, segments, filter_name, filter_params)
   case filter_name
   when "amount_of_stop"
-    segments = filter_segments_by_amount_of_stop(data, segments, filter_params["amount"].to_i)
+    segments = filter_segments_by_list_of_amounts_of_stops(data, segments, filter_params["amount"])
   when "airlines"
-    segments =  filter_segments_by_airlines(data, segments, filter_params["airline_name"])
+    segments =  filter_segments_by_list_of_airlines(data, segments, filter_params["airline_name"])
   when "price_range"
-    segments = filter_segments_by_price_range(segments, filter_params["prices"][0].to_i, filter_params["prices"][1].to_i)
+    segments = filter_segments_by_price_range(data, segments, filter_params["prices"])
   when "fligth_number"
-    segments = filter_segments_by_flight_number(segments, filter_params["flight_number"])
+    segments = filter_segments_by_list_of_flights_number(data, segments, filter_params["flight_number"])
   end
 end
 
