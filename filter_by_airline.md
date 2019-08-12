@@ -25,13 +25,13 @@ Empecemos a filtrar.
 
 Cantidad de segmentos de la aerolinea "American Airlines"
 ```ruby
->> p filter_segmets_by_airlines(data, segments, "American Airlines").size
+>> p filter_segments_by_airline(data, segments, "American Airlines").size
 7
 ```
 
 Segmentos de la aerolinea "American Airlines":
 ```ruby
->> american_airlines_segments = filter_segmets_by_airlines(data, segments, "American Airlines")
+>> american_airlines_segments = filter_segments_by_airline(data, segments, "American Airlines")
 >> american_airlines_segments.each { |segment| p segment}
 {<...> :airlines=>["American Airlines"]<...>}
 {<...> :airlines=>["American Airlines"]<...>}
@@ -47,13 +47,13 @@ Segmentos de la aerolinea "American Airlines":
 
 Cantidad de Vuelos de la aerolinea "United":
 ```ruby
->> p filter_segmets_by_airlines(data, segments, "United").size
+>> p filter_segments_by_airline(data, segments, "United").size
 28
 ```
 
 Segmentos de la aerolinea "United":
 ```ruby
->> united_segments = filter_segmets_by_airlines(data, segments, "United")
+>> united_segments = filter_segments_by_airline(data, segments, "United")
 >> united_segments.each { |segment| p segment}
 {<...>:airlines=>["United", "United"]<...>}
 {<...>:airlines=>["United", "United"]<...>}
@@ -90,12 +90,12 @@ Segmentos de la aerolinea "United":
 
 Cantidad de Vuelos de la aerolinea "Delta" :
 ```ruby
->> p filter_segmets_by_airlines(data, segments, "Delta").size
+>> p filter_segments_by_airline(data, segments, "Delta").size
 19
 ```
 Segmentos de la aerolinea "Delta":
 ```ruby
->> delta_segments = filter_segmets_by_airlines(data, segments, "Delta")
+>> delta_segments = filter_segments_by_airline(data, segments, "Delta")
 >> delta_segments.each { |segment| p segment}
 {<...> :airlines=>["Delta", "Delta"]<...>}
 {<...> :airlines=>["Delta", "Delta"]<...>}
@@ -123,3 +123,29 @@ Nota :
 En este Json en particular, cada segmento tiene una unica Aerolinea asignada para todos sus vuelos.
 Pero si los segmentos tuviesen varias aerolineas, un mismo segmento puede aparecer en varios filtros
 de aerolineas distintas, siempre que el las contenga.
+
+
+# Filtros por lista de Aerolineas
+Combinamos dos tipos de Aerolineas, primero veamos la cantidad individual
+
+Cantidad de segmentos de la aerolinea "American Airlines"
+```ruby
+>> p filter_segments_by_list_of_airlines(data, segments, "American Airlines").size
+7
+```
+
+Cantidad de Vuelos de la aerolinea "Delta" :
+```ruby
+>> p filter_segments_by_list_of_airlines(data, segments, "Delta").size
+19
+```
+
+Ahora comprobamos que la suma de las dos se cumpla al ingresar una lista con las dos
+7 + 19 = 26
+
+
+Cantidad de Vuelos de la aerolinea "Delta" :
+```ruby
+>> p filter_segments_by_list_of_airlines(data, segments, ["Delta", "American Airlines"]).size
+26
+```

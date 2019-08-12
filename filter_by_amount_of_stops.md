@@ -26,36 +26,36 @@ Busquemos la cantidad de vuelos con 0 stop. Estos son los llamados "No-Stops fli
 escala. Resultado: 0 segmentos encontrados
 
 ```ruby
->> p filter_segmets_by_amount_of_stop(data, segments, 0).size
+>> p filter_segments_by_amount_of_stop(data, segments, 0).size
 7
 ```
 Busquemos la cantidad de vuelos con 1 stop . Resultado: 7 segmentos encontrados
 ```ruby
->> p filter_segmets_by_amount_of_stop(data, segments, 1).size
+>> p filter_segments_by_amount_of_stop(data, segments, 1).size
 47
 ```
 Por ultimo  la cantidad de vuelos con 2 stops. Resultado 43: segmentos encontrados
 ```ruby
->> p filter_segmets_by_amount_of_stop(data, segments, 2).size
+>> p filter_segments_by_amount_of_stop(data, segments, 2).size
 0
 ```
 
 
-# Filtro segun varias cantidades de paradas (Stops)
-Todos los filtros suman la cantidad del total (54)
+# Filtro segun varias cantidades de paradas (lista de cantidades de Stops)
+Todos los filtros suman la cantidad del total (54).
 En este caso 7 + 47 + 0 = 54
 
 ```ruby
->> p filter_segmets_by_list_of_amounts_of_stops(data, segments, [0, 1]).size
+>> p filter_segments_by_list_of_amounts_of_stops(data, segments, [0, 1]).size
 54
 ```
 Busquemos la cantidad de vuelos con 1 stop . Resultado: 7 segmentos encontrados
 ```ruby
->> p filter_segmets_by_list_of_amounts_of_stops(data, segments, [0, 2]).size
+>> p filter_segments_by_list_of_amounts_of_stops(data, segments, [0, 2]).size
 7
 ```
 Por ultimo  la cantidad de vuelos con 2 stops. Resultado 43: segmentos encontrados
 ```ruby
->> p filter_segmets_by_list_of_amounts_of_stops(data, segments, [1, 2]).size
+>> p filter_segments_by_list_of_amounts_of_stops(data, segments, [1, 2]).size
 47
 ```

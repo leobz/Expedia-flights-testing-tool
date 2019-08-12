@@ -111,13 +111,13 @@ def if_it_is_not_a_list_convert_to_list(params)
   params_list.flatten
 end
 
-def filter_segmets_by_list_of_amounts_of_stops(data, segments, amounts_list)
+def filter_segments_by_list_of_amounts_of_stops(data, segments, amounts_list)
   params_list = if_it_is_not_a_list_convert_to_list(amounts_list)
-  filtered_segments = params_list.map { |amount| filter_segmets_by_amount_of_stop(data, segments, amount) }
+  filtered_segments = params_list.map { |amount| filter_segments_by_amount_of_stop(data, segments, amount) }
   filtered_segments.flatten.uniq
 end
 
-def filter_segmets_by_amount_of_stop(data, segments, amount)
+def filter_segments_by_amount_of_stop(data, segments, amount)
   if amount >= 2
     segments.select { |segment| data['shop_response_segments'][segment[:zid]]['legs'].size() -1  >= 2 }
   else
@@ -125,27 +125,25 @@ def filter_segmets_by_amount_of_stop(data, segments, amount)
   end
 end
 
-def filter_segmets_by_airline(data, segments, airline_name)
+def filter_segments_by_list_of_airlines(data, segments, airlines_name_list)
+  params_list = if_it_is_not_a_list_convert_to_list(airlines_name_list)
+  filtered_segments = params_list.map { |airline_name| filter_segments_by_airline(data, segments, airline_name) }
+  filtered_segments.flatten.uniq
+end
+
+def filter_segments_by_airline(data, segments, airline_name)
   segments.select do |segment|
     segment[:airlines].include?(airline_name)
   end
 end
 
-def filter_segmets_by_airlines(data, segments, airlines_name_list)
-  filtered_segments = []
-  airlines_name_list.each do |airline_name|
-    filtered_segments << filter_segmets_by_airline(data, segments, airline_name)
-  end
-  filtered_segments.flatten.uniq
-end
-
-def filter_segmets_by_price_range(data, segments, range_list)
+def filter_segments_by_price_range(data, segments, range_list)
   segments.select do |segment|
     segment[:price].between?(range_list[0].to_i,range_list[0].to_i)
   end
 end
 
-def filter_segmets_by_flight_number(data, segments, flight_number )
+def filter_segments_by_flight_number(data, segments, flight_number )
   segments.select do |segment|
     segment[:flight_numbers].include?(flight_number)
   end
@@ -160,9 +158,9 @@ def get_flight_numbers(segments)
 end
 
 def get_stops_amounts(data,segments)
-  zero_stops = filter_segmets_by_amount_of_stop(data, segments, 0)
-  one_stop = filter_segmets_by_amount_of_stop(data, segments, 1)
-  two_or_more_stops = filter_segmets_by_amount_of_stop(data, segments, 2)
+  zero_stops = filter_segments_by_amount_of_stop(data, segments, 0)
+  one_stop = filter_segments_by_amount_of_stop(data, segments, 1)
+  two_or_more_stops = filter_segments_by_amount_of_stop(data, segments, 2)
   return {"0 stop" =>  zero_stops.size ,
          "1 stop" => one_stop.size,
          "2 or more stops" => two_or_more_stops.size}
@@ -213,13 +211,13 @@ end
 def apply_filter(data, segments, filter_name, filter_params)
   case filter_name
   when "amount_of_stop"
-    segments = filter_segmets_by_amount_of_stop(data, segments, filter_params["amount"].to_i)
+    segments = filter_segments_by_amount_of_stop(data, segments, filter_params["amount"].to_i)
   when "airlines"
-    segments =  filter_segmets_by_airlines(data, segments, filter_params["airline_name"])
+    segments =  filter_segments_by_airlines(data, segments, filter_params["airline_name"])
   when "price_range"
-    segments = filter_segmets_by_price_range(segments, filter_params["prices"][0].to_i, filter_params["prices"][1].to_i)
+    segments = filter_segments_by_price_range(segments, filter_params["prices"][0].to_i, filter_params["prices"][1].to_i)
   when "fligth_number"
-    segments = filter_segmets_by_flight_number(segments, filter_params["flight_number"])
+    segments = filter_segments_by_flight_number(segments, filter_params["flight_number"])
   end
 end
 
