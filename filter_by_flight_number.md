@@ -33,7 +33,7 @@ primera columna.
 Por ejemplo elejimos el primero de la lista, el "1455"
 
 ```ruby
->> pp filter_segmets_by_flight_number(segments, "1455")
+>> pp filter_segments_by_flight_number(data, segments, "1455")
 [{<...>
   :flight_numbers=>["1455"],
   <...>
@@ -47,7 +47,7 @@ Ahora elegimos otro codigo: "1423".
 En este caso obtenemos DOS segmentos que cumplen con este filtro.
 
 ```ruby
->> pp filter_segmets_by_flight_number(segments, "1423")
+>> pp filter_segments_by_flight_number(data, segments, "1423")
 [{<...>
   :flight_numbers=>["1946", "1423"],
   <...>
@@ -58,5 +58,31 @@ En este caso obtenemos DOS segmentos que cumplen con este filtro.
   <...>
   :zid=>
    "ZFS-PUBLISHED-DL2458-DFW-ATL-1555425300-KA7NA0MA-K-DL1423-ATL-MSY-1555437360-KA7NA0MA-K"}]
+
+```
+
+# Filtro por lista de codigos de vuelo
+
+Vemos la cantidad de vuelos con el siguiente codigo "1455"
+
+```ruby
+>> p filter_segments_by_list_of_airlines(data, segments, "1455").size
+1
+
+```
+Y tambien la cantidad de vuelos con el codigo "1423".
+
+```ruby
+>> p filter_segments_by_list_of_airlines(data, segments, "1423").size
+2
+
+```
+
+Ahora al pasarle una lista con los codigos "1455" y "1423".
+Por lo tanto la suma deberia dar 1 + 2 = 3
+
+```ruby
+>> p filter_segments_by_list_of_airlines(data, segments, ["1455", "1423"]).size
+3
 
 ```

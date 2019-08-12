@@ -143,7 +143,13 @@ def filter_segments_by_price_range(data, segments, range_list)
   end
 end
 
-def filter_segments_by_flight_number(data, segments, flight_number )
+def filter_segments_by_list_of_airlines(data, segments, flights_number_list)
+  params_list = if_it_is_not_a_list_convert_to_list(flights_number_list)
+  filtered_segments = params_list.map { |flight_number| filter_segments_by_flight_number(data, segments, flight_number) }
+  filtered_segments.flatten.uniq
+end
+
+def filter_segments_by_flight_number(data, segments, flight_number)
   segments.select do |segment|
     segment[:flight_numbers].include?(flight_number)
   end
