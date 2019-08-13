@@ -50,5 +50,16 @@ get '/multicity_4_cities' do
   generate_response(data_multicity_4_cities, segments).to_json
 end
 
-__END__
+get '/roundtrip' do
+  content_type :json
+  data_roundtrip = JSON.parse(File.read('../response_json/roundtrip.json'))['payload']
+  json_received = JSON.parse(request.body.read)
+  filters = json_received["filters"]
+  sort_type = json_received["sort_type"]
+  segments_id = json_received["segments_id"].nil? ? [] : json_received["segments_id"]
 
+  segments = process_segments(data_roundtrip, segments_id, filters, sort_type)
+  generate_response(data_roundtrip, segments).to_json
+end
+
+__END__
