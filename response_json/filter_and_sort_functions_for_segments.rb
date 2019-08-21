@@ -181,6 +181,10 @@ def airline_codes(data, segment)
   airline_codes
 end
 
+def itinerarie_size(data)
+  (data['itineraries'].first)['segment_ids'].size
+end
+
 def sort_by_lower_price(segments)
   segments.sort!(&method(:compare_segments_by_price))
 end
