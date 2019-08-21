@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra/cross_origin'
 require_relative '../response_json/filter_and_sort_functions_for_segments.rb'
 
 def generate_response(json_received, segments)
@@ -28,6 +29,21 @@ def process_flights_data(json_received)
 end
 
 set :bind, '0.0.0.0'
+
+configure do
+  enable :cross_origin
+end
+
+before do
+  response.headers['Access-Control-Allow-Origin'] = '*'
+end
+
+options "*" do
+  response.headers["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"
+  response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
+  response.headers["Access-Control-Allow-Origin"] = "*"
+  200
+end
 
 post '/ui_test' do
   content_type :json
