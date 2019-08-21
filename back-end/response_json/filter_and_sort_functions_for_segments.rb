@@ -181,7 +181,7 @@ def airline_codes(data, segment)
   airline_codes
 end
 
-def itinerarie_size(data)
+def itineraries_size(data)
   (data['itineraries'].first)['segment_ids'].size
 end
 

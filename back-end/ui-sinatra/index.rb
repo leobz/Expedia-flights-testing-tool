@@ -2,15 +2,13 @@ require 'sinatra'
 require_relative '../response_json/filter_and_sort_functions_for_segments.rb'
 
 def generate_response(data, segments)
-  available_flight_numbers = get_flight_numbers(segments)
-  available_prices = get_prices(segments)
-  available_airlines = get_airline_names(segments)
-  available_stops = get_stops_amounts(data, segments)
-  response = {"segments" => segments, 
-              "available_flight_numbers" => available_flight_numbers, 
-              "available_prices" => available_prices, 
-              "available_airlines" => available_airlines,
-              "available_stops" => available_stops}
+  response = {"flightCards" => segments, 
+              "availableFlightNumbers" => get_flight_numbers(segments), 
+              "availablePrices" => get_prices(segments), 
+              "availableAirlines" => get_airline_names(segments),
+              "availableStops" => get_stops_amounts(data, segments),
+              "itinerariesSize" => itineraries_size(data),
+            }
   return response
 end
 
@@ -23,35 +21,33 @@ end
 
 set :bind, '0.0.0.0'
 
-$data = JSON.parse(File.read('../response_json/flights.json'))
-$original_segments = get_segments($data)
-
-
 post '/ui_test' do
   #This is the EndPoint that Receives all the flights' itineraries data from the UI and
   #not for one hard coded JSON
   content_type :json
   json_received = JSON.parse(request.body.read)
-  itineraries_flight_data = json_received["flights_itineraries"]
+  flights_data = json_received["flightsData"]['payload']
+  filters = json_received["filters"]
+  sort_type = json_received["sortType"]
+  segments_id = json_received["segmentsId"].nil? ? [] : json_received["segmentsId"]
+
+  segments = process_segments(flights_data, segments_id, filters, sort_type)
+  generate_response(flights_data, segments).to_json
+end
+
+
+#HARDCODED EndPoints
+post '/flights' do
+  content_type :json
+  data = JSON.parse(File.read('../response_json/flights.json'))
+  json_received = JSON.parse(request.body.read)
   filters = json_received["filters"]
   sort_type = json_received["sort_type"]
   segments_id = json_received["segments_id"].nil? ? [] : json_received["segments_id"]
 
-  segments = process_segments(itineraries_flight_data, segments_id, filters, sort_type)
-  generate_response(itineraries_flight_data, segments).to_json
+  segments = process_segments(data, segments_id, filters, sort_type)
+  generate_response(data, segments).to_json
 end
-
-post '/' do
-  content_type :json
-  json_received = JSON.parse(request.body.read)
-  filters = json_received["filters"] 
-  sort_type = json_received["sort_type"]
-  segments_id = json_received["segments_id"].nil? ? [] : json_received["segments_id"]
-
-  segments = process_segments($data, segments_id, filters, sort_type)
-  generate_response($data, segments).to_json
-end
-
 
 post '/multicity_4_cities' do
   content_type :json
