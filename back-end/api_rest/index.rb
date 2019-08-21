@@ -28,42 +28,12 @@ end
 set :bind, '0.0.0.0'
 
 post '/ui_test' do
-  #This is the EndPoint that Receives all the flights' itineraries data from the UI and
-  #not for one hard coded JSON
   content_type :json
 
   json_received = JSON.parse(request.body.read)
   flights_data = json_received["flightsData"]['payload']
   segments = process_flights_data(flights_data, json_received)
   return generate_response(flights_data, segments).to_json
-end
-
-
-#HARDCODED EndPoints
-post '/flights' do
-  content_type :json
-
-  flights_data = JSON.parse(File.read('../response_json/flights.json'))
-  json_received = JSON.parse(request.body.read)
-  segments = process_flights_data(flights_data, json_received)
-  generate_response(flights_data, segments).to_json
-end
-
-post '/multicity_4_cities' do
-  content_type :json
-  flights_data = JSON.parse(File.read('../response_json/multicity_4_cities.json'))['payload']
-  json_received = JSON.parse(request.body.read)
-  segments = process_flights_data(flights_data, json_received)
-  generate_response(flights_data, segments).to_json
-end
-
-post '/roundtrip' do
-  content_type :json
-
-  flights_data = JSON.parse(File.read('../response_json/roundtrip.json'))['payload']
-  json_received = JSON.parse(request.body.read)
-  segments = process_flights_data(flights_data, json_received)
-  generate_response(flights_data, segments).to_json
 end
 
 __END__
