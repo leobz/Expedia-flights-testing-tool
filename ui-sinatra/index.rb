@@ -26,7 +26,22 @@ set :bind, '0.0.0.0'
 $data = JSON.parse(File.read('../response_json/flights.json'))
 $original_segments = get_segments($data)
 
-get '/' do
+
+post '/ui_test' do
+  #This is the EndPoint that Receives all the flights' itineraries data from the UI and
+  #not for one hard coded JSON
+  content_type :json
+  json_received = JSON.parse(request.body.read)
+  itineraries_flight_data = json_received["flights_itineraries"]
+  filters = json_received["filters"]
+  sort_type = json_received["sort_type"]
+  segments_id = json_received["segments_id"].nil? ? [] : json_received["segments_id"]
+
+  segments = process_segments(itineraries_flight_data, segments_id, filters, sort_type)
+  generate_response(itineraries_flight_data, segments).to_json
+end
+
+post '/' do
   content_type :json
   json_received = JSON.parse(request.body.read)
   filters = json_received["filters"] 
@@ -38,7 +53,7 @@ get '/' do
 end
 
 
-get '/multicity_4_cities' do
+post '/multicity_4_cities' do
   content_type :json
   data_multicity_4_cities = JSON.parse(File.read('../response_json/multicity_4_cities.json'))['payload']
   json_received = JSON.parse(request.body.read)
@@ -50,7 +65,7 @@ get '/multicity_4_cities' do
   generate_response(data_multicity_4_cities, segments).to_json
 end
 
-get '/roundtrip' do
+post '/roundtrip' do
   content_type :json
   data_roundtrip = JSON.parse(File.read('../response_json/roundtrip.json'))['payload']
   json_received = JSON.parse(request.body.read)
