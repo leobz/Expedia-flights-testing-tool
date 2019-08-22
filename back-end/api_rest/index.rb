@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'sinatra/cross_origin'
-require_relative '../response_json/filter_and_sort_functions_for_segments.rb'
+require_relative '../tool/filter_and_sort_functions_for_segments.rb'
 
   register Sinatra::CrossOrigin
 
