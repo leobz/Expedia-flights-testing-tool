@@ -46,6 +46,7 @@ def get_segments(data, picked_segments_ids = [])
       to: segment_arrival_airport(data, segment)['address']['city_name'],
       duration: segment['duration'],
       departure_time: segment['legs'][0]['flight_time_range']['from'],
+      arrival_time: (segment['legs'].last)['flight_time_range']['to'],
       airlines: segment_airlines(data, segment),
       stops: segment['legs'].size - 1,
       flight_numbers: segment['legs'].map {|leg| leg['flight_number']},
@@ -95,6 +96,12 @@ def compare_segments_by_price(segment_a, segment_b)
   price_a = segment_a[:price]
   price_b = segment_b[:price]
   price_a <=> price_b
+end
+
+def compare_segments_by_arrival_date(segment_a, segment_b)
+  arrival_a = segment_a[:arrival_time]
+  arrival_b = segment_b[:arrival_time]
+  arrival_a <=> arrival_b
 end
 
 def apply_filter_with_a_list_of_params(data, segments, filter_function, params_list)
@@ -205,6 +212,10 @@ def sort_by_first_departure_date(segments)
   segments.sort!(&method(:compare_segments_by_departure_date))
 end
 
+def sort_by_first_arrival_date(segments)
+  segments.sort!(&method(:compare_segments_by_arrival_date))
+end
+
 def segment_airlines(data, segment)
   airline_names = airline_codes(data, segment).map {|airline_code| data['shop_response_airlines'][airline_code]['name']}
 end
@@ -234,14 +245,21 @@ end
 
 def apply_sort(segments, sort_type)
   case sort_type
-  when "lower_price"
+  when "priceLowest"
     return sort_by_lower_price(segments)
-  when "highest_price"
+  when "priceHighest"
     return sort_by_highest_price(segments)
-  when "shorter_duration"
+  when "durationShortest"
     return sort_by_shorter_duration(segments)
-  when "departure_date"
+  when "durationLongest"
+    return sort_by_shorter_duration(segments).reverse
+  when "departureEarliest"
     return sort_by_first_departure_date(segments)
+  when "departureLatest"
+    return sort_by_first_departure_date(segments).reverse
+  when "arrivalEarliest"
+    return sort_by_first_arrival_date(segments)
+  when "arrivalLatest"
+    return sort_by_first_arrival_date(segments).reverse
   end
 end
-
