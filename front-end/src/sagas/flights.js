@@ -10,24 +10,16 @@ import FlightsService from '../services/flights';
 export function* fetchFlights() {
     try {
         const flights = yield call(FlightsService.getFlights);
-        yield put(receiveFlights(flights.payload));
+        yield put(receiveFlights(flights));
     } catch (err) {
         yield put(handleError(err));
     }
 }
 
-export function* filterFlights({airlines, flightNumber, step, tripType, stops, max, min}) {
+export function* filterFlights({filters}) {
     try {
-        const filteredFlights = yield call(
-            FlightsService.filterFlights,
-            airlines,
-            flightNumber,
-            step,
-            tripType,
-            stops,
-            max,
-            min);
-        yield put(receiveFilteredFlights(filteredFlights.payload));
+        const filteredFlights = yield call(FlightsService.filterFlights, filters);
+        yield put(receiveFilteredFlights(filteredFlights));
     } catch (err) {
         yield put(handleError(err));
     }
