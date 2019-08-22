@@ -13,7 +13,7 @@ import PriceRange from '../PriceRange';
 
 class Flights extends PureComponent {
     static propTypes = {
-        airlines: PropTypes.shape({}),
+        airlines: PropTypes.arrayOf(PropTypes.string),
         itineraries: PropTypes.arrayOf(),
         history: PropTypes.shape({
             push: PropTypes.func.isRequired
@@ -26,94 +26,116 @@ class Flights extends PureComponent {
         }).isRequired,
         priceRange: PropTypes.shape({
             max: PropTypes.number,
-            min: PropTypes.number,
+            min: PropTypes.number
         }).isRequired,
         requestFlights: PropTypes.func.isRequired,
         requestFilterFlights: PropTypes.func.isRequired,
-        segments: PropTypes.shape({}),
-        step: PropTypes.number
+        segments: PropTypes.arrayOf({
+            airlines: PropTypes.arrayOf(
+                PropTypes.string
+            ),
+            departure_time: PropTypes.string,
+            duration: PropTypes.string,
+            flight_numbers: PropTypes.arrayOf(
+                PropTypes.string
+            ),
+            from: PropTypes.string,
+            price: PropTypes.number,
+            stops: PropTypes.number,
+            to: PropTypes.string,
+            zid: PropTypes.string
+        }),
+        stops: PropTypes.shape()
     };
 
     static defaultProps = {
-        airlines: {},
+        airlines: [],
         history: null,
         itineraries: [],
-        segments: {},
-        step: 0
+        segments: [],
+        stops: null
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            flightNumber: '',
-            itineraries: [],
-            max: 0,
-            min: 0,
-            selectedAirlines: [],
-            stops: []
+            filters: {
+                amount_of_stop: {selected: false, amount: []},
+                airlines: {selected: false, airline_name: ''},
+                price_range: {selected: false, prices: [0, 0]},
+                fligth_number: {selected: false, flight_number: 0}
+            },
+
         };
     }
 
     componentDidMount() {
-        this.props.requestFlights(this.props.match.params.tripType);
+        this.props.requestFlights();
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.itineraries !== this.props.itineraries) {
-            this.updateState(this.props.itineraries);
+        if (prevProps.segments !== this.props.segments) {
+            this.updateState(this.props.segments);
         }
     }
 
-    updateState(itineraries) {
-        this.setState({itineraries});
-    }
-
-    findSegment(segmentId) {
-        const {segments} = this.props;
-        return segments[segmentId];
+    updateState(segments) {
+        this.setState({segments});
     }
 
     handlePrices(max, min) {
-        const {selectedAirlines, flightNumber, stops} = this.state;
+        const {selectedAirlines, flightNumber} = this.state;
         this.setState({max, min});
         this.filterItems(
             selectedAirlines,
             flightNumber,
-            this.props.step,
-            stops,
             max,
             min
         );
     }
 
-    filterItems(airlines, flightNumber = '', step = 0, stops = 0, max = 0, min = 0) {
-        this.setState({selectedAirlines: airlines, flightNumber, stops});
-        this.props.requestFilterFlights(
-            airlines,
-            flightNumber,
-            step,
-            this.props.match.params.tripType,
-            stops,
-            max,
-            min
-        );
+    handleAirlines(airlines) {
+        const {filters} = this.state;
+        if (airlines.length > 0) {
+            filters.airlines = {selected: true, airline_name: airlines};
+        } else {
+            filters.airlines = {selected: false, airline_name: []};
+        }
+        this.setState({filters});
+        this.filterItems();
+
+    }
+
+    handleStops(stops) {
+        const {filters} = this.state;
+        if (stops.length > 0) {
+            filters.amount_of_stop = {selected: true, amount: stops};
+        } else {
+            filters.amount_of_stop = {selected: false, amount: []};
+        }
+        this.setState({filters});
+        this.filterItems();
+
+    }
+
+    filterItems() {
+        this.props.requestFilterFlights(this.state.filters);
     }
 
     render() {
-        const {airlines, loading, priceRange, step} = this.props;
-        const {tripType} = this.props.match.params;
-        const {flightNumber, itineraries, max, min, selectedAirlines, stops} = this.state;
+        const {airlines, loading, stops} = this.props;
+        const {flightNumber, max, min, segments, selectedAirlines} = this.state;
         return (
             <Fragment>
                 {loading && <LoadingButton label="Cargando..."/>}
                 <Row>
                     <Col sm={4}>
-                        {airlines && (
+                        {airlines.length > 0 && (
                             <Fragment>
                                 <h4>Airlines</h4>
                                 <Airlines
-                                    handleClick={airlinesSelected => this.filterItems(
-                                        airlinesSelected, flightNumber, step, stops, max, min
+                                    handleClick={airlinesSelected => this.handleAirlines(
+                                        airlinesSelected
                                     )}
                                     airlines={airlines}
                                 />
@@ -125,35 +147,37 @@ class Flights extends PureComponent {
                             value={flightNumber}
                             placeholder="Enter Flight Number"
                             onChange={e => this.filterItems(
-                                selectedAirlines, e.target.value, step, stops, max, min
+                                selectedAirlines, e.target.value, max, min
                             )}
                         />
-                        <h4>Stops</h4>
-                        <Stops
-                            handleClick={selectedStops => this.filterItems(
-                                selectedAirlines, flightNumber, step, selectedStops, max, min
-                            )}
-                        />
+                        {stops && (
+                            <Fragment>
+                                <h4>Stops</h4>
+                                <Stops
+                                    handleClick={selectedStops => this.handleStops(selectedStops)}
+                                    stops={stops}
+                                />
+                            </Fragment>
+                        )}
                         <h4>Price Range</h4>
+                        {/*
                         {priceRange && (
                             <PriceRange
                                 priceRange={priceRange}
                                 handleSubmit={(selectedMax, selectedMin) => this.handlePrices(selectedMax, selectedMin)}
                             />
                         )}
+*/}
                     </Col>
                     <Col sm={8}>
-                        {itineraries && itineraries.map(itinerarie => {
-                            const segmentProps = {
-                                airlines,
-                                price: itinerarie.pricing_information.total_price.cents / 100,
-                                segment: this.findSegment(itinerarie.segment_ids[0])
-                            };
+                        {segments && segments.map(segment => {
+                            const segmentProps = {segment};
                             return (
-                                <Row key={itinerarie.xid}>
+                                <Row key={segment.zid}>
                                     <Col sm={9} className="flights">
                                         <Segments {...segmentProps}/>
                                     </Col>
+                                    {/*
                                     <Col sm={3}>
                                         {tripType !== 'oneWay' && (
                                             <Link to={`/details/${itinerarie.xid}`}>
@@ -161,6 +185,7 @@ class Flights extends PureComponent {
                                             </Link>
                                         )}
                                     </Col>
+*/}
                                 </Row>
                             );
                         })}
@@ -176,13 +201,12 @@ export default connect(
         airlines: state.flights.airlines,
         itineraries: state.flights.itineraries,
         loading: state.flights.loading,
-        priceRange: state.flights.priceRange,
-        segments: state.flights.segments
+        segments: state.flights.segments,
+        stops: state.flights.stops
     }),
     dispatch => ({
-        requestFlights: (tripType, step) => dispatch(requestFlights(tripType, step)),
-        requestFilterFlights: (airlines, flightNumber, step, tripType, stops, max, min) => dispatch(
-            requestFilterFlights(airlines, flightNumber, step, tripType, stops, max, min
-            ))
+        requestFlights: () => dispatch(requestFlights()),
+        requestFilterFlights: filters => dispatch(
+            requestFilterFlights(filters))
     })
 )(Flights);
