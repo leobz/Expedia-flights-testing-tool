@@ -2,8 +2,29 @@ require 'sinatra'
 require 'sinatra/cross_origin'
 require_relative '../response_json/filter_and_sort_functions_for_segments.rb'
 
+  register Sinatra::CrossOrigin
+
+  configure do
+    set :bind, '0.0.0.0'
+    set :allow_origin, :any
+    set :allow_methods, [:get, :post]
+    set :allow_credentials, true
+    enable :cross_origin
+  end
+
+  before do
+    response.headers['Access-Control-Allow-Origin'] = '*'
+  end
+
+  options "*" do
+    response.headers["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    200
+  end
+
 def generate_response(json_received, segments)
-  flights_data = json_received["flightsData"]['payload']
+  flights_data = JSON.parse(json_received["flightsData"])['payload']
   response = {"flightCards" => segments, 
               "availableFlightNumbers" => get_flight_numbers(segments), 
               "availablePrices" => get_prices(segments), 
@@ -21,28 +42,11 @@ def process_segments(flights_data, segments_id, filters, sort_type)
 end
 
 def process_flights_data(json_received)
-  flights_data = json_received["flightsData"]['payload']
+  flights_data = JSON.parse(json_received["flightsData"])['payload']
   filters = json_received["filters"]
   sort_type = json_received["sortType"]
   segments_id = json_received["segmentsId"].nil? ? [] : json_received["segmentsId"]
   return process_segments(flights_data, segments_id, filters, sort_type)
-end
-
-set :bind, '0.0.0.0'
-
-configure do
-  enable :cross_origin
-end
-
-before do
-  response.headers['Access-Control-Allow-Origin'] = '*'
-end
-
-options "*" do
-  response.headers["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"
-  response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
-  response.headers["Access-Control-Allow-Origin"] = "*"
-  200
 end
 
 post '/ui_test' do
@@ -52,5 +56,3 @@ post '/ui_test' do
   segments = process_flights_data(json_received)
   return generate_response(json_received, segments).to_json
 end
-
-__END__
