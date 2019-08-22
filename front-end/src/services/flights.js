@@ -12,7 +12,7 @@ export default class FlightsService {
                 price_range: {selected: false, prices: []},
                 fligth_number: {selected: false, flight_number: ''}
             },
-            sortType: 'lower_price'
+            sortType: 'priceLowest'
         };
         return Http.post(`${ENDPOINT}ui_test`, body);
     }
@@ -22,7 +22,7 @@ export default class FlightsService {
             filters,
             flightsData: localStorage.getItem('dataJson'),
             segmentsId: [],
-            sortType: 'lower_price'
+            sortType: 'priceLowest'
         });
     }
 }
