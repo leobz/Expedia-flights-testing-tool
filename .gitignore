@@ -1,0 +1,10 @@
+**/.*/
+node_modules/
+dist/
+coverage/
+
+# misc
+.DS_Store
+*.log
+*.idea
+.idea
