@@ -1,6 +1,6 @@
 <!--
 Load the necessary libraries
->> require_relative 'response_json/filter_and_sort_functions_for_segments.rb'
+>> require_relative '../../tool/filter_and_sort_functions_for_segments.rb'
 <...>
 
 -->
@@ -10,7 +10,7 @@ Load the necessary libraries
 Primero obtenemos los itnierarios de un Json normalizado, el cual contiene 54 segmentos totales en la
 primera columna.
 ```ruby
->> data = JSON.parse(File.read('response_json/flights.json'))
+>> data = JSON.parse(File.read('flights_data_examples/flights.json'))
 >> segments = get_segments(data)
 >> p segments.size
 54

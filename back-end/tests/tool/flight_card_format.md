@@ -1,6 +1,6 @@
 <!--
 Load the necessary libraries
->> require_relative 'response_json/filter_and_sort_functions_for_segments.rb'
+>> require_relative '../../tool/filter_and_sort_functions_for_segments.rb'
 <...>
 
 -->
@@ -10,7 +10,7 @@ Load the necessary libraries
 Primero obtenemos los itnierarios de un Json normalizado, el cual contiene 54 segmentos totales en la
 primera columna.
 ```ruby
->> data = JSON.parse(File.read('response_json/flights.json'))
+>> data = JSON.parse(File.read('flights_data_examples/flights.json'))
 >> segments = get_segments(data)
 >> p segments.size
 54
@@ -20,6 +20,7 @@ Por razones practicas del test, seleccionaremos el primero, ya que todos tienen 
 >> segment = segments.first
 >> pp segment
 {:airlines=>["American Airlines"],
+ :arrival_time=>"2019-04-16T22:28:00",
  :departure_time=>"2019-04-16T21:00:00",
  :duration=>"PT1H28M",
  :flight_numbers=>["1455"],
