@@ -16,20 +16,19 @@ export default function flights(state = {loading: false, error: false}, action) 
         case FLIGHTS_FETCH_SUCCEEDED:
             return {
                 ...state,
-                airlines: action.flights.shop_response_airlines,
+                airlines: action.flights.availableAirlines,
                 error: false,
-                flights: action.flights,
-                itineraries: action.flights.itineraries,
+                stops: action.flights.availableStops,
                 loading: false,
-                priceRange: action.flights.priceRange,
-                segments: action.flights.shop_response_segments
+                itinerariesSize: action.flights.itinerariesSize,
+                segments: action.flights.flightCards
             };
         case FLIGHTS_FILTER_REQUESTED:
             return {...state, loading: true};
         case FLIGHTS_FILTER_SUCCEEDED:
             return {
                 ...state,
-                itineraries: action.flights.itineraries,
+                segments: action.flights.flightCards,
                 loading: false,
                 error: false
             };

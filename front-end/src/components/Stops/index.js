@@ -1,33 +1,17 @@
 import React, {Fragment, PureComponent} from 'react';
-import {remove} from 'lodash';
+import {keys, remove} from 'lodash';
 import PropTypes from 'prop-types';
 import {Col, Row} from 'react-bootstrap';
 import {CheckboxInput} from '../common';
 
 class Stops extends PureComponent {
     static propTypes = {
-        stops: PropTypes.arrayOf([{
-            label: PropTypes.string,
-            value: PropTypes.number
-        }]),
+        stops: PropTypes.shape().isRequired,
         handleClick: PropTypes.func.isRequired
     };
 
-    static defaultProps = {
-        stops: [{
-            label: '0 stop',
-            value: 1
-        }, {
-            label: '1 stop',
-            value: 2
-        }, {
-            label: '2+ stops',
-            value: 3
-        }]
-    };
-
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {selectedStops: []};
     }
 
@@ -44,14 +28,15 @@ class Stops extends PureComponent {
 
     render() {
         const {stops} = this.props;
+        const stopsKeys = keys(stops);
         return (
             <Fragment>
-                {stops && stops.map(stop => (
-                    <Row key={stop.value}>
+                {stopsKeys && stopsKeys.map(stop => (
+                    <Row key={stop}>
                         <Col sm={12}>
                             <CheckboxInput
-                                label={stop.label}
-                                value={stop.value}
+                                label={`${stop} (${stops[stop]})`}
+                                value={stop}
                                 handleClick={(s, selected) => this.handleChange(s, selected)}
                             />
                         </Col>

@@ -4,29 +4,29 @@ import {Col, Row} from 'react-bootstrap';
 
 class Segments extends PureComponent {
     static propTypes = {
-        airlines: PropTypes.shape({}).isRequired,
-        price: PropTypes.number.isRequired,
         segment: PropTypes.shape({
+            departure_time: PropTypes.string,
             duration: PropTypes.string,
-            legs: PropTypes.arrayOf({})
+            price: PropTypes.number
         }).isRequired
     };
 
     render() {
-        const {airlines, price, segment} = this.props;
+        const {segment} = this.props;
         return (
             <Fragment>
                 <Row>
                     <Col sm={4}>
-                        Price: {price}
+                        Price: {segment.price / 100}
                     </Col>
                     <Col sm={4}>
                         Duration: {segment.duration}
                     </Col>
                     <Col sm={4}>
-                        Hora de salida: {segment.legs[0].flight_time_range.from}
+                        Hora de salida: {segment.departure_time}
                     </Col>
                 </Row>
+{/*
                 {segment.legs.map(leg => (
                     <Row key={leg.zid}>
                         <Col sm={3}>
@@ -43,6 +43,7 @@ class Segments extends PureComponent {
                         </Col>
                     </Row>
                 ))}
+*/}
             </Fragment>
         );
     }

@@ -6,17 +6,13 @@ import {CheckboxInput} from '../common';
 
 class Airlines extends PureComponent {
     static propTypes = {
-        airlines: PropTypes.shape().isRequired,
+        airlines: PropTypes.arrayOf(PropTypes.string).isRequired,
         handleClick: PropTypes.func.isRequired
     };
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {selectedAirlines: []};
-    }
-
-    formatAirlines(airlines) {
-        return keys(airlines);
     }
 
     handleChange(airline, selected) {
@@ -34,13 +30,13 @@ class Airlines extends PureComponent {
         const {airlines} = this.props;
         return (
             <Fragment>
-                {airlines && this.formatAirlines(airlines).map(a => (
-                    <Row key={a}>
+                {airlines && airlines.map(airline => (
+                    <Row key={airline}>
                         <Col sm={12}>
                             <CheckboxInput
-                                label={`${airlines[a].name} (${airlines[a].count})`}
-                                value={airlines[a].code}
-                                handleClick={(airline, selected) => this.handleChange(airline, selected)}
+                                label={airline}
+                                value={airline}
+                                handleClick={(a, selected) => this.handleChange(airline, selected)}
                             />
                         </Col>
                     </Row>
