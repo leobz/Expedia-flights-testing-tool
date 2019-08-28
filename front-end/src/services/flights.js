@@ -2,10 +2,10 @@
 import Http from './http';
 
 export default class FlightsService {
-    static getFlights() {
+    static getFlights(segments) {
         const body = {
             flightsData: localStorage.getItem('dataJson'),
-            segmentsId: [],
+            segmentsId: segments,
             filters: {
                 amount_of_stop: {selected: false, amount: []},
                 airlines: {selected: false, airline_name: ''},
@@ -17,11 +17,11 @@ export default class FlightsService {
         return Http.post(`${ENDPOINT}ui_test`, body);
     }
 
-    static filterFlights(filters) {
+    static filterFlights(filters, segments) {
         return Http.post(`${ENDPOINT}ui_test`, {
             filters,
             flightsData: localStorage.getItem('dataJson'),
-            segmentsId: [],
+            segmentsId: segments,
             sortType: 'priceLowest'
         });
     }

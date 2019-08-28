@@ -8,13 +8,14 @@ export const receiveFlights = flights => ({
     flights
 });
 
-export const requestFlights = () => ({
-    type: FLIGHTS_FETCH_REQUESTED
+export const requestFlights = segments => ({
+    type: FLIGHTS_FETCH_REQUESTED, segments
 });
 
-export const requestFilterFlights = filters => ({
+export const requestFilterFlights = (filters, segments) => ({
     type: FLIGHTS_FILTER_REQUESTED,
-    filters
+    filters,
+    segments
 });
 
 export const receiveFilteredFlights = flights => ({

@@ -1,50 +1,44 @@
-import React, {Fragment, PureComponent} from 'react';
+import React, {Fragment, useState} from 'react';
 import {keys, remove} from 'lodash';
 import PropTypes from 'prop-types';
 import {Col, Row} from 'react-bootstrap';
 import {CheckboxInput} from '../common';
 
-class Stops extends PureComponent {
-    static propTypes = {
-        stops: PropTypes.shape().isRequired,
-        handleClick: PropTypes.func.isRequired
-    };
+const Stops = ({handleClick, stops}) => {
+    const [selectedStops, setSelectedStops] = useState([]);
 
-    constructor(props) {
-        super(props);
-        this.state = {selectedStops: []};
-    }
-
-    handleChange(stop, selected) {
-        const {selectedStops} = this.state;
+    const handleChange = (stop, selected) => {
         if (selected) {
             selectedStops.push(stop);
         } else {
             remove(selectedStops, s => s === stop);
         }
-        this.setState({selectedStops});
-        this.props.handleClick(this.state.selectedStops);
-    }
+        setSelectedStops(selectedStops);
+        handleClick(selectedStops);
+    };
 
-    render() {
-        const {stops} = this.props;
-        const stopsKeys = keys(stops);
-        return (
-            <Fragment>
-                {stopsKeys && stopsKeys.map(stop => (
-                    <Row key={stop}>
-                        <Col sm={12}>
-                            <CheckboxInput
-                                label={`${stop} (${stops[stop]})`}
-                                value={stop}
-                                handleClick={(s, selected) => this.handleChange(s, selected)}
-                            />
-                        </Col>
-                    </Row>
-                ))}
-            </Fragment>
-        );
-    }
-}
+    const stopsKeys = keys(stops);
+
+    return (
+        <Fragment>
+            {stopsKeys && stopsKeys.map(stop => (
+                <Row key={stop}>
+                    <Col sm={12}>
+                        <CheckboxInput
+                            label={`${stop} (${stops[stop]})`}
+                            value={stop}
+                            handleClick={(s, selected) => handleChange(s, selected)}
+                        />
+                    </Col>
+                </Row>
+            ))}
+        </Fragment>
+    );
+};
+
+Stops.propTypes = {
+    stops: PropTypes.shape().isRequired,
+    handleClick: PropTypes.func.isRequired
+};
 
 export default Stops;
