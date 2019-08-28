@@ -1,52 +1,54 @@
-import React, {Fragment, PureComponent} from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
-import {Col, Row} from 'react-bootstrap';
+import {Button, Col, Row} from 'react-bootstrap';
 
-class Segments extends PureComponent {
-    static propTypes = {
-        segment: PropTypes.shape({
-            departure_time: PropTypes.string,
-            duration: PropTypes.string,
-            price: PropTypes.number
-        }).isRequired
-    };
+const Segments = ({itinerariesSize, handleClick, segment, segmentsId}) => (
+    <Fragment>
+        <Row>
+            <Col sm={3}>
+                {segment.departure_time}
+                -{segment.arrival_time}
+            </Col>
+            <Col sm={3}>
+                Duration: {segment.duration}
+            </Col>
+            <Col sm={3}>
+                Stops: {segment.stops}
+            </Col>
+            <Col sm={3}>
+                Price: {segment.price / 100}
+            </Col>
+        </Row>
+        <Row>
+            <Col sm={3}>
+                From: {segment.from}
+            </Col>
+            <Col sm={3}>
+                To: {segment.to}
+            </Col>
+            {itinerariesSize > (segmentsId.length + 1) && (
+                <Col sm={6} className="text-right">
+                    <Button onClick={() => handleClick(segment.zid)} bsStyle="primary">Select</Button>
+                </Col>
+            )}
+        </Row>
+    </Fragment>
+);
 
-    render() {
-        const {segment} = this.props;
-        return (
-            <Fragment>
-                <Row>
-                    <Col sm={4}>
-                        Price: {segment.price / 100}
-                    </Col>
-                    <Col sm={4}>
-                        Duration: {segment.duration}
-                    </Col>
-                    <Col sm={4}>
-                        Hora de salida: {segment.departure_time}
-                    </Col>
-                </Row>
-{/*
-                {segment.legs.map(leg => (
-                    <Row key={leg.zid}>
-                        <Col sm={3}>
-                            Desde: {leg.departure_airport_id}
-                        </Col>
-                        <Col sm={3}>
-                            Hasta: {leg.arrival_airport_id}
-                        </Col>
-                        <Col sm={3}>
-                            FN: {leg.flight_number}
-                        </Col>
-                        <Col sm={3}>
-                            Airline: {airlines[leg.marketing_airline_code].name}
-                        </Col>
-                    </Row>
-                ))}
-*/}
-            </Fragment>
-        );
-    }
-}
+Segments.propTypes = {
+    itinerariesSize: PropTypes.number.isRequired,
+    handleClick: PropTypes.func.isRequired,
+    segment: PropTypes.shape({
+        arrival_time: PropTypes.string,
+        departure_time: PropTypes.string,
+        duration: PropTypes.string,
+        from: PropTypes.string,
+        price: PropTypes.number,
+        stops: PropTypes.number,
+        to: PropTypes.string,
+        zid: PropTypes.string
+    }).isRequired,
+    segmentsId: PropTypes.arrayOf(PropTypes.string).isRequired
+};
 
 export default Segments;
