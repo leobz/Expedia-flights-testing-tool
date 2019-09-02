@@ -17,12 +17,12 @@ export default class FlightsService {
         return Http.post(`${ENDPOINT}ui_test`, body);
     }
 
-    static filterFlights(filters, segments) {
+    static filterFlights(filters, segments, sortType) {
         return Http.post(`${ENDPOINT}ui_test`, {
             filters,
             flightsData: localStorage.getItem('dataJson'),
             segmentsId: segments,
-            sortType: 'priceLowest'
+            sortType
         });
     }
 }

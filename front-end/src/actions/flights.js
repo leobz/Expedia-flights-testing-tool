@@ -12,10 +12,11 @@ export const requestFlights = segments => ({
     type: FLIGHTS_FETCH_REQUESTED, segments
 });
 
-export const requestFilterFlights = (filters, segments) => ({
+export const requestFilterFlights = (filters, segments, sortKey) => ({
     type: FLIGHTS_FILTER_REQUESTED,
     filters,
-    segments
+    segments,
+    sortKey
 });
 
 export const receiveFilteredFlights = flights => ({

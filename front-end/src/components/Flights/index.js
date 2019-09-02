@@ -7,6 +7,7 @@ import Airlines from '../Airlines';
 import Segments from './Segments';
 import Stops from '../Stops';
 import LoadingButton from '../common/LoadingButton';
+import FlightHeader from '../FlightsHeader';
 
 const Flights = ({airlines, itinerariesSize, loading, stops}) => {
     const [segmentsId, setSegmentsId] = useState([]);
@@ -16,6 +17,8 @@ const Flights = ({airlines, itinerariesSize, loading, stops}) => {
         price_range: {selected: false, prices: [0, 0]},
         fligth_number: {selected: false, flight_number: 0}
     });
+    const [sortType, setSortType] = useState('priceLowest');
+
     const dispatch = useDispatch();
     const segments = useSelector(state => state.flights.segments);
 
@@ -28,9 +31,14 @@ const Flights = ({airlines, itinerariesSize, loading, stops}) => {
         dispatch(requestFlights(segmentsId));
     };
 
-    const filterItems = filter => {
-        dispatch(requestFilterFlights(filter, segmentsId));
+    const filterItems = (filter, sortKey = sortType) => {
+        dispatch(requestFilterFlights(filter, segmentsId, sortKey));
         setFilters(filter);
+        setSortType(sortKey);
+    };
+
+    const handleSort = sortKey => {
+        return filterItems(filters, sortKey);
     };
 
     const handleAirlines = airlinesSelected => {
@@ -50,6 +58,13 @@ const Flights = ({airlines, itinerariesSize, loading, stops}) => {
     return (
         <Fragment>
             {loading && <LoadingButton label="Loading..."/>}
+            {segments && (
+                <FlightHeader
+                    flightsFound={segments.length}
+                    handleSelect={value => handleSort(value)}
+                    sortType={sortType}
+                />
+            )}
             <Row>
                 <Col sm={4}>
                     {airlines.length > 0 && (
@@ -121,13 +136,6 @@ const mapStateToProps = state => ({
     stops: state.flights.stops
 });
 
-const mapDispatchToProps = dispatch => ({
-    requestFlights: segments => dispatch(requestFlights(segments)),
-    requestFilterFlights: (filters, segments) => dispatch(
-        requestFilterFlights(filters, segments))
-});
-
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
 )(Flights);
