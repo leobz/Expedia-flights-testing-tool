@@ -16,9 +16,9 @@ export function* fetchFlights({segments}) {
     }
 }
 
-export function* filterFlights({filters, segments}) {
+export function* filterFlights({filters, segments, sortKey}) {
     try {
-        const filteredFlights = yield call(FlightsService.filterFlights, filters, segments);
+        const filteredFlights = yield call(FlightsService.filterFlights, filters, segments, sortKey);
         yield put(receiveFilteredFlights(filteredFlights));
     } catch (err) {
         yield put(handleError(err));

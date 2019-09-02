@@ -21,7 +21,8 @@ export default function flights(state = {loading: false, error: false}, action) 
                 stops: action.flights.availableStops,
                 loading: false,
                 itinerariesSize: action.flights.itinerariesSize,
-                segments: action.flights.flightCards
+                segments: action.flights.flightCards,
+                sortType: action.flights.sortType
             };
         case FLIGHTS_FILTER_REQUESTED:
             return {...state, loading: true};
