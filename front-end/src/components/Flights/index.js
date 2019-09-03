@@ -123,6 +123,7 @@ Flights.defaultProps = {
 const mapStateToProps = state => ({
     airlines: state.flights.airlines,
     flightNumbers: state.flights.flightNumbers,
+    itinerariesSize: state.flights.itinerariesSize,
     loading: state.flights.loading,
     stops: state.flights.stops
 });
