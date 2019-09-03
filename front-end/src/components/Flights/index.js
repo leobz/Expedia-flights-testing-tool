@@ -2,6 +2,7 @@ import React, {Fragment, useEffect, useState} from 'react';
 import {connect, useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Col, Row} from 'react-bootstrap';
+import {find} from 'lodash';
 import {requestFlights, requestFilterFlights} from '../../actions/flights';
 import Segments from './Segments';
 import LoadingButton from '../common/LoadingButton';
@@ -17,6 +18,7 @@ const Flights = ({airlines, flightNumbers, itinerariesSize, loading, stops}) => 
         fligth_number: {selected: false, flight_number: 0}
     });
     const [sortType, setSortType] = useState('priceLowest');
+    const [selectedSegments, setSelectedSegments] = useState([]);
 
     const dispatch = useDispatch();
     const segments = useSelector(state => state.flights.segments);
@@ -27,6 +29,8 @@ const Flights = ({airlines, flightNumbers, itinerariesSize, loading, stops}) => 
 
     const handleSegments = id => {
         setSegmentsId([...segmentsId, id]);
+        const newSegmentData = find(segments, segment => segment.zid === id);
+        setSelectedSegments([...selectedSegments, newSegmentData]);
         dispatch(requestFlights(segmentsId));
     };
 
@@ -68,6 +72,7 @@ const Flights = ({airlines, flightNumbers, itinerariesSize, loading, stops}) => 
                 <FlightHeader
                     flightsFound={segments.length}
                     handleSelect={value => handleSort(value)}
+                    selectedSegments={selectedSegments}
                     sortType={sortType}
                 />
             )}
