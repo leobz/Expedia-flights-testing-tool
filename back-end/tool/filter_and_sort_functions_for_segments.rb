@@ -73,7 +73,7 @@ end
 
 def define_price(itinerary)
   itinerary['pricing_information'].each do |pi|
-    if pi['fare_type' == "PUB"]
+    if pi['fare_type'] == "PUB"
       return pi['total_price']['cents']
     end
   end
