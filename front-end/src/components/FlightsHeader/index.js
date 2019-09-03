@@ -1,11 +1,46 @@
-import React, {Fragment, useState} from 'react';
-import {remove} from 'lodash';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
-import {Col, FormControl, FormGroup, Row} from 'react-bootstrap';
+import moment from 'moment';
+import {
+    Col,
+    FormControl,
+    FormGroup,
+    Row
+} from 'react-bootstrap';
 import sortOptions from '../../constants';
 
-const FlightHeader = ({flightsFound, handleSelect, sortType}) => (
+const FlightHeader = ({
+    flightsFound,
+    handleSelect,
+    selectedSegments,
+    sortType
+}) => (
     <Fragment>
+        {selectedSegments.length > 0 && (
+            <Fragment>
+                <Row>
+                    <Col sm={6}>
+                        Selected Flights
+                    </Col>
+                </Row>
+                <Row>
+                    {selectedSegments.map(segment =>
+                        <Col key={segment.zid} sm={4}>
+                            {`${segment.from} - ${segment.to}`}
+                            <br/>
+                            {moment(segment.departure_time).format('ddd MMM D')}
+                            <br/>
+                            {`${segment.from} - ${moment(segment.departure_time).format('ddd MMM D hh:mm A')}`}
+                            {` -> ${segment.to} ${moment(segment.arrival_time).format('ddd MMM D hh:mm A')}`}
+                            <br/>
+                            {`${segment.duration}, ${segment.stops} stops`}
+                            <br/>
+                            {segment.airlines.map(airline => <p>{airline}</p>)}
+                        </Col>
+                    )}
+                </Row>
+            </Fragment>
+        )}
         <Row>
             <Col sm={6}>
                 {`${flightsFound} flights found`}
@@ -36,6 +71,7 @@ const FlightHeader = ({flightsFound, handleSelect, sortType}) => (
 FlightHeader.propTypes = {
     flightsFound: PropTypes.number.isRequired,
     handleSelect: PropTypes.func.isRequired,
+    selectedSegments: PropTypes.arrayOf(PropTypes.shape).isRequired,
     sortType: PropTypes.string.isRequired
 };
 
