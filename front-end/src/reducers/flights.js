@@ -18,11 +18,12 @@ export default function flights(state = {loading: false, error: false}, action) 
                 ...state,
                 airlines: action.flights.availableAirlines,
                 error: false,
-                stops: action.flights.availableStops,
-                loading: false,
+                flightNumbers: action.flights.availableFlightNumbers,
                 itinerariesSize: action.flights.itinerariesSize,
+                loading: false,
                 segments: action.flights.flightCards,
-                sortType: action.flights.sortType
+                sortType: action.flights.sortType,
+                stops: action.flights.availableStops
             };
         case FLIGHTS_FILTER_REQUESTED:
             return {...state, loading: true};
