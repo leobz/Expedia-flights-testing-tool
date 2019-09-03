@@ -3,13 +3,12 @@ import {connect, useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Col, Row} from 'react-bootstrap';
 import {requestFlights, requestFilterFlights} from '../../actions/flights';
-import Airlines from '../Airlines';
 import Segments from './Segments';
-import Stops from '../Stops';
 import LoadingButton from '../common/LoadingButton';
 import FlightHeader from '../FlightsHeader';
+import FilterPanel from '../FilterPanel/FilterPanel';
 
-const Flights = ({airlines, itinerariesSize, loading, stops}) => {
+const Flights = ({airlines, flightNumbers, itinerariesSize, loading, stops}) => {
     const [segmentsId, setSegmentsId] = useState([]);
     const [filters, setFilters] = useState({
         amount_of_stop: {selected: false, amount: []},
@@ -48,6 +47,13 @@ const Flights = ({airlines, itinerariesSize, loading, stops}) => {
         return filterItems({...filters, airlines: {selected: false, airline_name: []}});
     };
 
+    const handleFlightNumber = flightNumber => {
+        if (flightNumber) {
+            return filterItems({...filters, fligth_number: {selected: true, flight_number: flightNumber}});
+        }
+        return filterItems({...filters, fligth_number: {selected: false, flight_number: 0}});
+    };
+
     const handleStops = selectedStops => {
         if (selectedStops.length > 0) {
             return filterItems({...filters, amount_of_stop: {selected: true, amount: selectedStops}});
@@ -67,25 +73,17 @@ const Flights = ({airlines, itinerariesSize, loading, stops}) => {
             )}
             <Row>
                 <Col sm={4}>
-                    {airlines.length > 0 && (
-                        <Fragment>
-                            <h4>Airlines</h4>
-                            <Airlines
-                                handleClick={airlinesSelected => handleAirlines(
-                                    airlinesSelected
-                                )}
-                                airlines={airlines}
-                            />
-                        </Fragment>
-                    )}
-                    {stops && (
-                        <Fragment>
-                            <h4>Stops</h4>
-                            <Stops
-                                handleClick={selectedStops => handleStops(selectedStops)}
-                                stops={stops}
-                            />
-                        </Fragment>
+                    {airlines.length > 0 && stops && (
+                        <FilterPanel
+                            airlines={airlines}
+                            flightNumbers={flightNumbers}
+                            handleAirlinesClick={airlinesSelected => handleAirlines(
+                                airlinesSelected
+                            )}
+                            handleFlightNumber={value => handleFlightNumber(value)}
+                            handleStopsClick={selectedStops => handleStops(selectedStops)}
+                            stops={stops}
+                        />
                     )}
                 </Col>
                 <Col sm={8}>
@@ -105,25 +103,18 @@ const Flights = ({airlines, itinerariesSize, loading, stops}) => {
 
 Flights.propTypes = {
     airlines: PropTypes.arrayOf(PropTypes.string),
-    itinerariesSize: PropTypes.number,
+    flightNumbers: PropTypes.arrayOf(PropTypes.string),
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }),
+    itinerariesSize: PropTypes.number,
     loading: PropTypes.bool.isRequired,
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            tripType: PropTypes.string
-        })
-    }).isRequired,
-    priceRange: PropTypes.shape({
-        max: PropTypes.number,
-        min: PropTypes.number
-    }).isRequired,
     stops: PropTypes.shape()
 };
 
 Flights.defaultProps = {
     airlines: [],
+    flightNumbers: [],
     history: null,
     itinerariesSize: 1,
     stops: null
@@ -131,7 +122,7 @@ Flights.defaultProps = {
 
 const mapStateToProps = state => ({
     airlines: state.flights.airlines,
-    itinerariesSize: state.flights.itinerariesSize,
+    flightNumbers: state.flights.flightNumbers,
     loading: state.flights.loading,
     stops: state.flights.stops
 });
