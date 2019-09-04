@@ -28,9 +28,9 @@ def generate_response(json_received, segments)
   response = {"flightCards" => segments, 
               "availableFlightNumbers" => get_flight_numbers(segments), 
               "availablePrices" => get_prices(segments), 
-              "minimalPrice" => get_prices(segments).min,
-              "maximumPrice" => get_prices(segments).max,
-              "availableAirlines" => get_airline_names(segments),
+              "lowerPrice" => get_prices(segments).min,
+              "highestPrice" => get_prices(segments).max,
+              "availableAirlines" => get_airlines(flights_data, segments),
               "availableStops" => get_stops_amounts(flights_data, segments),
               "itinerariesSize" => itineraries_size(flights_data)
             }
