@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {useState} from 'react';
 import {keys, remove} from 'lodash';
 import PropTypes from 'prop-types';
 import {Col, Row} from 'react-bootstrap';
@@ -20,7 +20,7 @@ const Stops = ({handleClick, stops}) => {
     const stopsKeys = keys(stops);
 
     return (
-        <Fragment>
+        <fragment>
             {stopsKeys && stopsKeys.map(stop => (
                 <Row key={stop}>
                     <Col sm={12}>
@@ -32,7 +32,7 @@ const Stops = ({handleClick, stops}) => {
                     </Col>
                 </Row>
             ))}
-        </Fragment>
+        </fragment>
     );
 };
 

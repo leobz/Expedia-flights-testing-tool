@@ -1,5 +1,5 @@
 import {HashRouter, Route, Switch} from 'react-router-dom';
-import React, {Fragment} from 'react';
+import React from 'react';
 
 import ErrorMessage from '../common/ErrorMessage';
 import Footer from './Footer';
@@ -9,7 +9,7 @@ import Types from '../Types';
 
 const MainRoutes = () => (
     <HashRouter>
-        <Fragment>
+        <fragment>
             <Header/>
             <main>
                 <Switch>
@@ -19,7 +19,7 @@ const MainRoutes = () => (
                 </Switch>
             </main>
             <Footer/>
-        </Fragment>
+        </fragment>
     </HashRouter>
 );
 
