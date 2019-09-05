@@ -1,35 +1,31 @@
+require('dotenv').config();
 const {NODE_ENV, ENDPOINT} = process.env;
-const path = require('path');
 const webpack = require('webpack');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-module.exports =  {
+module.exports = {
     mode: NODE_ENV,
     entry: {
-        app: [
-            'webpack-hot-middleware/client',
-            './src/app'
-        ]
+        app: './src/app'
     },
     resolve: {
         modules: ['node_modules'],
-        extensions: ['.js', '.jsx', '.scss'],
+        extensions: ['.js', '.scss'],
         alias: {
             'react-native': 'react-native-web'
         }
     },
     output: {
-        path: path.join(__dirname, 'public/assets'),
-        publicPath: '/assets/'
+        publicPath: 'assets/',
+        filename: '[name].js'
     },
     module: {
         rules: [{
-            test: /\.js$/,
+            test: /\.jsx?$/,
             exclude: /node_modules/,
-            loader: 'babel-loader',
-            options: {plugins: ['react-hot-loader/babel'], cacheDirectory: '.babel-cache'}
+            loader: 'babel-loader'
         }, {
             test: /\.js$/,
             include: [
@@ -38,21 +34,13 @@ module.exports =  {
                 /node_modules\/@indec/
             ],
             loader: 'babel-loader',
-            query: {
-                presets: ['@babel/preset-react'],
-                cacheDirectory: '.babel-cache'
-            }
+            query: {presets: ['@babel/preset-react']}
         }, {
-            test: /\.scss$/,
-            use: [
-                'css-hot-loader',
-                MiniCssExtractPlugin.loader,
-                'css-loader',
-                'sass-loader?outputStyle=expanded'
-            ]
+            test: /\.s?css$/,
+            use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader?outputStyle=compressed']
         }, {
             test: /\.css$/,
-            use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader']
+            use: ['style-loader', 'css-loader']
         }, {
             exclude: [
                 /\.html$/,
@@ -76,15 +64,14 @@ module.exports =  {
     },
     plugins: [
         new webpack.DefinePlugin({
-            NODE_ENV: JSON.stringify(NODE_ENV),
-            VERSION:JSON.stringify(require('./package.json').version),
+            'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
+            VERSION: JSON.stringify(require('./package.json').version),
             ENDPOINT: JSON.stringify(ENDPOINT)
         }),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-        new webpack.HotModuleReplacementPlugin(),
         new CaseSensitivePathsPlugin(),
-        new FriendlyErrorsWebpackPlugin(),
-        new MiniCssExtractPlugin({filename: '[name].css'})
+        new MiniCssExtractPlugin({filename: '[name].css'}),
+        new OptimizeCSSAssetsPlugin({}),
     ],
     node: {
         fs: 'empty',

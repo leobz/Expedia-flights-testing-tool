@@ -1,14 +1,14 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Provider} from 'react-redux';
 import DevTools from './DevTools';
 
 const Root = ({store, comp: Comp}) => (
     <Provider store={store}>
-        <Fragment>
+        <fragment>
             <DevTools/>
             <Comp/>
-        </Fragment>
+        </fragment>
     </Provider>
 );
 
