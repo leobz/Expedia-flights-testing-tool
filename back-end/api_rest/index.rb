@@ -27,7 +27,7 @@ def generate_response(json_received, segments)
   flights_data = JSON.parse(json_received["flightsData"])['payload']
   response = {"flightCards" => segments, 
               "availableFlightNumbers" => get_flight_numbers(segments), 
-              "availablePrices" => get_prices(segments), 
+              "availablePrices" => get_prices(segments),
               "lowerPrice" => get_prices(segments).min,
               "highestPrice" => get_prices(segments).max,
               "availableAirlines" => get_airlines(flights_data, segments),
