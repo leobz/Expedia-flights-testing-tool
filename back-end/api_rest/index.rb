@@ -25,12 +25,17 @@ require_relative '../tool/filter_and_sort_functions_for_segments.rb'
 
 def generate_response(json_received, segments)
   flights_data = JSON.parse(json_received["flightsData"])['payload']
-  response = {"flightCards" => segments, 
-              "availableFlightNumbers" => get_flight_numbers(segments), 
-              "availablePrices" => get_prices(segments), 
-              "availableAirlines" => get_airline_names(segments),
+  response = {"flightCards" => segments,
+              "availableFlightNumbers" => get_flight_numbers(segments),
+              "availablePrices" => get_prices(segments),
+              "lowestPrice" => get_prices(segments).min,
+              "highestPrice" => get_prices(segments).max,
+              "availableDurations" => get_durations(segments),
+              "lowestDuration" => lowest_duration(segments),
+              "highestDuration" => highest_duration(segments),
+              "availableAirlines" => get_airlines(flights_data, segments),
               "availableStops" => get_stops_amounts(flights_data, segments),
-              "itinerariesSize" => itineraries_size(flights_data),
+              "itinerariesSize" => itineraries_size(flights_data)
             }
   return response
 end

@@ -7,7 +7,7 @@ import {
     FormGroup,
     Row
 } from 'react-bootstrap';
-import sortOptions from '../../constants';
+import {sortOptions} from '../../constants';
 
 const FlightHeader = ({
     flightsFound,

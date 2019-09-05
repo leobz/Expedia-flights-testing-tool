@@ -151,6 +151,14 @@ def filter_segments_by_price_range(data, segments, range_list)
   end
 end
 
+def filter_segments_by_duration_range(data, segments, range_list)
+  min = ISO8601::Duration.new(range_list[0])
+  max = ISO8601::Duration.new(range_list[1])
+  segments.select do |segment|
+    ISO8601::Duration.new(segment[:duration]).to_seconds.between?(min.to_seconds, max.to_seconds)
+  end
+end
+
 def filter_segments_by_list_of_flights_number(data, segments, flights_number_list)
   params_list = if_it_is_not_a_list_convert_to_list(flights_number_list)
   filtered_segments = params_list.map { |flight_number| filter_segments_by_flight_number(data, segments, flight_number) }
@@ -163,8 +171,21 @@ def filter_segments_by_flight_number(data, segments, flight_number)
   end
 end
 
+def get_airlines(data, segments)
+  get_airline_names(segments).map do |airline_name|
+    {
+      "name" => airline_name,
+      "amount" => get_airline_amount(data, segments, airline_name)
+    }
+  end
+end
+
 def get_airline_names(segments)
   segments.map { |segment| segment[:airlines] }.flatten.uniq
+end
+
+def get_airline_amount(data, segments, airline_name)
+  filter_segments_by_airline(data, segments, airline_name).size
 end
 
 def get_flight_numbers(segments)
@@ -204,6 +225,18 @@ def get_prices(segments)
   segments.map { |segment| segment[:price] }.flatten.uniq
 end
 
+def get_durations(segments)
+  segments.map{ |segment| segment[:duration] }.flatten.uniq
+end
+
+def lowest_duration(segments)
+  (sort_by_shorter_duration(segments).first)[:duration]
+end
+
+def highest_duration(segments)
+  (sort_by_shorter_duration(segments).last)[:duration]
+end
+
 def sort_by_shorter_duration(segments)
   segments.sort!(&method(:compare_segments_by_duration))
 end
@@ -238,6 +271,8 @@ def apply_filter(data, segments, filter_name, filter_params)
     segments =  filter_segments_by_list_of_airlines(data, segments, filter_params["airline_name"])
   when "price_range"
     segments = filter_segments_by_price_range(data, segments, filter_params["prices"])
+  when "duration_range"
+    segments = filter_segments_by_duration_range(data, segments, filter_params["durations"])
   when "fligth_number"
     segments = filter_segments_by_list_of_flights_number(data, segments, filter_params["flight_number"])
   end
