@@ -1,0 +1,17 @@
+version: "3.3"
+
+services:
+
+  front-end:
+    build: ./front-end
+    restart: on-failure
+
+  back-end:
+    build: ./back-end
+    restart: on-failure
+
+  nginx:
+    build: ./nginx
+    restart: on-failure
+    ports:
+      - "8080:80"
