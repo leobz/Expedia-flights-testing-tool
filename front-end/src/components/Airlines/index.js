@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {useState} from 'react';
 import {remove} from 'lodash';
 import PropTypes from 'prop-types';
 import {Col, Row} from 'react-bootstrap';
@@ -18,7 +18,7 @@ const Airlines = ({airlines, handleClick}) => {
     };
 
     return (
-        <Fragment>
+        <fragment>
             {airlines && airlines.map(airline => (
                 <Row key={airline}>
                     <Col sm={12}>
@@ -30,7 +30,7 @@ const Airlines = ({airlines, handleClick}) => {
                     </Col>
                 </Row>
             ))}
-        </Fragment>
+        </fragment>
     );
 };
 

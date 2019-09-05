@@ -1,0 +1,7 @@
+NODE_ENV=production
+PORT=3021
+
+MORGAN_FORMAT=dev
+SERVE_STATIC=public
+
+ENDPOINT=http://localhost:4567/

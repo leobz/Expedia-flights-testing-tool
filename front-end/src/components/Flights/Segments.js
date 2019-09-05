@@ -1,30 +1,36 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, Col, Row} from 'react-bootstrap';
 
-const Segments = ({itinerariesSize, handleClick, segment, segmentsId}) => (
-    <Fragment>
+const Segments = ({
+    itinerariesSize,
+    handleClick,
+    segment,
+    segmentsId
+}) => (
+    <fragment>
         <Row>
             <Col sm={3}>
                 {segment.departure_time}
-                -{segment.arrival_time}
+                -
+                {segment.arrival_time}
             </Col>
             <Col sm={3}>
-                Duration: {segment.duration}
+                {`Duration: ${segment.duration}`}
             </Col>
             <Col sm={3}>
-                Stops: {segment.stops}
+                {`Stops: ${segment.stops}`}
             </Col>
             <Col sm={3}>
-                Price: {segment.price / 100}
+                {`Price: ${segment.price / 100}`}
             </Col>
         </Row>
         <Row>
             <Col sm={3}>
-                From: {segment.from}
+                {`From: ${segment.from}`}
             </Col>
             <Col sm={3}>
-                To: {segment.to}
+                {`To: ${segment.to}`}
             </Col>
             {itinerariesSize > (segmentsId.length + 1) && (
                 <Col sm={6} className="text-right">
@@ -32,7 +38,7 @@ const Segments = ({itinerariesSize, handleClick, segment, segmentsId}) => (
                 </Col>
             )}
         </Row>
-    </Fragment>
+    </fragment>
 );
 
 Segments.propTypes = {

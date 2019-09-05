@@ -1,28 +1,29 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {isNil} from 'lodash';
-
 import {childrenPropTypes, fontAwesomeIconPropTypes} from '../util';
 
 const Icon = ({
-                  pullIconRight, icon, children, ...props
-              }) => (
-    <Fragment>
+    pullIconRight, icon, children
+}) => (
+    <fragment>
         {!pullIconRight && (
-            <Fragment>
-                <FontAwesomeIcon icon={icon} {...props}/>
+            <fragment>
+                <FontAwesomeIcon
+                    icon={icon}
+                />
                 {!isNil(children) ? <span>&nbsp;</span> : null}
-            </Fragment>
+            </fragment>
         )}
         {children}
         {pullIconRight && (
-            <Fragment>
+            <fragment>
                 {!isNil(children) ? <span>&nbsp;</span> : null}
-                <FontAwesomeIcon icon={icon} {...props}/>
-            </Fragment>
+                <FontAwesomeIcon icon={icon}/>
+            </fragment>
         )}
-    </Fragment>
+    </fragment>
 );
 
 Icon.propTypes = {
