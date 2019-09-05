@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {FormControl, FormGroup} from 'react-bootstrap';
 import Airlines from '../Airlines';
@@ -21,8 +21,8 @@ const FilterPanel = ({
     };
 
     return (
-        <Fragment>
-            <Fragment>
+        <fragment>
+            <fragment>
                 <h4>Airlines</h4>
                 <Airlines
                     handleClick={airlinesSelected => handleChange(
@@ -30,15 +30,15 @@ const FilterPanel = ({
                     )}
                     airlines={airlines}
                 />
-            </Fragment>
-            <Fragment>
+            </fragment>
+            <fragment>
                 <h4>Stops</h4>
                 <Stops
                     handleClick={selectedStops => handleStopsChange(selectedStops)}
                     stops={stops}
                 />
-            </Fragment>
-            <Fragment>
+            </fragment>
+            <fragment>
                 <h4>Flight Number</h4>
                 <FormGroup controlId="formControlsSelect">
                     <FormControl
@@ -57,8 +57,8 @@ const FilterPanel = ({
                         ))}
                     </FormControl>
                 </FormGroup>
-            </Fragment>
-        </Fragment>
+            </fragment>
+        </fragment>
     );
 };
 

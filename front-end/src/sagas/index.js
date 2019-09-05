@@ -13,6 +13,6 @@ export default function* root() {
     yield all([
         takeEvery(FLIGHTS_FETCH_REQUESTED, fetchFlights),
         takeEvery(FLIGHTS_FILTER_REQUESTED, filterFlights),
-        takeEvery(ERROR_OCCURRED, handleError),
+        takeEvery(ERROR_OCCURRED, handleError)
     ]);
 }

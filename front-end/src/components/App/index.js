@@ -1,12 +1,12 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {hot} from 'react-hot-loader';
 
 import Main from './Main';
 
 const App = () => (
-    <Fragment>
+    <fragment>
         <Main/>
-    </Fragment>
+    </fragment>
 );
 
 export default hot(module)(App);

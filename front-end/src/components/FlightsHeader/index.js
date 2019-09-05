@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {
@@ -15,16 +15,16 @@ const FlightHeader = ({
     selectedSegments,
     sortType
 }) => (
-    <Fragment>
+    <fragment>
         {selectedSegments.length > 0 && (
-            <Fragment>
+            <fragment>
                 <Row>
                     <Col sm={6}>
                         Selected Flights
                     </Col>
                 </Row>
                 <Row>
-                    {selectedSegments.map(segment =>
+                    {selectedSegments.map(segment => (
                         <Col key={segment.zid} sm={4}>
                             {`${segment.from} - ${segment.to}`}
                             <br/>
@@ -37,9 +37,9 @@ const FlightHeader = ({
                             <br/>
                             {segment.airlines.map(airline => <p>{airline}</p>)}
                         </Col>
-                    )}
+                    ))}
                 </Row>
-            </Fragment>
+            </fragment>
         )}
         <Row>
             <Col sm={6}>
@@ -65,7 +65,7 @@ const FlightHeader = ({
                 </FormGroup>
             </Col>
         </Row>
-    </Fragment>
+    </fragment>
 );
 
 FlightHeader.propTypes = {

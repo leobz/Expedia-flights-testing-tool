@@ -10,14 +10,14 @@ const EnumSortTypes = {
 };
 
 const sortOptions = [
-    { text: 'Price lowest', sortKey: EnumSortTypes.PRICE_LOWEST },
-    { text: 'Price highest', sortKey: EnumSortTypes.PRICE_HIGHEST },
-    { text: 'Duration shortest', sortKey: EnumSortTypes.DURATION_SHORTEST },
-    { text: 'Duration longest', sortKey: EnumSortTypes.DURATION_LONGEST },
-    { text: 'Departure earliest', sortKey: EnumSortTypes.DEPARTURE_EARLIEST },
-    { text: 'Departure latest', sortKey: EnumSortTypes.DEPARTURE_LATEST },
-    { text: 'Arrival earliest', sortKey: EnumSortTypes.ARRIVAL_EARLIEST },
-    { text: 'Arrival latest', sortKey: EnumSortTypes.ARRIVAL_LATEST }
+    {text: 'Price lowest', sortKey: EnumSortTypes.PRICE_LOWEST},
+    {text: 'Price highest', sortKey: EnumSortTypes.PRICE_HIGHEST},
+    {text: 'Duration shortest', sortKey: EnumSortTypes.DURATION_SHORTEST},
+    {text: 'Duration longest', sortKey: EnumSortTypes.DURATION_LONGEST},
+    {text: 'Departure earliest', sortKey: EnumSortTypes.DEPARTURE_EARLIEST},
+    {text: 'Departure latest', sortKey: EnumSortTypes.DEPARTURE_LATEST},
+    {text: 'Arrival earliest', sortKey: EnumSortTypes.ARRIVAL_EARLIEST},
+    {text: 'Arrival latest', sortKey: EnumSortTypes.ARRIVAL_LATEST}
 ];
 
 export default sortOptions;

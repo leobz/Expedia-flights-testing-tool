@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect, useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Col, Row} from 'react-bootstrap';
@@ -9,7 +9,13 @@ import LoadingButton from '../common/LoadingButton';
 import FlightHeader from '../FlightsHeader';
 import FilterPanel from '../FilterPanel/FilterPanel';
 
-const Flights = ({airlines, flightNumbers, itinerariesSize, loading, stops}) => {
+const Flights = ({
+    airlines,
+    flightNumbers,
+    itinerariesSize,
+    loading,
+    stops
+}) => {
     const [segmentsId, setSegmentsId] = useState([]);
     const [filters, setFilters] = useState({
         amount_of_stop: {selected: false, amount: []},
@@ -40,9 +46,7 @@ const Flights = ({airlines, flightNumbers, itinerariesSize, loading, stops}) => 
         setSortType(sortKey);
     };
 
-    const handleSort = sortKey => {
-        return filterItems(filters, sortKey);
-    };
+    const handleSort = sortKey => filterItems(filters, sortKey);
 
     const handleAirlines = airlinesSelected => {
         if (airlinesSelected.length > 0) {
@@ -66,7 +70,7 @@ const Flights = ({airlines, flightNumbers, itinerariesSize, loading, stops}) => 
     };
 
     return (
-        <Fragment>
+        <fragment>
             {loading && <LoadingButton label="Loading..."/>}
             {segments && (
                 <FlightHeader
@@ -92,17 +96,19 @@ const Flights = ({airlines, flightNumbers, itinerariesSize, loading, stops}) => 
                     )}
                 </Col>
                 <Col sm={8}>
-                    {segments && segments.map(segment => {
-                        const segmentProps = {itinerariesSize, segment, segmentsId};
-                        return (
-                            <Col key={segment.zid} className="flights">
-                                <Segments handleClick={id => handleSegments(id)} {...segmentProps}/>
-                            </Col>
-                        );
-                    })}
+                    {segments && segments.map(segment => (
+                        <Col key={segment.zid} className="flights">
+                            <Segments
+                                itinerariesSize={itinerariesSize}
+                                segment={segment}
+                                segmentsId={segmentsId}
+                                handleClick={id => handleSegments(id)}
+                            />
+                        </Col>
+                    ))}
                 </Col>
             </Row>
-        </Fragment>
+        </fragment>
     );
 };
 
