@@ -225,6 +225,18 @@ def get_prices(segments)
   segments.map { |segment| segment[:price] }.flatten.uniq
 end
 
+def get_durations(segments)
+  segments.map{ |segment| segment[:duration] }.flatten.uniq
+end
+
+def lowest_duration(segments)
+  (sort_by_shorter_duration(segments).first)[:duration]
+end
+
+def highest_duration(segments)
+  (sort_by_shorter_duration(segments).last)[:duration]
+end
+
 def sort_by_shorter_duration(segments)
   segments.sort!(&method(:compare_segments_by_duration))
 end
