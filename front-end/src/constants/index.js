@@ -9,7 +9,7 @@ const EnumSortTypes = {
     ARRIVAL_LATEST: 'arrivalLatest'
 };
 
-const sortOptions = [
+export const sortOptions = [
     {text: 'Price lowest', sortKey: EnumSortTypes.PRICE_LOWEST},
     {text: 'Price highest', sortKey: EnumSortTypes.PRICE_HIGHEST},
     {text: 'Duration shortest', sortKey: EnumSortTypes.DURATION_SHORTEST},
@@ -20,4 +20,10 @@ const sortOptions = [
     {text: 'Arrival latest', sortKey: EnumSortTypes.ARRIVAL_LATEST}
 ];
 
-export default sortOptions;
+export const defaultsFilters = {
+    airlines: {selected: false, airline_name: ''},
+    amount_of_stop: {selected: false, amount: []},
+    duration_range: {selected: false, durations: ['', '']},
+    fligth_number: {selected: false, flight_number: ''},
+    price_range: {selected: false, prices: []}
+};

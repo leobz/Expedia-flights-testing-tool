@@ -20,12 +20,12 @@ const Airlines = ({airlines, handleClick}) => {
     return (
         <fragment>
             {airlines && airlines.map(airline => (
-                <Row key={airline}>
+                <Row key={airline.name}>
                     <Col sm={12}>
                         <CheckboxInput
-                            label={airline}
-                            value={airline}
-                            handleClick={(a, selected) => handleChange(airline, selected)}
+                            label={`${airline.name} (${airline.amount})`}
+                            value={airline.name}
+                            handleClick={(a, selected) => handleChange(airline.name, selected)}
                         />
                     </Col>
                 </Row>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {Col, Row} from 'react-bootstrap';
 import {find} from 'lodash';
 import {requestFlights, requestFilterFlights} from '../../actions/flights';
+import {defaultsFilters} from '../../constants';
 import Segments from './Segments';
 import LoadingButton from '../common/LoadingButton';
 import FlightHeader from '../FlightsHeader';
@@ -17,12 +18,7 @@ const Flights = ({
     stops
 }) => {
     const [segmentsId, setSegmentsId] = useState([]);
-    const [filters, setFilters] = useState({
-        amount_of_stop: {selected: false, amount: []},
-        airlines: {selected: false, airline_name: []},
-        price_range: {selected: false, prices: [0, 0]},
-        fligth_number: {selected: false, flight_number: 0}
-    });
+    const [filters, setFilters] = useState(defaultsFilters);
     const [sortType, setSortType] = useState('priceLowest');
     const [selectedSegments, setSelectedSegments] = useState([]);
 
