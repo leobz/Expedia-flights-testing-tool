@@ -20,7 +20,7 @@ const Stops = ({handleClick, stops}) => {
     const stopsKeys = keys(stops);
 
     return (
-        <fragment>
+        <>
             {stopsKeys && stopsKeys.map(stop => (
                 <Row key={stop}>
                     <Col sm={12}>
@@ -32,7 +32,7 @@ const Stops = ({handleClick, stops}) => {
                     </Col>
                 </Row>
             ))}
-        </fragment>
+        </>
     );
 };
 

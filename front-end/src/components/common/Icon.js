@@ -7,23 +7,23 @@ import {childrenPropTypes, fontAwesomeIconPropTypes} from '../util';
 const Icon = ({
     pullIconRight, icon, children
 }) => (
-    <fragment>
+    <>
         {!pullIconRight && (
-            <fragment>
+            <>
                 <FontAwesomeIcon
                     icon={icon}
                 />
                 {!isNil(children) ? <span>&nbsp;</span> : null}
-            </fragment>
+            </>
         )}
         {children}
         {pullIconRight && (
-            <fragment>
+            <>
                 {!isNil(children) ? <span>&nbsp;</span> : null}
                 <FontAwesomeIcon icon={icon}/>
-            </fragment>
+            </>
         )}
-    </fragment>
+    </>
 );
 
 Icon.propTypes = {

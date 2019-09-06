@@ -8,7 +8,7 @@ const Segments = ({
     segment,
     segmentsId
 }) => (
-    <fragment>
+    <>
         <Row>
             <Col sm={3}>
                 {segment.departure_time}
@@ -38,7 +38,7 @@ const Segments = ({
                 </Col>
             )}
         </Row>
-    </fragment>
+    </>
 );
 
 Segments.propTypes = {
