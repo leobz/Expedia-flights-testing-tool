@@ -18,7 +18,7 @@ const Airlines = ({airlines, handleClick}) => {
     };
 
     return (
-        <fragment>
+        <>
             {airlines && airlines.map(airline => (
                 <Row key={airline.name}>
                     <Col sm={12}>
@@ -30,12 +30,12 @@ const Airlines = ({airlines, handleClick}) => {
                     </Col>
                 </Row>
             ))}
-        </fragment>
+        </>
     );
 };
 
 Airlines.propTypes = {
-    airlines: PropTypes.arrayOf(PropTypes.string).isRequired,
+    airlines: PropTypes.arrayOf(PropTypes.shape).isRequired,
     handleClick: PropTypes.func.isRequired
 };
 

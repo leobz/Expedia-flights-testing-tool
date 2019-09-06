@@ -9,7 +9,7 @@ import Types from '../Types';
 
 const MainRoutes = () => (
     <HashRouter>
-        <fragment>
+        <>
             <Header/>
             <main>
                 <Switch>
@@ -19,7 +19,7 @@ const MainRoutes = () => (
                 </Switch>
             </main>
             <Footer/>
-        </fragment>
+        </>
     </HashRouter>
 );
 
