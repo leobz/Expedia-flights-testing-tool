@@ -5,10 +5,10 @@ import DevTools from './DevTools';
 
 const Root = ({store, comp: Comp}) => (
     <Provider store={store}>
-        <fragment>
+        <>
             <DevTools/>
             <Comp/>
-        </fragment>
+        </>
     </Provider>
 );
 

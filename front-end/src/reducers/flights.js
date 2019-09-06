@@ -18,6 +18,11 @@ export default function flights(state = {loading: false, error: false}, action) 
                 ...state,
                 airlines: action.flights.availableAirlines,
                 error: false,
+                duration: {
+                    available: action.flights.availableDurations,
+                    max: action.flights.highestDuration,
+                    min: action.flights.lowestDuration
+                },
                 flightNumbers: action.flights.availableFlightNumbers,
                 itinerariesSize: action.flights.itinerariesSize,
                 loading: false,
