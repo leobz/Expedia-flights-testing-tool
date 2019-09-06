@@ -19,13 +19,13 @@ const Types = ({history}) => {
     };
 
     return (
-        <fragment>
+        <>
             <Row>
                 <Col sm={4}>
                     <input type="file" name="file" onChange={onChangeHandler}/>
                 </Col>
             </Row>
-        </fragment>
+        </>
     );
 };
 

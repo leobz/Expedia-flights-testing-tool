@@ -15,9 +15,9 @@ const FlightHeader = ({
     selectedSegments,
     sortType
 }) => (
-    <fragment>
+    <>
         {selectedSegments.length > 0 && (
-            <fragment>
+            <>
                 <Row>
                     <Col sm={6}>
                         Selected Flights
@@ -39,7 +39,7 @@ const FlightHeader = ({
                         </Col>
                     ))}
                 </Row>
-            </fragment>
+            </>
         )}
         <Row>
             <Col sm={6}>
@@ -65,7 +65,7 @@ const FlightHeader = ({
                 </FormGroup>
             </Col>
         </Row>
-    </fragment>
+    </>
 );
 
 FlightHeader.propTypes = {

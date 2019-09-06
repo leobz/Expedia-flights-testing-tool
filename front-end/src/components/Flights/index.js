@@ -12,6 +12,7 @@ import FilterPanel from '../FilterPanel/FilterPanel';
 
 const Flights = ({
     airlines,
+    duration,
     flightNumbers,
     itinerariesSize,
     loading,
@@ -30,9 +31,9 @@ const Flights = ({
     }, [segmentsId]);
 
     const handleSegments = id => {
-        setSegmentsId([...segmentsId, id]);
         const newSegmentData = find(segments, segment => segment.zid === id);
         setSelectedSegments([...selectedSegments, newSegmentData]);
+        setSegmentsId([...segmentsId, id]);
         dispatch(requestFlights(segmentsId));
     };
 
@@ -65,8 +66,12 @@ const Flights = ({
         return filterItems({...filters, amount_of_stop: {selected: false, amount: []}});
     };
 
+    const handleDuration = (min, max) => {
+        return filterItems({...filters, duration_range: {selected: true, durations: [min, max]}});
+    };
+
     return (
-        <fragment>
+        <>
             {loading && <LoadingButton label="Loading..."/>}
             {segments && (
                 <FlightHeader
@@ -81,10 +86,12 @@ const Flights = ({
                     {airlines.length > 0 && stops && (
                         <FilterPanel
                             airlines={airlines}
+                            duration={duration}
                             flightNumbers={flightNumbers}
                             handleAirlinesClick={airlinesSelected => handleAirlines(
                                 airlinesSelected
                             )}
+                            handleDuration={(min, max) => handleDuration(min, max)}
                             handleFlightNumber={value => handleFlightNumber(value)}
                             handleStopsClick={selectedStops => handleStops(selectedStops)}
                             stops={stops}
@@ -104,12 +111,17 @@ const Flights = ({
                     ))}
                 </Col>
             </Row>
-        </fragment>
+        </>
     );
 };
 
 Flights.propTypes = {
-    airlines: PropTypes.arrayOf(PropTypes.string),
+    airlines: PropTypes.arrayOf(PropTypes.shape),
+    duration: PropTypes.shape({
+        available: PropTypes.arrayOf(PropTypes.string),
+        max: PropTypes.string,
+        min: PropTypes.string
+    }),
     flightNumbers: PropTypes.arrayOf(PropTypes.string),
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
@@ -121,6 +133,11 @@ Flights.propTypes = {
 
 Flights.defaultProps = {
     airlines: [],
+    duration: {
+        available: [],
+        max: '',
+        min: ''
+    },
     flightNumbers: [],
     history: null,
     itinerariesSize: 1,
@@ -129,6 +146,7 @@ Flights.defaultProps = {
 
 const mapStateToProps = state => ({
     airlines: state.flights.airlines,
+    duration: state.flights.duration,
     flightNumbers: state.flights.flightNumbers,
     itinerariesSize: state.flights.itinerariesSize,
     loading: state.flights.loading,
