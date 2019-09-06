@@ -214,11 +214,14 @@ def itineraries_size(data)
 end
 
 def sort_by_lower_price(segments)
-  segments.sort!(&method(:compare_segments_by_price))
+  segments.sort(&method(:compare_segments_by_price))
 end
 
 def sort_by_highest_price(segments)
-  segments.sort!(&method(:compare_segments_by_price)).reverse!
+  puts "Entro al metodo highest"
+  result = segments.sort(&method(:compare_segments_by_price)).reverse
+  puts result 
+  result
 end
 
 def get_prices(segments)
@@ -238,15 +241,15 @@ def highest_duration(segments)
 end
 
 def sort_by_shorter_duration(segments)
-  segments.sort!(&method(:compare_segments_by_duration))
+  segments.sort(&method(:compare_segments_by_duration))
 end
 
 def sort_by_first_departure_date(segments)
-  segments.sort!(&method(:compare_segments_by_departure_date))
+  segments.sort(&method(:compare_segments_by_departure_date))
 end
 
 def sort_by_first_arrival_date(segments)
-  segments.sort!(&method(:compare_segments_by_arrival_date))
+  segments.sort(&method(:compare_segments_by_arrival_date))
 end
 
 def segment_airlines(data, segment)
@@ -283,6 +286,8 @@ def apply_sort(segments, sort_type)
   when "priceLowest"
     return sort_by_lower_price(segments)
   when "priceHighest"
+    puts sort_type
+    puts "Entro al highest price"
     return sort_by_highest_price(segments)
   when "durationShortest"
     return sort_by_shorter_duration(segments)
