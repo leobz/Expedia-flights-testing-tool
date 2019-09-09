@@ -66,9 +66,9 @@ const Flights = ({
         return filterItems({...filters, amount_of_stop: {selected: false, amount: []}});
     };
 
-    const handleDuration = (min, max) => {
-        return filterItems({...filters, duration_range: {selected: true, durations: [min, max]}});
-    };
+    const handleDuration = (min, max) => filterItems(
+        {...filters, duration_range: {selected: true, durations: [min, max]}}
+    );
 
     return (
         <>

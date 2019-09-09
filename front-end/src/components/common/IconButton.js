@@ -8,10 +8,19 @@ import {childrenPropTypes, fontAwesomeIconPropTypes} from '../util';
 import Icon from './Icon';
 
 const IconButton = ({
-    icon, pullIconRight, onClick, children, ...props
+    icon, pullIconRight, onClick, children
 }) => (
-    <Button onClick={onClick} {...props}>
-        <Icon {...{pullIconRight, icon, children}}/>
+    <Button
+        onClick={onClick}
+        bsStyle="primary"
+        className="btn-group-justified"
+        disabled
+    >
+        <Icon
+            pullIconRight={pullIconRight}
+            icon={icon}
+        />
+        {children}
     </Button>
 );
 
