@@ -25,6 +25,7 @@ require_relative '../tool/filter_and_sort_functions_for_segments.rb'
 
 def generate_response(json_received, segments)
   flights_data = JSON.parse(json_received["flightsData"])['payload']
+  puts "generate response"
   response = {"flightCards" => segments,
               "availableFlightNumbers" => get_flight_numbers(segments),
               "availablePrices" => get_prices(segments),
@@ -43,6 +44,7 @@ end
 def process_segments(flights_data, segments_id, filters, sort_type)
   segments = get_segments(flights_data, segments_id)
   segments = apply_filters(flights_data, segments, filters)
+  puts sort_type
   return apply_sort(segments, sort_type)
 end
 
