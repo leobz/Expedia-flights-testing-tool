@@ -218,10 +218,8 @@ def sort_by_lower_price(segments)
 end
 
 def sort_by_highest_price(segments)
-  puts "Entro al metodo highest"
-  result = segments.sort(&method(:compare_segments_by_price)).reverse
-  puts result 
-  result
+  segments.sort(&method(:compare_segments_by_price)).reverse
+
 end
 
 def get_prices(segments)
@@ -233,11 +231,11 @@ def get_durations(segments)
 end
 
 def lowest_duration(segments)
-  (sort_by_shorter_duration(segments).first)[:duration]
+  if segments != (nil || []) then sort_by_shorter_duration(segments).first[:duration] end
 end
 
 def highest_duration(segments)
-  (sort_by_shorter_duration(segments).last)[:duration]
+  if segments != (nil || []) then sort_by_shorter_duration(segments).last[:duration] end
 end
 
 def sort_by_shorter_duration(segments)
@@ -286,8 +284,6 @@ def apply_sort(segments, sort_type)
   when "priceLowest"
     return sort_by_lower_price(segments)
   when "priceHighest"
-    puts sort_type
-    puts "Entro al highest price"
     return sort_by_highest_price(segments)
   when "durationShortest"
     return sort_by_shorter_duration(segments)

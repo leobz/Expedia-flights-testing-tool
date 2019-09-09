@@ -26,22 +26,18 @@ require_relative '../tool/filter_and_sort_functions_for_segments.rb'
 def generate_response(json_received, segments)
   flights_data = JSON.parse(json_received["flightsData"])['payload']
   puts "generate response"
-  puts " -> segments:"
-  puts segments
   response = {"flightCards" => segments,
               "availableFlightNumbers" => get_flight_numbers(segments),
               "availablePrices" => get_prices(segments),
               "lowestPrice" => get_prices(segments).min,
               "highestPrice" => get_prices(segments).max,
               "availableDurations" => get_durations(segments),
-              #"lowestDuration" => lowest_duration(segments),
-              #"highestDuration" => highest_duration(segments),
+              "lowestDuration" => lowest_duration(segments),
+              "highestDuration" => highest_duration(segments),
               "availableAirlines" => get_airlines(flights_data, segments),
               "availableStops" => get_stops_amounts(flights_data, segments),
               "itinerariesSize" => itineraries_size(flights_data)
             }
-  puts " -> response:"
-  puts response
   return response
 end
 
@@ -49,22 +45,15 @@ def process_segments(flights_data, segments_id, filters, sort_type)
   segments = get_segments(flights_data, segments_id)
   segments = apply_filters(flights_data, segments, filters)
   puts sort_type
-  result = apply_sort(segments, sort_type)
-  puts "Resultado del procesamiento"
-  puts result
-  return result
+  return apply_sort(segments, sort_type)
 end
 
 def process_flights_data(json_received)
   flights_data = JSON.parse(json_received["flightsData"])['payload']
   filters = json_received["filters"]
   sort_type = json_received["sortType"]
-  puts sort_type
   segments_id = json_received["segmentsId"].nil? ? [] : json_received["segmentsId"]
-  result=  process_segments(flights_data, segments_id, filters, sort_type)
-  puts "proces flight data"
-  puts result
-  return result
+  return process_segments(flights_data, segments_id, filters, sort_type)
 end
 
 post '/ui_test' do
