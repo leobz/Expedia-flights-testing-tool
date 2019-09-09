@@ -1,7 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {clone, filter} from 'lodash';
-import {Col, FormControl, FormGroup, Row} from 'react-bootstrap';
+import {
+    Col,
+    FormControl,
+    FormGroup,
+    Row
+} from 'react-bootstrap';
 import Airlines from '../Airlines';
 import Stops from '../Stops';
 

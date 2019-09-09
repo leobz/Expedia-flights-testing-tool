@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {remove} from 'lodash';
 import PropTypes from 'prop-types';
 import {Col, Row} from 'react-bootstrap';
-import {CheckboxInput} from '../common';
+import CheckboxInput from '../common';
 
 const Airlines = ({airlines, handleClick}) => {
     const [selectedAirlines, setSelectedAirlines] = useState([]);
