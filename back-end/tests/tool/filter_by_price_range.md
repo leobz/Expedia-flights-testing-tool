@@ -24,7 +24,7 @@ primera columna.
 PRECIOS DISPONIBLES
 ```ruby
 >> p get_prices(segments)
-[28150, 29198, 33300, 37150, 37200, 40299, 45099, 48999, 55098]
+[31560, 29198, 33300, 41559, 37200, 40299, 45099, 48999, 55098]
 
 ```
 
@@ -32,20 +32,7 @@ PRECIOS DISPONIBLES
 
 RANGO( 37000, 38000)
 ```ruby
->> pp filter_segments_by_price_range(data, segments, [37000, 38000])
-[{<...>
-  :price=>37150,
-  <...>
-  :zid=>"ZFS-WEB-AA2607-DFW-MSY-1555429560-L0AIZRN1-L"},
- {<...>
-  :price=>37200,
-  <...>
-  :zid=>
-   "ZFS-PUBLISHED-UA6215-DFW-IAH-1555417800-SRA7AKDN-S-UA1662-IAH-MSY-1555426020-SRA7AKDN-S"},
- {<...>
-  :price=>37200,
-  <...>
-  :zid=>
-   "ZFS-PUBLISHED-UA6215-DFW-IAH-1555417800-SRA7AKDN-S-UA1754-IAH-MSY-1555434000-SRA7AKDN-S"}]
+>> p filter_segments_by_price_range(data, segments, [37000, 38000])
+[{<...>:price=>37200<...>}, {<...>:price=>37200<...>}]
 
 ```
