@@ -37,7 +37,6 @@ First, we see the segments without applying the sort function
 
 ```
 
-Sort by first departure date
 ```ruby
 >> segments = sort_by_first_departure_date(segments)
 >> segments.each do |segment|
