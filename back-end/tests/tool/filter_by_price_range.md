@@ -13,7 +13,6 @@ First we get the normalized JSON itineraries, which contain 54 total segments in
 54
 ```
 
-
 # Filter by price range
 
 ### First we obtain a list with all the available prices

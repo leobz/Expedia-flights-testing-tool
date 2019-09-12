@@ -5,10 +5,7 @@ Load the necessary libraries
 
 -->
 
-### Cargamos los segmentos
-
-Primero obtenemos los itnierarios de un Json normalizado, el cual contiene 54 segmentos totales en la
-primera columna.
+First we get the normalized JSON itineraries, which contain 54 segments in the first column.
 ```ruby
 >> data = JSON.parse(File.read('flights_data_examples/flights.json'))
 >> segments = get_segments(data)
@@ -16,16 +13,17 @@ primera columna.
 54
 ```
 
-Por razones practicas del test, seleccionaremos los 5 primeros segmentos para no hacer una lista demasiado larga.
+For practical reasons for the test, we will select the first 5 segments so as not to make a list too long.
 ```ruby
 >> segments = segments.take(5)
 >> p segments.size
 5
 ```
 
-# Ordenamiento por fecha de salida
+# Sort by departure
 
-Primero veremos los segmentos sin aplicar el la funcion de ordenamiento
+### Sort by earliest departure time
+First, we see the segments without applying the sort function
 ```ruby
 >> segments.each do |segment|
 ..   p segment
@@ -39,8 +37,7 @@ Primero veremos los segmentos sin aplicar el la funcion de ordenamiento
 
 ```
 
-### Aplicamos el ordenamiento por menor duracion
-
+Sort by first departure date
 ```ruby
 >> segments = sort_by_first_departure_date(segments)
 >> segments.each do |segment|
