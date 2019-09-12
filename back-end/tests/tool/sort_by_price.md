@@ -5,10 +5,7 @@ Load the necessary libraries
 
 -->
 
-### Cargamos los segmentos
-
-Primero obtenemos los itnierarios de un Json normalizado, el cual contiene 54 segmentos totales en la
-primera columna.
+First we get the normalized JSON itineraries, which contain 54 segments in the first column.
 ```ruby
 >> data = JSON.parse(File.read('flights_data_examples/flights.json'))
 >> segments = get_segments(data)
@@ -16,8 +13,7 @@ primera columna.
 54
 ```
 
-Por razones practicas del test, visualizamos los primeros 15 para que la lista no sea demasiado larga. 
-
+For practical reasons for the test, we will select the first 15 segments so as not to make a list too long.
 ```ruby
 >> segments = segments.take(15)
 >> p segments.size
@@ -25,11 +21,10 @@ Por razones practicas del test, visualizamos los primeros 15 para que la lista n
 
 ```
 
-# Ordenamos por Menor precio
-
+# Sort by lowest price
 
 ```ruby
->> pp sort_by_lower_price(segments)
+>> pp sort_by_lowest_price(segments)
 [<...>:price=>29198,
 <...>:price=>29198,
 <...>:price=>29198,
@@ -48,8 +43,7 @@ Por razones practicas del test, visualizamos los primeros 15 para que la lista n
 
 ```
 
-# Ordenamos por Mayor precio
-
+# Sort by highest price
 
 ```ruby
 >> pp sort_by_highest_price(segments)
