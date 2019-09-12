@@ -213,7 +213,7 @@ def itineraries_size(data)
   (data['itineraries'].first)['segment_ids'].size
 end
 
-def sort_by_lower_price(segments)
+def sort_by_lowest_price(segments)
   segments.sort(&method(:compare_segments_by_price))
 end
 
@@ -282,7 +282,7 @@ end
 def apply_sort(segments, sort_type)
   case sort_type
   when "priceLowest"
-    return sort_by_lower_price(segments)
+    return sort_by_lowest_price(segments)
   when "priceHighest"
     return sort_by_highest_price(segments)
   when "durationShortest"
