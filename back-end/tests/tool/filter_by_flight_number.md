@@ -5,7 +5,7 @@ Load the necessary libraries
 
 -->
 
-First we get the normalized JSON itineraries, which contain 54 total segments in the first column.
+First we get the normalized JSON itineraries, which contain 54 segments in the first column.
 ```ruby
 >> data = JSON.parse(File.read('flights_data_examples/flights.json'))
 >> segments = get_segments(data)
@@ -56,7 +56,7 @@ In this case, we get TWO segments that comply with this filter.
 
 ```
 
-# Filter by flight code list:
+# Filter by a list of flight numbers
 
 We see the number of flights with the following code "1455"
 ```ruby
@@ -74,7 +74,7 @@ We see the number of flights with the following code "1423".
 
 ```
 
-Now when passing a list with the codes "1455" and "1423" the number of results must be equal to 3 (1 + 2)
+Now when passing a list with the codes "1455" and "1423", the number of results must be equal to 3 (1 + 2)
 ```ruby
 >> p filter_segments_by_list_of_flights_number(data, segments, ["1455", "1423"]).size == amount_with_1455 + amount_with_1423
 true

@@ -5,7 +5,7 @@ Load the necessary libraries
 
 -->
 
-First we get the normalized JSON itineraries, which contain 54 total segments in the first column.
+First we get the normalized JSON itineraries, which contain 54 segments in the first column.
 ```ruby
 >> data = JSON.parse(File.read('flights_data_examples/flights.json'))
 >> segments = get_segments(data)

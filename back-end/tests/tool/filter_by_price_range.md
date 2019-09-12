@@ -5,7 +5,7 @@ Load the necessary libraries
 
 -->
 
-First we get the normalized JSON itineraries, which contain 54 total segments in the first column.
+First we get the normalized JSON itineraries, which contain 54 segments in the first column.
 ```ruby
 >> data = JSON.parse(File.read('flights_data_examples/flights.json'))
 >> segments = get_segments(data)
@@ -15,7 +15,7 @@ First we get the normalized JSON itineraries, which contain 54 total segments in
 
 # Filter by price range
 
-### First we obtain a list with all the available prices
+### First, we obtain a list with all the available prices
 ```ruby
 >> p get_prices(segments)
 [31560, 29198, 33300, 41559, 37200, 40299, 45099, 48999, 55098]

@@ -14,7 +14,7 @@ First, we obtain the itineraries of a standardized JSON, which contains multicit
 ```
 
 ## We choose the first segment
-For practical reasons of the test, we visualize the first segment so that the list is not too long
+For practical reasons of the test, we visualize the first segment.
 ```ruby
 >> p first_segments.first
 {<...>:from=>"Buenos Aires",<...>:to=>"Miami",<...>}
@@ -28,7 +28,8 @@ Suppose we choose this segment, therefore what interests us is its ID.
 ```
 
 ## We choose the second segment
-Suppose we chose the first segment, so now, we will have to see the second available segments of the choice we made. Different options cause different possible results of second segments.
+As we choose the first segment, we will now have to see the second available segments.
+Different first segment choices cause different possible outcomes of second segments.
 Let's look for our possible second segments, from the ID of the first option.
 ```ruby
 >> second_segments = get_segments(data, [first_choice_id])  
@@ -66,7 +67,7 @@ As we did with the second segment, we want to visualize the third available segm
 
 ```
 
-We choose the third of this list as the second segment
+We choose the first of this list as the third segment
 ```ruby
 >> third_choice = third_segments.first
 >> third_choice_id = third_choice[:zid]
@@ -75,7 +76,7 @@ We choose the third of this list as the second segment
 
 ### Verify segment matching
 
-Since these segments are arranged logically, it is expected that the arrival of segment 1 is the output of segment 2 and that this logic is applied to segment 3, etc.
+Since these segments are arranged logically, it is expected that the arrival of segment 1 is the departure of segment 2 and that this logic is applied to segment 3, etc.
 ```ruby
 >> p first_choice[:to] == second_choice[:from]
 true

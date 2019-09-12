@@ -5,15 +5,15 @@ Load the necessary libraries
 
 -->
 
-First we get the normalized JSON itineraries, which contain 54 total segments in the first column.
+First we get the normalized JSON itineraries, which contain 54 segments in the first column.
 ```ruby
 >> data = JSON.parse(File.read('flights_data_examples/flights.json'))
 >> segments = get_segments(data)
 >> p segments.size
 54
 ```
-# Card Format
-For practical reasons for the exam, we will select the first one, since they all have the same format.
+# Flight Card Format
+For practical reasons for the test, we will select the first one, since they all have the same format.
 ```ruby
 >> segment = segments.first
 >> pp segment

@@ -22,7 +22,7 @@ For practical reasons for the test, we will select the first 5 segments so as no
 
 # Sort by departure
 
-### Sort by earliest departure time
+### Sort by earliest departure date
 First, we see the segments without applying the sort function
 ```ruby
 >> segments.each do |segment|
@@ -34,9 +34,9 @@ First, we see the segments without applying the sort function
 {<...> :departure_time=>"2019-04-16T16:54:00",<...>}
 {<...> :departure_time=>"2019-04-16T15:45:00",<...>}
 
-
 ```
 
+Sort by earliest departure date.
 ```ruby
 >> segments = sort_by_first_departure_date(segments)
 >> segments.each do |segment|

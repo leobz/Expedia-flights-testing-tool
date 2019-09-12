@@ -5,7 +5,7 @@ Load the necessary libraries
 
 -->
 
-First we get the normalized JSON itineraries, which contain 54 total segments in the first column.
+First we get the normalized JSON itineraries, which contain 54 segments in the first column.
 ```ruby
 >> data = JSON.parse(File.read('flights_data_examples/flights.json'))
 >> segments = get_segments(data)
@@ -15,7 +15,7 @@ First we get the normalized JSON itineraries, which contain 54 total segments in
 
 # Filters by Airline
 
-In this JSON we have 3 airlines "American Airlines", "United" and "Delta".
+In this JSON we have 3 airlines: "American Airlines", "United" and "Delta".
 Let's start filtering.
 
 ### Filter segments that have "American Airlines" flights
@@ -129,11 +129,11 @@ Let's start filtering.
 ```
 
 Note:
-In this particular JSON, each segment has a unique airline assigned for all its flights.
-But if the segments had several airlines, the same segment may appear on several filters of different airlines, provided it contains them airline.
+In this particular JSON file, each segment has an unique airline assigned for all its flights.
+But if the segments had several airlines, the same segment may appear on several filters of different airlines, provided it contains they airlines.
 
 # Filters by airline list
-We check that the number of filtered airlines is equal to the sum of filtering the airlines separately.
+We check that the number of filtered airlines is equal to the sum of filtering airlines separately.
 The sum of "American Airlines" and "Delta" is 26 (7 + 19 = 26)
 
 ```ruby
