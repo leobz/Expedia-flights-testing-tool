@@ -5,10 +5,7 @@ Load the necessary libraries
 
 -->
 
-### Cargamos los segmentos
-
-Primero obtenemos los itnierarios de un Json normalizado, el cual contiene 54 segmentos totales en la
-primera columna.
+First we get the normalized JSON itineraries, which contain 54 segments in the first column.
 ```ruby
 >> data = JSON.parse(File.read('flights_data_examples/flights.json'))
 >> segments = get_segments(data)
@@ -16,36 +13,18 @@ primera columna.
 54
 ```
 
+# Filter by price range
 
-# Filtro por Rango de Precios
-
-### Primero obtenemos la lista de todos los precios disponibles en este segmento. 
-
-PRECIOS DISPONIBLES
+### First, we obtain a list with all the available prices
 ```ruby
 >> p get_prices(segments)
-[28150, 29198, 33300, 37150, 37200, 40299, 45099, 48999, 55098]
+[31560, 29198, 33300, 41559, 37200, 40299, 45099, 48999, 55098]
 
 ```
 
-### Filtramos para ver los que esten entre 37.000 y 38.0000
-
-RANGO( 37000, 38000)
+### We filter to see those between 37,000 and 38,000
 ```ruby
->> pp filter_segments_by_price_range(data, segments, [37000, 38000])
-[{<...>
-  :price=>37150,
-  <...>
-  :zid=>"ZFS-WEB-AA2607-DFW-MSY-1555429560-L0AIZRN1-L"},
- {<...>
-  :price=>37200,
-  <...>
-  :zid=>
-   "ZFS-PUBLISHED-UA6215-DFW-IAH-1555417800-SRA7AKDN-S-UA1662-IAH-MSY-1555426020-SRA7AKDN-S"},
- {<...>
-  :price=>37200,
-  <...>
-  :zid=>
-   "ZFS-PUBLISHED-UA6215-DFW-IAH-1555417800-SRA7AKDN-S-UA1754-IAH-MSY-1555434000-SRA7AKDN-S"}]
+>> p filter_segments_by_price_range(data, segments, [37000, 38000])
+[{<...>:price=>37200<...>}, {<...>:price=>37200<...>}]
 
 ```
