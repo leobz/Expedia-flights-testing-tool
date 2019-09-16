@@ -7,7 +7,7 @@ Load the necessary libraries
 
 First we get the normalized JSON itineraries, which contain 54 segments in the first column.
 ```ruby
->> data = JSON.parse(File.read('flights_data_examples/flights.json'))
+>> data = JSON.parse(File.read('flights_data_examples/flights.json'))['payload']
 >> segments = get_segments(data)
 >> p segments.size
 54
