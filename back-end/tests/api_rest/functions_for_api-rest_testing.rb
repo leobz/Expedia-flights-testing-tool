@@ -1,5 +1,12 @@
 require_relative '../../tool/filter_and_sort_functions_for_segments.rb'
 
+def send_request(request_base, json_flights_data)
+  post('/ui_test',
+       generate_request(request_base, json_flights_data),
+       {'CONTENT_TYPE' => 'application/json'}
+  )
+end
+
 def generate_request(request_example, json_flights_data)
   request_example.merge!(flightsData: json_flights_data)
   request_example.to_json
