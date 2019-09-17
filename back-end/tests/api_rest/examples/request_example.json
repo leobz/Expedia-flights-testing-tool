@@ -1,0 +1,29 @@
+{
+    "filters": {
+        "airlines": {
+            "selected": false,
+            "airline_name": ""
+        },
+        "amount_of_stop": {
+            "selected": false,
+            "amount": []
+        },
+        "duration_range": {
+            "selected": false,
+            "durations": [
+                "PT11H27M",
+                "PT26H27M"
+            ]
+        },
+        "fligth_number": {
+            "selected": false,
+            "flight_number": ""
+        },
+        "price_range": {
+            "selected": false,
+            "prices": []
+        }
+    },
+    "segmentsId": [],
+    "sortType": "priceLowest"
+}
