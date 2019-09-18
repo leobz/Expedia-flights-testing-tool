@@ -34,7 +34,6 @@ const Flights = ({
         const newSegmentData = find(segments, segment => segment.zid === id);
         setSelectedSegments([...selectedSegments, newSegmentData]);
         setSegmentsId([...segmentsId, id]);
-        dispatch(requestFlights(segmentsId));
     };
 
     const filterItems = (filter, sortKey = sortType) => {
