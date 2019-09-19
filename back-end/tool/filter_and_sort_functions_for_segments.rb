@@ -32,37 +32,38 @@ def segment_arrival_airport(data, segment)
   data['shop_response_airports'][arrival_airport_id]
 end
 
-
 def get_segments(data, picked_segments_ids = [])
   segments = []
   filtered_itineraries = filter_itineraries_starting_with(data['itineraries'], picked_segments_ids)
   all_segments_in_position(data, filtered_itineraries, picked_segments_ids.length).each do |segment|
-    sum_of_current_ids = [picked_segments_ids, segment['zid']].flatten
-    possible_itineraries_of_this_segment = filter_itineraries_starting_with(data['itineraries'], sum_of_current_ids)
-    segments << {
-        zid: segment['zid'],
-        from: segment_departure_airport(data, segment)['address']['city_name'],
-        to: segment_arrival_airport(data, segment)['address']['city_name'],
-        duration: segment['duration'],
-        departure_time: segment['legs'][0]['flight_time_range']['from'],
-        arrival_time: (segment['legs'].last)['flight_time_range']['to'],
-        airlines: segment_airlines(data, segment),
-        stops: segment['legs'].size - 1,
-        flight_numbers: segment['legs'].map { |leg| leg['flight_number'] },
-        price: segment_price(possible_itineraries_of_this_segment, filtered_itineraries, picked_segments_ids)
-    }
+    segments << generate_flight_card(segment, data, filtered_itineraries, picked_segments_ids)
   end
   segments
 end
 
-def segment_price(possible_itineraries_of_this_segment, filtered_itineraries, picked_segments_ids)
+def generate_flight_card(segment, data, filtered_itineraries, picked_segments_ids)
+  sum_of_current_ids = [picked_segments_ids, segment['zid']].flatten
+  possible_itineraries_of_this_segment = filter_itineraries_starting_with(data['itineraries'], sum_of_current_ids)
+  {
+      zid: segment['zid'],
+      from: segment_departure_airport(data, segment)['address']['city_name'],
+      to: segment_arrival_airport(data, segment)['address']['city_name'],
+      duration: segment['duration'],
+      departure_time: segment['legs'][0]['flight_time_range']['from'],
+      arrival_time: (segment['legs'].last)['flight_time_range']['to'],
+      airlines: segment_airlines(data, segment),
+      stops: segment['legs'].size - 1,
+      flight_numbers: segment['legs'].map { |leg| leg['flight_number'] },
+      price: segment_price(possible_itineraries_of_this_segment, filtered_itineraries, picked_segments_ids)
+  }
+end
 
+def segment_price(possible_itineraries_of_this_segment, filtered_itineraries, picked_segments_ids)
   if picked_segments_ids.size == 0
-    price = minimum_itinerary_price(possible_itineraries_of_this_segment)
+    return minimum_itinerary_price(possible_itineraries_of_this_segment)
   else
-    price = minimum_itinerary_price(possible_itineraries_of_this_segment) - minimum_itinerary_price(filtered_itineraries)
+    return minimum_itinerary_price(possible_itineraries_of_this_segment) - minimum_itinerary_price(filtered_itineraries)
   end
-  price
 end
 
 def minimum_itinerary_price(itineraries)
