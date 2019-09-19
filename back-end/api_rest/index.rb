@@ -25,19 +25,18 @@ end
 
 def generate_response(json_received, segments)
   flights_data = JSON.parse(json_received["flightsData"])['payload']
-  response = {"flightCards" => segments,
-              "availableFlightNumbers" => get_flight_numbers(segments),
-              "availablePrices" => get_prices(segments),
-              "availableDurations" => get_durations(segments),
-              "availableAirlines" => get_airlines(flights_data, segments),
-              "availableStops" => get_stops_amounts(flights_data, segments),
-              "lowestPrice" => get_prices(segments).min,
-              "highestPrice" => get_prices(segments).max,
-              "lowestDuration" => lowest_duration(segments),
-              "highestDuration" => highest_duration(segments),
-              "itinerariesSize" => itineraries_size(flights_data)
+  {"flightCards" => segments,
+   "availableFlightNumbers" => get_flight_numbers(segments),
+   "availablePrices" => get_prices(segments),
+   "availableDurations" => get_durations(segments),
+   "availableAirlines" => get_airlines(flights_data, segments),
+   "availableStops" => get_stops_amounts(flights_data, segments),
+   "lowestPrice" => get_prices(segments).min,
+   "highestPrice" => get_prices(segments).max,
+   "lowestDuration" => lowest_duration(segments),
+   "highestDuration" => highest_duration(segments),
+   "itinerariesSize" => itineraries_size(flights_data)
   }
-  response
 end
 
 def process_segments(flights_data, segments_id, filters, sort_type)

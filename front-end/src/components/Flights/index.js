@@ -54,9 +54,9 @@ const Flights = ({
 
     const handleFlightNumber = flightNumber => {
         if (flightNumber) {
-            return filterItems({...filters, fligth_number: {selected: true, flight_number: flightNumber}});
+            return filterItems({...filters, flight_number: {selected: true, flight_number: flightNumber}});
         }
-        return filterItems({...filters, fligth_number: {selected: false, flight_number: 0}});
+        return filterItems({...filters, flight_number: {selected: false, flight_number: 0}});
     };
 
     const handleStops = selectedStops => {

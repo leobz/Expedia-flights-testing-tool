@@ -16,7 +16,7 @@ class FilterByFlightNumber < Test::Unit::TestCase
 
   def test_availableFlightNumbers_include_flight_number
     send_request(
-        define_filter(@@request_example, "fligth_number", "1455"),
+        define_filter(@@request_example, "flight_number", "1455"),
         @@json_flights_data
     )
     response = JSON.parse(last_response.body)
@@ -25,7 +25,7 @@ class FilterByFlightNumber < Test::Unit::TestCase
 
   def test_flightCards_include_flight_number
     send_request(
-        define_filter(@@request_example, "fligth_number", "1455"),
+        define_filter(@@request_example, "flight_number", "1455"),
         @@json_flights_data
     )
     response = JSON.parse(last_response.body)
