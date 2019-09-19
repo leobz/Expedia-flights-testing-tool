@@ -99,8 +99,8 @@ def compare_segments_by_price(segment_a, segment_b)
 end
 
 def compare_segments_by_arrival_date(segment_a, segment_b)
-  arrival_a = segment_a[:arrival_time]
-  arrival_b = segment_b[:arrival_time]
+  arrival_a = Time.parse(segment_a[:arrival_time])
+  arrival_b = Time.parse(segment_b[:arrival_time])
   arrival_a <=> arrival_b
 end
 
