@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+
+gem 'sinatra'
+gem 'sinatra-cross_origin'
+gem 'iso8601'
+gem 'rake'
+gem 'rack-test'
