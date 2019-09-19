@@ -26,6 +26,11 @@ export default function flights(state = {loading: false, error: false}, action) 
                 flightNumbers: action.flights.availableFlightNumbers,
                 itinerariesSize: action.flights.itinerariesSize,
                 loading: false,
+                prices: {
+                    available: action.flights.availablePrices,
+                    max: action.flights.highestPrice,
+                    min: action.flights.lowestPrice
+                },
                 segments: action.flights.flightCards,
                 sortType: action.flights.sortType,
                 stops: action.flights.availableStops
