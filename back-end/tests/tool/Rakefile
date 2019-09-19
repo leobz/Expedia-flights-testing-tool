@@ -1,0 +1,6 @@
+require "rake/testtask"
+
+task :test do
+  puts "\n\n\n\t *** Running Back-End-Tool tests ***\n\n\n"
+  sh "byexample -l ruby *.md"
+end
