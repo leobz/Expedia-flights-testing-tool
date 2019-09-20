@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {clone} from 'lodash';
+import {map, parseInt, sortBy} from 'lodash';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import {
     Col,
     FormControl,
@@ -11,12 +12,23 @@ import {
 const SplitInputComponent = ({data, label, handleClick}) => {
     const [max, setMax] = useState('');
     const [min, setMin] = useState('');
-    const maxList = clone(data.available.sort().reverse());
-    const minList = clone(data.available.sort());
 
-    useEffect(() => {
-        return handleClick(min, max);
-    }, [max, min]);
+    let maxList;
+    let minList;
+
+    if (label === 'Duration') {
+        minList = sortBy(map(data.available, d => ({label: d, sort: moment.duration(d), value: d})), m => m.sort);
+        maxList = sortBy(map(data.available, d => (
+            {label: d, sort: moment.duration(d), value: d}
+        )), m => m.label).reverse();
+    } else if (label === 'Price') {
+        minList = sortBy(map(data.available, d => ({label: d / 100, sort: parseInt(d), value: d})), m => m.label);
+        maxList = sortBy(map(data.available, d => (
+            {label: d / 100, sort: parseInt(d), value: d}
+        )), m => m.label).reverse();
+    }
+
+    useEffect(() => handleClick(min, max), [max, min]);
 
     useEffect(() => {
         setMax('');
@@ -37,10 +49,10 @@ const SplitInputComponent = ({data, label, handleClick}) => {
                             <option value="">{`Select min ${label}`}</option>
                             {minList.map(option => (
                                 <option
-                                    key={option}
-                                    value={option}
+                                    key={option.value}
+                                    value={option.value}
                                 >
-                                    {option}
+                                    {option.label}
                                 </option>
                             ))}
                         </FormControl>
@@ -55,10 +67,10 @@ const SplitInputComponent = ({data, label, handleClick}) => {
                             <option value="">{`Select max ${label}`}</option>
                             {maxList.map(option => (
                                 <option
-                                    key={option}
-                                    value={option}
+                                    key={option.value}
+                                    value={option.value}
                                 >
-                                    {option}
+                                    {option.label}
                                 </option>
                             ))}
                         </FormControl>

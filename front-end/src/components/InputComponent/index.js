@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
     FormControl,
-    FormGroup,
+    FormGroup
 } from 'react-bootstrap';
 
 const InputComponent = ({data, handleClick}) => (

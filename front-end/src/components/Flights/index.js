@@ -9,13 +9,15 @@ import Segments from './Segments';
 import LoadingButton from '../common/LoadingButton';
 import FlightHeader from '../FlightsHeader';
 import FilterPanel from '../FilterPanel/FilterPanel';
-import {flightsSelector, segmentsSelector} from './selectors';
 
 const Flights = ({
+    airlines,
     duration,
+    flightNumbers,
     itinerariesSize,
     loading,
-    prices
+    prices,
+    stops
 }) => {
     const [segmentsId, setSegmentsId] = useState([]);
     const [filters, setFilters] = useState(defaultsFilters);
@@ -23,8 +25,7 @@ const Flights = ({
     const [selectedSegments, setSelectedSegments] = useState([]);
 
     const dispatch = useDispatch();
-    const {airlines,flightNumbers, stops} = useSelector(state => flightsSelector(state));
-    const segments = useSelector(state => segmentsSelector(state));
+    const segments = useSelector(state => state.flights.segments);
 
     useEffect(() => {
         dispatch(requestFlights(segmentsId));
@@ -100,7 +101,7 @@ const Flights = ({
         label: 'Flight Number',
         data: flightNumbers,
         onChange: handleFlightNumber
-    }/*, {
+    }, {
         label: 'Duration',
         data: duration,
         onChange: handleDuration
@@ -108,7 +109,7 @@ const Flights = ({
         label: 'Price',
         data: prices,
         onChange: handlePrices
-    }*/];
+    }];
 
     return (
         <>
@@ -148,11 +149,13 @@ const Flights = ({
 };
 
 Flights.propTypes = {
+    airlines: PropTypes.arrayOf(PropTypes.shape),
     duration: PropTypes.shape({
         available: PropTypes.arrayOf(PropTypes.string),
         max: PropTypes.string,
         min: PropTypes.string
     }),
+    flightNumbers: PropTypes.arrayOf(PropTypes.string),
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }),
@@ -162,29 +165,36 @@ Flights.propTypes = {
         available: PropTypes.arrayOf(PropTypes.number),
         max: PropTypes.string,
         min: PropTypes.string
-    })
+    }),
+    stops: PropTypes.shape()
 };
 
 Flights.defaultProps = {
+    airlines: [],
     duration: {
         available: [],
         max: '',
         min: ''
     },
+    flightNumbers: [],
     history: null,
     itinerariesSize: 1,
     prices: {
         available: [],
         max: '',
         min: ''
-    }
+    },
+    stops: null
 };
 
 const mapStateToProps = state => ({
+    airlines: state.flights.airlines,
     duration: state.flights.duration,
+    flightNumbers: state.flights.flightNumbers,
     itinerariesSize: state.flights.itinerariesSize,
     loading: state.flights.loading,
-    prices: state.flights.prices
+    prices: state.flights.prices,
+    stops: state.flights.stops
 });
 
 export default connect(
