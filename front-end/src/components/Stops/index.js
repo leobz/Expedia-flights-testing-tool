@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {keys, remove} from 'lodash';
 import PropTypes from 'prop-types';
 import {Col, Row} from 'react-bootstrap';
@@ -6,6 +6,10 @@ import CheckboxInput from '../common';
 
 const Stops = ({handleClick, stops}) => {
     const [selectedStops, setSelectedStops] = useState([]);
+
+    useEffect(() => {
+        setSelectedStops([]);
+    }, [stops]);
 
     const handleChange = (stop, selected) => {
         if (selected) {

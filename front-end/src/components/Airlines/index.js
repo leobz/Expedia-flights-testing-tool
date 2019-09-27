@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {remove} from 'lodash';
 import PropTypes from 'prop-types';
 import {Col, Row} from 'react-bootstrap';
@@ -6,6 +6,10 @@ import CheckboxInput from '../common';
 
 const Airlines = ({airlines, handleClick}) => {
     const [selectedAirlines, setSelectedAirlines] = useState([]);
+
+    useEffect(() => {
+        setSelectedAirlines([]);
+    }, [airlines]);
 
     const handleChange = (airline, selected) => {
         if (selected) {
