@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {connect, useSelector, useDispatch} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useSelector, useDispatch} from 'react-redux';
 import {Col, Row} from 'react-bootstrap';
 import {find} from 'lodash';
 import {requestFlights, requestFilterFlights} from '../../actions/flights';
@@ -10,22 +9,21 @@ import LoadingButton from '../common/LoadingButton';
 import FlightHeader from '../FlightsHeader';
 import FilterPanel from '../FilterPanel/FilterPanel';
 
-const Flights = ({
-    airlines,
-    duration,
-    flightNumbers,
-    itinerariesSize,
-    loading,
-    prices,
-    stops
-}) => {
+const Flights = () => {
+    const dispatch = useDispatch();
     const [segmentsId, setSegmentsId] = useState([]);
     const [filters, setFilters] = useState(defaultsFilters);
     const [sortType, setSortType] = useState('priceLowest');
     const [selectedSegments, setSelectedSegments] = useState([]);
 
-    const dispatch = useDispatch();
+    const airlines = useSelector(state => state.flights.airlines);
+    const duration = useSelector(state => state.flights.duration);
+    const flightNumbers = useSelector(state => state.flights.flightNumbers);
+    const itinerariesSize = useSelector(state => state.flights.itinerariesSize);
+    const loading = useSelector(state => state.flights.loading);
+    const prices = useSelector(state => state.flights.prices);
     const segments = useSelector(state => state.flights.segments);
+    const stops = useSelector(state => state.flights.stops);
 
     useEffect(() => {
         dispatch(requestFlights(segmentsId));
@@ -148,55 +146,4 @@ const Flights = ({
     );
 };
 
-Flights.propTypes = {
-    airlines: PropTypes.arrayOf(PropTypes.shape),
-    duration: PropTypes.shape({
-        available: PropTypes.arrayOf(PropTypes.string),
-        max: PropTypes.string,
-        min: PropTypes.string
-    }),
-    flightNumbers: PropTypes.arrayOf(PropTypes.string),
-    history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-    }),
-    itinerariesSize: PropTypes.number,
-    loading: PropTypes.bool.isRequired,
-    prices: PropTypes.shape({
-        available: PropTypes.arrayOf(PropTypes.number),
-        max: PropTypes.string,
-        min: PropTypes.string
-    }),
-    stops: PropTypes.shape()
-};
-
-Flights.defaultProps = {
-    airlines: [],
-    duration: {
-        available: [],
-        max: '',
-        min: ''
-    },
-    flightNumbers: [],
-    history: null,
-    itinerariesSize: 1,
-    prices: {
-        available: [],
-        max: '',
-        min: ''
-    },
-    stops: null
-};
-
-const mapStateToProps = state => ({
-    airlines: state.flights.airlines,
-    duration: state.flights.duration,
-    flightNumbers: state.flights.flightNumbers,
-    itinerariesSize: state.flights.itinerariesSize,
-    loading: state.flights.loading,
-    prices: state.flights.prices,
-    stops: state.flights.stops
-});
-
-export default connect(
-    mapStateToProps
-)(Flights);
+export default Flights;
