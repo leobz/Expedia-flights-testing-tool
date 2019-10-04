@@ -254,6 +254,18 @@ def highest_duration(segments)
   end
 end
 
+def earliest_arrival(segments)
+  if segments != ([]) then
+    sort_by_first_arrival_date(segments).first[:arrival_time]
+  end
+end
+
+def latest_arrival(segments)
+    if segments != ([]) then
+    sort_by_first_arrival_date(segments).last[:arrival_time]
+  end
+end
+
 def sort_by_shorter_duration(segments)
   segments.sort(&method(:compare_segments_by_duration))
 end
