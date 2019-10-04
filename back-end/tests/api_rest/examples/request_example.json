@@ -26,6 +26,10 @@
         "arrival_range": {
             "selected": false,
             "arrivals": []
+        },
+        "departure_range": {
+            "selected": false,
+            "departures": []
         }
     },
     "segmentsId": [],

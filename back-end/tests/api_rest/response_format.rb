@@ -134,6 +134,26 @@ class ResponseFormat < Test::Unit::TestCase
     assert_equal(flightCard_with_latest_arrival["arrival_time"], response["latestArrival"])
   end
 
+  def test_earliestDeparture
+    send_request(
+        @@request_example,
+        @@json_flights_data
+    )
+    response = JSON.parse(last_response.body)
+    flightCard_with_earliest_departure = response["flightCards"].min_by { |flightCard| Time.parse(flightCard["departure_time"])}
+    assert_equal(flightCard_with_earliest_departure["departure_time"], response["earliestDeparture"])
+  end
+
+  def test_latestDeparture
+    send_request(
+        @@request_example,
+        @@json_flights_data
+    )
+    response = JSON.parse(last_response.body)
+    flightCard_with_latest_departure = response["flightCards"].max_by { |flightCard| Time.parse(flightCard["departure_time"])}
+    assert_equal(flightCard_with_latest_departure["departure_time"], response["latestDeparture"])
+  end
+
   def test_itineraries_size
     #TODO
   end
