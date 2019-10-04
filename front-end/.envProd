@@ -5,3 +5,5 @@ MORGAN_FORMAT=dev
 SERVE_STATIC=public
 
 ENDPOINT=http://localhost:4567/
+
+SKIP_PREFLIGHT_CHECK=true

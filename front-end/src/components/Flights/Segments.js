@@ -9,7 +9,7 @@ const Segments = ({
     segmentsId
 }) => (
     <>
-        <Row>
+        <Row className="tool__segments">
             <Col sm={3}>
                 {segment.departure_time}
                 -
@@ -25,7 +25,7 @@ const Segments = ({
                 {`Price: ${segment.price / 100}`}
             </Col>
         </Row>
-        <Row>
+        <Row className="tool__segments">
             <Col sm={3}>
                 {`From: ${segment.from}`}
             </Col>

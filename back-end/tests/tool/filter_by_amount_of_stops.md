@@ -5,57 +5,56 @@ Load the necessary libraries
 
 -->
 
-### Cargamos los segmentos
-
-Primero obtenemos los itnierarios de un Json normalizado, el cual contiene 54 segmentos totales en la
-primera columna.
+First we get the normalized JSON itineraries, which contain 54 segments in the first column.
 ```ruby
->> data = JSON.parse(File.read('flights_data_examples/flights.json'))
+>> data = JSON.parse(File.read('flights_data_examples/flights.json'))['payload']
 >> segments = get_segments(data)
 >> p segments.size
 54
 ```
 
+# Filters by amount of stops
 
-# Filtro segun cantidad de paradas (Stops)
-
-Nota: Debemos comprobar ver que resultados filtrados suman la cantidad del total (54) 
-En este caso 7 + 47 + 0 = 54
-
-Busquemos la cantidad de vuelos con 0 stop. Estos son los llamados "No-Stops flights", en los cuales no hay
-escala. Resultado: 0 segmentos encontrados
-
+### Amount of flights according to number of stops.
+Amount of flights with 0 stops.
 ```ruby
 >> p filter_segments_by_amount_of_stop(data, segments, 0).size
 7
 ```
-Busquemos la cantidad de vuelos con 1 stop . Resultado: 7 segmentos encontrados
+Amount of flights with 1 stops.
 ```ruby
 >> p filter_segments_by_amount_of_stop(data, segments, 1).size
 47
 ```
-Por ultimo  la cantidad de vuelos con 2 stops. Resultado 43: segmentos encontrados
+Amount of flights with 2 stops.
 ```ruby
 >> p filter_segments_by_amount_of_stop(data, segments, 2).size
 0
 ```
 
-
-# Filtro segun varias cantidades de paradas (lista de cantidades de Stops)
-Todos los filtros suman la cantidad del total (54).
-En este caso 7 + 47 + 0 = 54
-
+### The sum of the flights filtered by stops gives the totality of the flights.
+Since the filtered ones are disjoint groups (a segment cannot have 2 stops and 0 stops at the same time), the sum must give the total. In this case 54 (7 + 47 + 0 = 54)
 ```ruby
->> p filter_segments_by_list_of_amounts_of_stops(data, segments, [0, 1]).size
-54
+>> acc = 0
+>> 3.times do |stops_amount|
+..   acc += filter_segments_by_list_of_amounts_of_stops(data, segments, stops_amount).size
+.. end
+>> p acc == segments.size
+true
 ```
-Busquemos la cantidad de vuelos con 1 stop . Resultado: 7 segmentos encontrados
+
+
+### Filter by list of Stop quantities: The number of filtered airlines is equal to the sum of filtering the airlines separately
+1) List with numbers of stops = [0,2]
+Number of flights with 0 stops + Number of flights with 2 stops
 ```ruby
->> p filter_segments_by_list_of_amounts_of_stops(data, segments, [0, 2]).size
-7
+>> p filter_segments_by_list_of_amounts_of_stops(data, segments, [0, 2]).size == filter_segments_by_list_of_amounts_of_stops(data, segments, 0).size + filter_segments_by_list_of_amounts_of_stops(data, segments, 2).size
+true
 ```
-Por ultimo  la cantidad de vuelos con 2 stops. Resultado 43: segmentos encontrados
+
+2) List with numbers of stops = [1,2]
+Number of flights with 1 stops + Number of flights with 2 stops
 ```ruby
->> p filter_segments_by_list_of_amounts_of_stops(data, segments, [1, 2]).size
-47
+>> p filter_segments_by_list_of_amounts_of_stops(data, segments, [1, 2]).size == filter_segments_by_list_of_amounts_of_stops(data, segments, 1).size + filter_segments_by_list_of_amounts_of_stops(data, segments, 2).size
+true
 ```

@@ -5,17 +5,15 @@ Load the necessary libraries
 
 -->
 
-### Cargamos los segmentos
-
-Primero obtenemos los itnierarios de un Json normalizado, el cual contiene 54 segmentos totales en la
-primera columna.
+First we get the normalized JSON itineraries, which contain 54 segments in the first column.
 ```ruby
->> data = JSON.parse(File.read('flights_data_examples/flights.json'))
+>> data = JSON.parse(File.read('flights_data_examples/flights.json'))['payload']
 >> segments = get_segments(data)
 >> p segments.size
 54
 ```
-Por razones practicas del test, seleccionaremos el primero, ya que todos tienen el mismo formato.
+# Flight Card Format
+For practical reasons for the test, we will select the first one, since they all have the same format.
 ```ruby
 >> segment = segments.first
 >> pp segment
@@ -25,7 +23,7 @@ Por razones practicas del test, seleccionaremos el primero, ya que todos tienen 
  :duration=>"PT1H28M",
  :flight_numbers=>["1455"],
  :from=>"Dallas",
- :price=>28150,
+ :price=>31560,
  :stops=>0,
  :to=>"New Orleans",
  :zid=>"ZFS-WEB-AA1455-DFW-MSY-1555466400-SUAIZNM1-S"}
