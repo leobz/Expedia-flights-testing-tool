@@ -159,6 +159,14 @@ def filter_segments_by_duration_range(data, segments, range_list)
   end
 end
 
+def filter_segments_by_arrival_range(segments, range_list)
+  min =  Time.parse(range_list[0])
+  max =  Time.parse(range_list[1])
+  segments.select do |segment|
+     Time.parse(segment[:arrival_time]).between?(min, max)
+  end
+end
+
 def filter_segments_by_list_of_flights_number(data, segments, flights_number_list)
   params_list = if_it_is_not_a_list_convert_to_list(flights_number_list)
   filtered_segments = params_list.map { |flight_number| filter_segments_by_flight_number(data, segments, flight_number) }
@@ -230,6 +238,10 @@ def get_durations(segments)
   segments.map { |segment| segment[:duration] }.flatten.uniq
 end
 
+def get_arrivals(segments)
+  segments.map { |segment| segment[:arrival_time]}.flatten.uniq
+end
+
 def lowest_duration(segments)
   if segments != ([]) then
     sort_by_shorter_duration(segments).first[:duration]
@@ -239,6 +251,18 @@ end
 def highest_duration(segments)
   if segments != ([]) then
     sort_by_shorter_duration(segments).last[:duration]
+  end
+end
+
+def earliest_arrival(segments)
+  if segments != ([]) then
+    sort_by_first_arrival_date(segments).first[:arrival_time]
+  end
+end
+
+def latest_arrival(segments)
+    if segments != ([]) then
+    sort_by_first_arrival_date(segments).last[:arrival_time]
   end
 end
 
@@ -278,6 +302,8 @@ def apply_filter(data, segments, filter_name, filter_params)
     return filter_segments_by_price_range(data, segments, filter_params["prices"])
   when "duration_range"
     return filter_segments_by_duration_range(data, segments, filter_params["durations"])
+  when "arrival_range"
+    return filter_segments_by_arrival_range(segments, filter_params["arrivals"])
   when "flight_number"
     return filter_segments_by_list_of_flights_number(data, segments, filter_params["flight_number"])
   end

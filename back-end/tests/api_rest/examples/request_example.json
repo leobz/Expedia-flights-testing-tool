@@ -22,6 +22,10 @@
         "price_range": {
             "selected": false,
             "prices": []
+        },
+        "arrival_range": {
+            "selected": false,
+            "arrivals": []
         }
     },
     "segmentsId": [],
