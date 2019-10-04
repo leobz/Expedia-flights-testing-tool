@@ -16,6 +16,7 @@ const Flights = ({
     flightNumbers,
     itinerariesSize,
     loading,
+    prices,
     stops
 }) => {
     const [segmentsId, setSegmentsId] = useState([]);
@@ -28,13 +29,13 @@ const Flights = ({
 
     useEffect(() => {
         dispatch(requestFlights(segmentsId));
+        setFilters(defaultsFilters);
     }, [segmentsId]);
 
     const handleSegments = id => {
         const newSegmentData = find(segments, segment => segment.zid === id);
         setSelectedSegments([...selectedSegments, newSegmentData]);
         setSegmentsId([...segmentsId, id]);
-        dispatch(requestFlights(segmentsId));
     };
 
     const filterItems = (filter, sortKey = sortType) => {
@@ -54,9 +55,9 @@ const Flights = ({
 
     const handleFlightNumber = flightNumber => {
         if (flightNumber) {
-            return filterItems({...filters, fligth_number: {selected: true, flight_number: flightNumber}});
+            return filterItems({...filters, flight_number: {selected: true, flight_number: flightNumber}});
         }
-        return filterItems({...filters, fligth_number: {selected: false, flight_number: 0}});
+        return filterItems({...filters, flight_number: {selected: false, flight_number: 0}});
     };
 
     const handleStops = selectedStops => {
@@ -66,9 +67,49 @@ const Flights = ({
         return filterItems({...filters, amount_of_stop: {selected: false, amount: []}});
     };
 
-    const handleDuration = (min, max) => filterItems(
-        {...filters, duration_range: {selected: true, durations: [min, max]}}
-    );
+    const handleDuration = (min, max) => {
+        if (min && max) {
+            return filterItems(
+                {...filters, duration_range: {selected: true, durations: [min, max]}}
+            );
+        }
+        return filterItems(
+            {...filters, duration_range: {selected: false, durations: ['', '']}}
+        );
+    };
+
+    const handlePrices = (min, max) => {
+        if (min && max) {
+            return filterItems(
+                {...filters, price_range: {selected: true, prices: [min, max]}}
+            );
+        }
+        return filterItems(
+            {...filters, price_range: {selected: false, prices: ['', '']}}
+        );
+    };
+
+    const filterStrategies = [{
+        label: 'Airlines',
+        data: airlines,
+        onChange: handleAirlines
+    }, {
+        label: 'Stops',
+        data: stops,
+        onChange: handleStops
+    }, {
+        label: 'Flight Number',
+        data: flightNumbers,
+        onChange: handleFlightNumber
+    }, {
+        label: 'Duration',
+        data: duration,
+        onChange: handleDuration
+    }, {
+        label: 'Price',
+        data: prices,
+        onChange: handlePrices
+    }];
 
     return (
         <>
@@ -83,18 +124,10 @@ const Flights = ({
             )}
             <Row>
                 <Col sm={4}>
-                    {airlines.length > 0 && stops && (
+                    {airlines && stops && (
                         <FilterPanel
-                            airlines={airlines}
-                            duration={duration}
-                            flightNumbers={flightNumbers}
-                            handleAirlinesClick={airlinesSelected => handleAirlines(
-                                airlinesSelected
-                            )}
-                            handleDuration={(min, max) => handleDuration(min, max)}
-                            handleFlightNumber={value => handleFlightNumber(value)}
+                            filters={filterStrategies}
                             handleStopsClick={selectedStops => handleStops(selectedStops)}
-                            stops={stops}
                         />
                     )}
                 </Col>
@@ -128,6 +161,11 @@ Flights.propTypes = {
     }),
     itinerariesSize: PropTypes.number,
     loading: PropTypes.bool.isRequired,
+    prices: PropTypes.shape({
+        available: PropTypes.arrayOf(PropTypes.number),
+        max: PropTypes.string,
+        min: PropTypes.string
+    }),
     stops: PropTypes.shape()
 };
 
@@ -141,6 +179,11 @@ Flights.defaultProps = {
     flightNumbers: [],
     history: null,
     itinerariesSize: 1,
+    prices: {
+        available: [],
+        max: '',
+        min: ''
+    },
     stops: null
 };
 
@@ -150,6 +193,7 @@ const mapStateToProps = state => ({
     flightNumbers: state.flights.flightNumbers,
     itinerariesSize: state.flights.itinerariesSize,
     loading: state.flights.loading,
+    prices: state.flights.prices,
     stops: state.flights.stops
 });
 

@@ -24,6 +24,6 @@ export const defaultsFilters = {
     airlines: {selected: false, airline_name: ''},
     amount_of_stop: {selected: false, amount: []},
     duration_range: {selected: false, durations: ['', '']},
-    fligth_number: {selected: false, flight_number: ''},
+    flight_number: {selected: false, flight_number: ''},
     price_range: {selected: false, prices: []}
 };

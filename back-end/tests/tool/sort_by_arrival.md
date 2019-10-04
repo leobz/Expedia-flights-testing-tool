@@ -20,31 +20,30 @@ For practical reasons for the test, we will select the first 5 segments so as no
 5
 ```
 
-# Sort by duration
+# Sort by arrival
 
+### Sort by earliest arrival
 First, we see the segments without applying the sort function.
 ```ruby
 >> segments.each do |segment|
 ..   p segment
 .. end
-{<...>:duration=>"PT1H28M"<...>}
-{<...>:duration=>"PT1H27M"<...>}
-{<...>:duration=>"PT1H25M"<...>}
-{<...>:duration=>"PT1H23M"<...>}
-{<...>:duration=>"PT1H21M"<...>}
-
+{<...>:arrival_time=>"2019-04-16T22:28:00"<...>}
+{<...>:arrival_time=>"2019-04-16T08:31:00"<...>}
+{<...>:arrival_time=>"2019-04-16T19:50:00"<...>}
+{<...>:arrival_time=>"2019-04-16T18:17:00"<...>}
+{<...>:arrival_time=>"2019-04-16T17:06:00"<...>}
 ```
 
-Sort by shorter duration.
+Sort by earliest arrival date
 ```ruby
->> segments = sort_by_shorter_duration(segments)
+>> segments = sort_by_first_arrival_date(segments)
 >> segments.each do |segment|
 ..   p segment
 .. end
-{<...>:duration=>"PT1H21M"<...>}
-{<...>:duration=>"PT1H23M"<...>}
-{<...>:duration=>"PT1H25M"<...>}
-{<...>:duration=>"PT1H27M"<...>}
-{<...>:duration=>"PT1H28M"<...>}
-
+{<...>:arrival_time=>"2019-04-16T08:31:00"<...>}
+{<...>:arrival_time=>"2019-04-16T17:06:00"<...>}
+{<...>:arrival_time=>"2019-04-16T18:17:00"<...>}
+{<...>:arrival_time=>"2019-04-16T19:50:00"<...>}
+{<...>:arrival_time=>"2019-04-16T22:28:00"<...>}
 ```

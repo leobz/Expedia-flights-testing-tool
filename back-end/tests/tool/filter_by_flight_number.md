@@ -5,21 +5,17 @@ Load the necessary libraries
 
 -->
 
-### Cargamos los segmentos
-
-Primero obtenemos los itnierarios de un Json normalizado, el cual contiene 54 segmentos totales en la
-primera columna.
+First we get the normalized JSON itineraries, which contain 54 segments in the first column.
 ```ruby
->> data = JSON.parse(File.read('flights_data_examples/flights.json'))
+>> data = JSON.parse(File.read('flights_data_examples/flights.json'))['payload']
 >> segments = get_segments(data)
 >> p segments.size
 54
 ```
 
+# Filter by flight numbers
 
-# Filtro por codigo de vuelo
-
-### Primero obtenemos la lista de todos los numeros de vuelos disponibles en este segmento. 
+### First we get the list of all available flight numbers in this segment.
 
 ```ruby
 >> p get_flight_numbers(segments)
@@ -28,10 +24,10 @@ primera columna.
 ```
 
 
-## Filtramos por incluision  de un numero de vuelo en particular
-### CASO A
-Por ejemplo elejimos el primero de la lista, el "1455"
+### We filter by a particular flight number
 
+#### CASE A
+For example, we chose the first one on the list, the "1455"
 ```ruby
 >> pp filter_segments_by_flight_number(data, segments, "1455")
 [{<...>
@@ -41,11 +37,10 @@ Por ejemplo elejimos el primero de la lista, el "1455"
 
 ```
 
-### CASO B
+### CASE B
 
-Ahora elegimos otro codigo: "1423".
-En este caso obtenemos DOS segmentos que cumplen con este filtro.
-
+Now we choose another code: "1423".
+In this case, we get TWO segments that comply with this filter.
 ```ruby
 >> pp filter_segments_by_flight_number(data, segments, "1423")
 [{<...>
@@ -61,28 +56,27 @@ En este caso obtenemos DOS segmentos que cumplen con este filtro.
 
 ```
 
-# Filtro por lista de codigos de vuelo
+# Filter by a list of flight numbers
 
-Vemos la cantidad de vuelos con el siguiente codigo "1455"
-
+We see the number of flights with the following code "1455"
 ```ruby
->> p filter_segments_by_list_of_flights_number(data, segments, "1455").size
+>> amount_with_1455 =  filter_segments_by_list_of_flights_number(data, segments, "1455").size
+>> puts amount_with_1455
 1
 
 ```
-Y tambien la cantidad de vuelos con el codigo "1423".
 
+We see the number of flights with the following code "1423".
 ```ruby
->> p filter_segments_by_list_of_flights_number(data, segments, "1423").size
+>> amount_with_1423 =  filter_segments_by_list_of_flights_number(data, segments, "1423").size
+>> puts amount_with_1423
 2
 
 ```
 
-Ahora al pasarle una lista con los codigos "1455" y "1423".
-Por lo tanto la suma deberia dar 1 + 2 = 3
-
+Now when passing a list with the codes "1455" and "1423", the number of results must be equal to 3 (1 + 2)
 ```ruby
->> p filter_segments_by_list_of_flights_number(data, segments, ["1455", "1423"]).size
-3
-
+>> p filter_segments_by_list_of_flights_number(data, segments, ["1455", "1423"]).size == amount_with_1455 + amount_with_1423
+true
 ```
+
