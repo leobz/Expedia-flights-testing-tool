@@ -20,25 +20,29 @@ const FlightHeader = ({
             <>
                 <Row>
                     <Col sm={6}>
-                        Selected Flights
+                        <h4>Selected Flights</h4>
                     </Col>
                 </Row>
-                <Row>
-                    {selectedSegments.map(segment => (
-                        <Col key={segment.zid} sm={4}>
+                {selectedSegments.map(segment => (
+                    <Row key={segment.zid}>
+                        <Col sm={4}>
                             {`${segment.from} - ${segment.to}`}
                             <br/>
+                            {`${segment.duration}, ${segment.stops} stops`}
+                        </Col>
+                        <Col sm={4}>
                             {moment(segment.departure_time).format('ddd MMM D')}
                             <br/>
+                            {segment.airlines.map(airline => <p>{airline}</p>)}
+                        </Col>
+                        <Col sm={4}>
                             {`${segment.from} - ${moment(segment.departure_time).format('ddd MMM D hh:mm A')}`}
                             {` -> ${segment.to} ${moment(segment.arrival_time).format('ddd MMM D hh:mm A')}`}
                             <br/>
                             {`${segment.duration}, ${segment.stops} stops`}
-                            <br/>
-                            {segment.airlines.map(airline => <p>{airline}</p>)}
                         </Col>
-                    ))}
-                </Row>
+                    </Row>
+                ))}
             </>
         )}
         <Row>
