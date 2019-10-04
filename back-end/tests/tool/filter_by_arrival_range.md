@@ -19,9 +19,9 @@ For practical reasons for the test, we will select the first 15 segments so as n
 15
 ```
 
-# Filter by duration range
+# Filter by arrival range
 
-### First, we obtain a list with all the available durations
+### First, we obtain a list with all the available arrivals
 ```ruby
 >> get_arrivals(segments).sort.each { |arrival| p arrival}
 "2019-04-16T08:31:00"
@@ -48,7 +48,7 @@ For practical reasons for the test, we will select the first 15 segments so as n
 
 ```
 
-### We filter to see segments with durations between "2019-04-16T18H15M" and "2019-04-16T18H20M"
+### We filter to see segments with arrivals between "2019-04-16T18H15M" and "2019-04-16T18H20M"
 ```ruby
 >> pp filter_segments_by_arrival_range(segments, ["2019-04-16T18H15M", "2019-04-16T18H20M"])
 [{<...>
@@ -63,7 +63,7 @@ For practical reasons for the test, we will select the first 15 segments so as n
 
 ```
 
-### We filter to see segments with durations between "2019-04-16T18:15" and "2019-04-16T18:20" (other format)
+### We filter to see segments with arrivals between "2019-04-16T18:15" and "2019-04-16T18:20" (other format)
 ```ruby
 >> pp filter_segments_by_arrival_range(segments, ["2019-04-16T18:15", "2019-04-16T18:20"])
 [{<...>
