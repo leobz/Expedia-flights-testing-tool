@@ -23,6 +23,8 @@ def define_filter(request_example, filter_name, value)
     request_example["filters"][filter_name]["prices"] = value
   when "duration_range"
     request_example["filters"][filter_name]["durations"] = value
+  when "arrival_range"
+    request_example["filters"][filter_name]["arrivals"] = value
   when "flight_number"
     request_example["filters"][filter_name]["flight_number"] = value
   end
