@@ -29,13 +29,13 @@ For practical reasons for the test, we will select the first 15 segments so as n
 
 ### We filter to see segments with durations between 1 hour and 2 hours
 ```ruby
->> p filter_segments_by_duration_range(data, segments, ["PT1H", "PT2H"])
+>> p filter_segments_by_duration_range(segments, ["PT1H", "PT2H"])
 [{<...>:duration=>"PT1H28M"<...>}, {<...>:duration=>"PT1H27M"<...>}, {<...>:duration=>"PT1H25M"<...>}, {<...>:duration=>"PT1H23M"<...>}, {<...>:duration=>"PT1H21M"<...>}, {<...>:duration=>"PT1H20M"<...>}]
 ```
 
 ### We filter to see segments with durations between 1 hour with 20 minutes and 1 hour with 25 minutes
 ```ruby
->> p filter_segments_by_duration_range(data, segments, ["PT1H20M", "PT1H25M"])
+>> p filter_segments_by_duration_range(segments, ["PT1H20M", "PT1H25M"])
 [{<...>:duration=>"PT1H25M"<...>}, {<...>:duration=>"PT1H23M"<...>}, {<...>:duration=>"PT1H21M"<...>}, {<...>:duration=>"PT1H20M"<...>}]
 ```
 

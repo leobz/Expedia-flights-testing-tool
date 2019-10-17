@@ -22,7 +22,7 @@ Let's start filtering.
 
 1) We filter
 ```ruby
->> american_airlines_segments = filter_segments_by_airline(data, segments, "American Airlines")
+>> american_airlines_segments = filter_segments_by_airline(segments, "American Airlines")
 ```
 
 2) We count the number of segments that include the airline "American Airlines"
@@ -47,12 +47,12 @@ Let's start filtering.
 ### Filter segments that have "United" flights
 1) We filter
 ```ruby
->> united_segments = filter_segments_by_airline(data, segments, "United")
+>> united_segments = filter_segments_by_airline(segments, "United")
 ```
 
 2) We count the number of segments that include the airline "United"
 ```ruby
->> p filter_segments_by_airline(data, segments, "United").size
+>> p filter_segments_by_airline(segments, "United").size
 28
 ```
 
@@ -94,7 +94,7 @@ Let's start filtering.
 
 1) We filter
 ```ruby
->> delta_segments = filter_segments_by_airline(data, segments, "Delta")
+>> delta_segments = filter_segments_by_airline(segments, "Delta")
 ```
 
 2) We count the number of segments that include the airline "Delta"

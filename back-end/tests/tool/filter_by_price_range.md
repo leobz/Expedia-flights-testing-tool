@@ -24,7 +24,7 @@ First we get the normalized JSON itineraries, which contain 54 segments in the f
 
 ### We filter to see those between 37,000 and 38,000
 ```ruby
->> p filter_segments_by_price_range(data, segments, [37000, 38000])
+>> p filter_segments_by_price_range(segments, [37000, 38000])
 [{<...>:price=>37200<...>}, {<...>:price=>37200<...>}]
 
 ```

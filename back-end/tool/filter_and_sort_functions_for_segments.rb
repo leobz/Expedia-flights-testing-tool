@@ -43,26 +43,32 @@ end
 
 def generate_flight_card(segment, data, filtered_itineraries, picked_segments_ids)
   sum_of_current_ids = [picked_segments_ids, segment['zid']].flatten
-  possible_itineraries_of_this_segment = filter_itineraries_starting_with(data['itineraries'], sum_of_current_ids)
+  possible_itineraries_of_this_segment =
+    filter_itineraries_starting_with(data['itineraries'], sum_of_current_ids)
   {
-      zid: segment['zid'],
-      from: segment_departure_airport(data, segment)['address']['city_name'],
-      to: segment_arrival_airport(data, segment)['address']['city_name'],
-      duration: segment['duration'],
-      departure_time: segment['legs'][0]['flight_time_range']['from'],
-      arrival_time: (segment['legs'].last)['flight_time_range']['to'],
-      airlines: segment_airlines(data, segment),
-      stops: segment['legs'].size - 1,
-      flight_numbers: segment['legs'].map { |leg| leg['flight_number'] },
-      price: segment_price(possible_itineraries_of_this_segment, filtered_itineraries, picked_segments_ids)
+    zid: segment['zid'],
+    from: segment_departure_airport(data, segment)['address']['city_name'],
+    to: segment_arrival_airport(data, segment)['address']['city_name'],
+    duration: segment['duration'],
+    departure_time: segment['legs'][0]['flight_time_range']['from'],
+    arrival_time: segment['legs'].last['flight_time_range']['to'],
+    airlines: segment_airlines(data, segment),
+    stops: segment['legs'].size - 1,
+    flight_numbers: segment['legs'].map { |leg| leg['flight_number'] },
+    price:
+      segment_price(
+        possible_itineraries_of_this_segment,
+        filtered_itineraries,
+        picked_segments_ids
+      )
   }
 end
 
 def segment_price(possible_itineraries_of_this_segment, filtered_itineraries, picked_segments_ids)
-  if picked_segments_ids.size == 0
-    return minimum_itinerary_price(possible_itineraries_of_this_segment)
+  if picked_segments_ids.empty?
+    minimum_itinerary_price(possible_itineraries_of_this_segment)
   else
-    return minimum_itinerary_price(possible_itineraries_of_this_segment) - minimum_itinerary_price(filtered_itineraries)
+    minimum_itinerary_price(possible_itineraries_of_this_segment) - minimum_itinerary_price(filtered_itineraries)
   end
 end
 
@@ -77,7 +83,7 @@ def define_price(itinerary)
       return pi['total_price']['cents']
     end
   end
-  return itinerary['pricing_information'].first['total_price']['cents']
+  itinerary['pricing_information'].first['total_price']['cents']
 end
 
 def compare_segments_by_duration(segment_a, segment_b)
@@ -120,7 +126,10 @@ end
 
 def filter_segments_by_list_of_amounts_of_stops(data, segments, amounts_list)
   params_list = if_it_is_not_a_list_convert_to_list(amounts_list)
-  filtered_segments = params_list.map { |amount| filter_segments_by_amount_of_stop(data, segments, amount) }
+  filtered_segments =
+    params_list.map do |amount|
+      filter_segments_by_amount_of_stop(data, segments, amount)
+    end
   filtered_segments.flatten.uniq
 end
 
@@ -135,23 +144,23 @@ end
 
 def filter_segments_by_list_of_airlines(data, segments, airlines_name_list)
   params_list = if_it_is_not_a_list_convert_to_list(airlines_name_list)
-  filtered_segments = params_list.map { |airline_name| filter_segments_by_airline(data, segments, airline_name) }
+  filtered_segments = params_list.map { |airline_name| filter_segments_by_airline(segments, airline_name) }
   filtered_segments.flatten.uniq
 end
 
-def filter_segments_by_airline(data, segments, airline_name)
+def filter_segments_by_airline(segments, airline_name)
   segments.select do |segment|
     segment[:airlines].include?(airline_name)
   end
 end
 
-def filter_segments_by_price_range(data, segments, range_list)
+def filter_segments_by_price_range(segments, range_list)
   segments.select do |segment|
     segment[:price].between?(range_list[0].to_i, range_list[1].to_i)
   end
 end
 
-def filter_segments_by_duration_range(data, segments, range_list)
+def filter_segments_by_duration_range(segments, range_list)
   min = ISO8601::Duration.new(range_list[0])
   max = ISO8601::Duration.new(range_list[1])
   segments.select do |segment|
@@ -163,7 +172,7 @@ def filter_segments_by_arrival_range(segments, range_list)
   min =  Time.parse(range_list[0])
   max =  Time.parse(range_list[1])
   segments.select do |segment|
-     Time.parse(segment[:arrival_time]).between?(min, max)
+    Time.parse(segment[:arrival_time]).between?(min, max)
   end
 end
 
@@ -171,7 +180,7 @@ def filter_segments_by_departure_range(segments, range_list)
   min =  Time.parse(range_list[0])
   max =  Time.parse(range_list[1])
   segments.select do |segment|
-     Time.parse(segment[:departure_time]).between?(min, max)
+    Time.parse(segment[:departure_time]).between?(min, max)
   end
 end
 
@@ -190,8 +199,8 @@ end
 def get_airlines(data, segments)
   get_airline_names(segments).map do |airline_name|
     {
-        "name" => airline_name,
-        "amount" => get_airline_amount(data, segments, airline_name)
+      name: airline_name,
+      amount: get_airline_amount(data, segments, airline_name)
     }
   end
 end
@@ -201,7 +210,7 @@ def get_airline_names(segments)
 end
 
 def get_airline_amount(data, segments, airline_name)
-  filter_segments_by_airline(data, segments, airline_name).size
+  filter_segments_by_airline(segments, airline_name).size
 end
 
 def get_flight_numbers(segments)
@@ -212,12 +221,14 @@ def get_stops_amounts(data, segments)
   zero_stops = filter_segments_by_amount_of_stop(data, segments, 0)
   one_stop = filter_segments_by_amount_of_stop(data, segments, 1)
   two_or_more_stops = filter_segments_by_amount_of_stop(data, segments, 2)
-  return {"0 stop" => zero_stops.size,
-          "1 stop" => one_stop.size,
-          "2 or more stops" => two_or_more_stops.size}
+  {
+    "0 stop" => zero_stops.size,
+    "1 stop" => one_stop.size,
+    "2 or more stops" => two_or_more_stops.size
+  }
 end
 
-def airline_codes(data, segment)
+def airline_codes(segment)
   airline_codes = []
   segment['legs'].each do |leg|
     airline_codes << leg['marketing_airline_code']
@@ -226,7 +237,7 @@ def airline_codes(data, segment)
 end
 
 def itineraries_size(data)
-  (data['itineraries'].first)['segment_ids'].size
+  data['itineraries'].first['segment_ids'].size
 end
 
 def sort_by_lowest_price(segments)
@@ -303,7 +314,7 @@ def sort_by_first_arrival_date(segments)
 end
 
 def segment_airlines(data, segment)
-  airline_codes(data, segment).map { |airline_code| data['shop_response_airlines'][airline_code]['name'] }
+  airline_codes(segment).map { |airline_code| data['shop_response_airlines'][airline_code]['name'] }
 end
 
 def apply_filters(data, segments, filters)
@@ -313,45 +324,45 @@ def apply_filters(data, segments, filters)
       segments = apply_filter(data, segments, filter_name, filter_params)
     end
   end
-  return segments
+  segments
 end
 
 def apply_filter(data, segments, filter_name, filter_params)
   case filter_name
   when "amount_of_stop"
-    return filter_segments_by_list_of_amounts_of_stops(data, segments, filter_params["amount"])
+    filter_segments_by_list_of_amounts_of_stops(data, segments, filter_params["amount"])
   when "airlines"
-    return filter_segments_by_list_of_airlines(data, segments, filter_params["airline_name"])
+    filter_segments_by_list_of_airlines(data, segments, filter_params["airline_name"])
   when "price_range"
-    return filter_segments_by_price_range(data, segments, filter_params["prices"])
+    filter_segments_by_price_range(segments, filter_params["prices"])
   when "duration_range"
-    return filter_segments_by_duration_range(data, segments, filter_params["durations"])
+    filter_segments_by_duration_range(segments, filter_params["durations"])
   when "arrival_range"
-    return filter_segments_by_arrival_range(segments, filter_params["arrivals"])
+    filter_segments_by_arrival_range(segments, filter_params["arrivals"])
   when "departure_range"
-    return filter_segments_by_departure_range(segments, filter_params["departures"])
+    filter_segments_by_departure_range(segments, filter_params["departures"])
   when "flight_number"
-    return filter_segments_by_list_of_flights_number(data, segments, filter_params["flight_number"])
+    filter_segments_by_list_of_flights_number(data, segments, filter_params["flight_number"])
   end
 end
 
 def apply_sort(segments, sort_type)
   case sort_type
   when "priceLowest"
-    return sort_by_lowest_price(segments)
+    sort_by_lowest_price(segments)
   when "priceHighest"
-    return sort_by_highest_price(segments)
+    sort_by_highest_price(segments)
   when "durationShortest"
-    return sort_by_shorter_duration(segments)
+    sort_by_shorter_duration(segments)
   when "durationLongest"
-    return sort_by_shorter_duration(segments).reverse
+    sort_by_shorter_duration(segments).reverse
   when "departureEarliest"
-    return sort_by_first_departure_date(segments)
+    sort_by_first_departure_date(segments)
   when "departureLatest"
-    return sort_by_first_departure_date(segments).reverse
+    sort_by_first_departure_date(segments).reverse
   when "arrivalEarliest"
-    return sort_by_first_arrival_date(segments)
+    sort_by_first_arrival_date(segments)
   when "arrivalLatest"
-    return sort_by_first_arrival_date(segments).reverse
+    sort_by_first_arrival_date(segments).reverse
   end
 end
