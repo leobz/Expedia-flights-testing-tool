@@ -171,7 +171,10 @@ def filter_segments_by_duration_range(segments, range_list)
   min = ISO8601::Duration.new(range_list[0])
   max = ISO8601::Duration.new(range_list[1])
   segments.select do |segment|
-    ISO8601::Duration.new(segment[:duration]).to_seconds.between?(min.to_seconds, max.to_seconds)
+    ISO8601::Duration.new(segment[:duration]).to_seconds.between?(
+      min.to_seconds,
+      max.to_seconds
+    )
   end
 end
 
@@ -193,7 +196,9 @@ end
 
 def filter_segments_by_list_of_flights_number(segments, flights_number_list)
   params_list = if_it_is_not_a_list_convert_to_list(flights_number_list)
-  filtered_segments = params_list.map { |flight_number| filter_segments_by_flight_number(segments, flight_number) }
+  filtered_segments = params_list.map do |flight_number|
+    filter_segments_by_flight_number(segments, flight_number)
+  end
   filtered_segments.flatten.uniq
 end
 
