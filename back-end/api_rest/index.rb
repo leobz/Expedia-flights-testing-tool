@@ -31,7 +31,7 @@ def generate_response(json_received, segments)
    "availableDurations" => get_durations(segments),
    "availableDepartures" => get_departures(segments),
    "availableArrivals" => get_arrivals(segments),
-   "availableAirlines" => get_airlines(flights_data, segments),
+   "availableAirlines" => get_airlines(segments),
    "availableStops" => get_stops_amounts(flights_data, segments),
    "lowestPrice" => get_prices(segments).min,
    "highestPrice" => get_prices(segments).max,

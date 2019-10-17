@@ -137,11 +137,11 @@ We check that the number of filtered airlines is equal to the sum of filtering a
 The sum of "American Airlines" and "Delta" is 26 (7 + 19 = 26)
 
 ```ruby
->> p filter_segments_by_list_of_airlines(data, segments, ["Delta", "American Airlines"]).size
+>> p filter_segments_by_list_of_airlines(segments, ["Delta", "American Airlines"]).size
 26
 ```
 
 ```ruby
->> p filter_segments_by_list_of_airlines(data, segments, ["Delta", "American Airlines"]).size == delta_segments.size + american_airlines_segments.size
+>> p filter_segments_by_list_of_airlines(segments, ["Delta", "American Airlines"]).size == delta_segments.size + american_airlines_segments.size
 true
 ```

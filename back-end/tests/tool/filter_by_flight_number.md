@@ -29,7 +29,7 @@ First we get the normalized JSON itineraries, which contain 54 segments in the f
 #### CASE A
 For example, we chose the first one on the list, the "1455"
 ```ruby
->> pp filter_segments_by_flight_number(data, segments, "1455")
+>> pp filter_segments_by_flight_number(segments, "1455")
 [{<...>
   :flight_numbers=>["1455"],
   <...>
@@ -42,7 +42,7 @@ For example, we chose the first one on the list, the "1455"
 Now we choose another code: "1423".
 In this case, we get TWO segments that comply with this filter.
 ```ruby
->> pp filter_segments_by_flight_number(data, segments, "1423")
+>> pp filter_segments_by_flight_number(segments, "1423")
 [{<...>
   :flight_numbers=>["1946", "1423"],
   <...>
@@ -60,7 +60,7 @@ In this case, we get TWO segments that comply with this filter.
 
 We see the number of flights with the following code "1455"
 ```ruby
->> amount_with_1455 =  filter_segments_by_list_of_flights_number(data, segments, "1455").size
+>> amount_with_1455 =  filter_segments_by_list_of_flights_number(segments, "1455").size
 >> puts amount_with_1455
 1
 
@@ -68,7 +68,7 @@ We see the number of flights with the following code "1455"
 
 We see the number of flights with the following code "1423".
 ```ruby
->> amount_with_1423 =  filter_segments_by_list_of_flights_number(data, segments, "1423").size
+>> amount_with_1423 =  filter_segments_by_list_of_flights_number(segments, "1423").size
 >> puts amount_with_1423
 2
 
@@ -76,7 +76,7 @@ We see the number of flights with the following code "1423".
 
 Now when passing a list with the codes "1455" and "1423", the number of results must be equal to 3 (1 + 2)
 ```ruby
->> p filter_segments_by_list_of_flights_number(data, segments, ["1455", "1423"]).size == amount_with_1455 + amount_with_1423
+>> p filter_segments_by_list_of_flights_number(segments, ["1455", "1423"]).size == amount_with_1455 + amount_with_1423
 true
 ```
 
