@@ -30,7 +30,7 @@ module Filters
 
 
   def filter_segments_by_list_of_amounts_of_stops(flights_flights_data, segments, amounts_list)
-    params_list = if_it_is_not_a_list_convert_to_list(amounts_list)
+    params_list = ensure_a_list(amounts_list)
     filtered_segments = params_list.map { |amount| filter_segments_by_amount_of_stop(flights_flights_data, segments, amount) }
     filtered_segments.flatten.uniq
   end
@@ -45,7 +45,7 @@ module Filters
   end
 
   def filter_segments_by_list_of_airlines(segments, airlines_name_list)
-    params_list = if_it_is_not_a_list_convert_to_list(airlines_name_list)
+    params_list = ensure_a_list(airlines_name_list)
     filtered_segments = params_list.map { |airline_name| filter_segments_by_airline(segments, airline_name) }
     filtered_segments.flatten.uniq
   end
@@ -87,7 +87,7 @@ module Filters
   end
 
   def filter_segments_by_list_of_flights_number(flights_flights_data, segments, flights_number_list)
-    params_list = if_it_is_not_a_list_convert_to_list(flights_number_list)
+    params_list = ensure_a_list(flights_number_list)
     filtered_segments = params_list.map { |flight_number| filter_segments_by_flight_number(flights_flights_data, segments, flight_number) }
     filtered_segments.flatten.uniq
   end
@@ -95,6 +95,14 @@ module Filters
   def filter_segments_by_flight_number(flights_data, segments, flight_number)
     segments.select do |segment|
       segment.flight_numbers.include?(flight_number)
+    end
+  end
+
+  def ensure_a_list(params)
+    if params.kind_of?(Array)
+      return params.flatten
+    else
+      return [params]
     end
   end
 end

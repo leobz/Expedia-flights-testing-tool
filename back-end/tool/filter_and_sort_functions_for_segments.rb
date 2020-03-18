@@ -37,31 +37,14 @@ def all_segments_in_position(flights_data, itineraries, position)
   ret.uniq
 end
 
-def if_it_is_not_a_list_convert_to_list(params)
-  params_list = []
-  params_list << params
-  params_list.flatten
-end
-
-def airline_codes(segment)
-  airline_codes = []
-  segment['legs'].each do |leg|
-    airline_codes << leg['marketing_airline_code']
-  end
-  airline_codes
-end
-
 def itineraries_size(flights_data)
   (flights_data['itineraries'].first)['segment_ids'].size
 end
 
-def segment_airlines(flights_data, segment)
-  airline_codes(segment).map { |airline_code| flights_data['shop_response_airlines'][airline_code]['name'] }
-end
+
 
 # GETTERS
-#
-#
+
 def get(segments, attribute)
   segments.map { |segment| segment.send(attribute) }.flatten.uniq
 end

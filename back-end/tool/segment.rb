@@ -56,6 +56,18 @@ class Segment
     return itinerary.pricing_information.first['total_price']['cents']
   end
 
+  def segment_airlines(flights_data, segment)
+    airline_codes(segment).map { |airline_code| flights_data['shop_response_airlines'][airline_code]['name'] }
+  end
+
+  def airline_codes(segment)
+    airline_codes = []
+    segment['legs'].each do |leg|
+      airline_codes << leg['marketing_airline_code']
+    end
+    airline_codes
+  end
+
   def include_airline?(airline_name)
     self.airlines.include?(airline_name)
   end
