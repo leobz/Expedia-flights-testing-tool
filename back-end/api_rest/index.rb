@@ -25,23 +25,24 @@ end
 
 def generate_response(json_received, segments)
   flights_data = JSON.parse(json_received["flightsData"])['payload']
+  
   {"flightCards" => segments.map {|s| s.to_parsed_json },
    "availableFlightNumbers" => get_flight_numbers(segments),
-   "availablePrices" => get_prices(segments),
-   "availableDurations" => get_durations(segments),
-   "availableDepartures" => get_departures(segments),
-   "availableArrivals" => get_arrivals(segments),
-   "availableAirlines" => get_airlines(flights_data, segments),
-   "availableStops" => get_stops_amounts(flights_data, segments),
-   "lowestPrice" => get_prices(segments).min,
-   "highestPrice" => get_prices(segments).max,
-   "lowestDuration" => lowest_duration(segments),
-   "highestDuration" => highest_duration(segments),
-   "earliestDeparture" => earliest_departure(segments),
-   "latestDeparture" => latest_departure(segments),
-   "earliestArrival" => earliest_arrival(segments),
-   "latestArrival" => latest_arrival(segments),
-   "itinerariesSize" => itineraries_size(flights_data)
+   "availablePrices"        => get(segments, :price),
+   "availableDurations"     => get(segments, :duration),
+   "availableDepartures"    => get(segments, :departure_time),
+   "availableArrivals"      => get(segments, :arrival_time),
+   "availableAirlines"      => get_airlines(segments),
+   "availableStops"         => get_stops_amounts(flights_data, segments),
+   "lowestPrice"            => get(segments, :price).min,
+   "highestPrice"           => get(segments, :price).max,
+   "lowestDuration"         => min(segments, :duration),
+   "highestDuration"        => max(segments, :duration),
+   "earliestDeparture"      => min(segments, :departure_time),
+   "latestDeparture"        => max(segments, :departure_time),
+   "earliestArrival"        => min(segments, :arrival_time),
+   "latestArrival"          => max(segments, :arrival_time),
+   "itinerariesSize"        => itineraries_size(flights_data)
   }
 end
 
