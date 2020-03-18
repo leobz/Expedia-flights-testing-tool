@@ -25,7 +25,7 @@ end
 
 def generate_response(json_received, segments)
   flights_data = JSON.parse(json_received["flightsData"])['payload']
-  {"flightCards" => segments,
+  {"flightCards" => segments.map {|s| s.to_parsed_json },
    "availableFlightNumbers" => get_flight_numbers(segments),
    "availablePrices" => get_prices(segments),
    "availableDurations" => get_durations(segments),
