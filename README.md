@@ -6,4 +6,4 @@ $ docker-compose build
 $ docker-compose up
 ```
 
-After, to see the front-end page go to http://localhost:8080/ in your browser.
+ After, to see the front-end page go to http://localhost:8080/ in your browser.
