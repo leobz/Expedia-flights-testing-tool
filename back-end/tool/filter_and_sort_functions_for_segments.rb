@@ -3,6 +3,8 @@
 require 'iso8601'
 require 'json'
 require 'time'
+require_relative 'sorts.rb'
+
 
 def all_segments_in_position(data, itineraries, position)
   ret = []
@@ -80,29 +82,6 @@ def define_price(itinerary)
   return itinerary['pricing_information'].first['total_price']['cents']
 end
 
-def compare_segments_by_duration(segment_a, segment_b)
-  duration_a = ISO8601::Duration.new(segment_a[:duration])
-  duration_b = ISO8601::Duration.new(segment_b[:duration])
-  duration_a.to_seconds <=> duration_b.to_seconds
-end
-
-def compare_segments_by_departure_date(segment_a, segment_b)
-  departure_a = Time.parse(segment_a[:departure_time])
-  departure_b = Time.parse(segment_b[:departure_time])
-  departure_a <=> departure_b
-end
-
-def compare_segments_by_price(segment_a, segment_b)
-  price_a = segment_a[:price]
-  price_b = segment_b[:price]
-  price_a <=> price_b
-end
-
-def compare_segments_by_arrival_date(segment_a, segment_b)
-  arrival_a = Time.parse(segment_a[:arrival_time])
-  arrival_b = Time.parse(segment_b[:arrival_time])
-  arrival_a <=> arrival_b
-end
 
 def apply_filter_with_a_list_of_params(data, segments, filter_function, params_list)
   filtered_segments = []
@@ -213,15 +192,6 @@ def itineraries_size(data)
   (data['itineraries'].first)['segment_ids'].size
 end
 
-def sort_by_lowest_price(segments)
-  segments.sort(&method(:compare_segments_by_price))
-end
-
-def sort_by_highest_price(segments)
-  segments.sort(&method(:compare_segments_by_price)).reverse
-
-end
-
 def get_prices(segments)
   segments.map { |segment| segment[:price] }.flatten.uniq
 end
@@ -240,18 +210,6 @@ def highest_duration(segments)
   if segments != ([]) then
     sort_by_shorter_duration(segments).last[:duration]
   end
-end
-
-def sort_by_shorter_duration(segments)
-  segments.sort(&method(:compare_segments_by_duration))
-end
-
-def sort_by_first_departure_date(segments)
-  segments.sort(&method(:compare_segments_by_departure_date))
-end
-
-def sort_by_first_arrival_date(segments)
-  segments.sort(&method(:compare_segments_by_arrival_date))
 end
 
 def segment_airlines(data, segment)
